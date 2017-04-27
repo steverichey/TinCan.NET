@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,25 +13,36 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TinCan.Json
 {
+    /// <summary>
+    /// Base implementation of the JSON model interface.
+    /// </summary>
     public abstract class JsonModel : IJsonModel
     {
-        // TODO: rename methods to ToJObject and ToJSON
-        public abstract JObject ToJObject(TCAPIVersion version);
+		/// <summary>
+        /// Implementing classes should use this to convert data to JObject format.
+        /// Other methods in this abstract class will use this implementation.
+        /// </summary>
+        /// <returns>The implementing object as a JObject.</returns>
+        /// <param name="version">Version of the API to use.</param>
+		public abstract JObject ToJObject(TCAPIVersion version);
 
-        public JObject ToJObject()
+		/// <inheritdoc />
+		public JObject ToJObject()
         {
-            return ToJObject(TCAPIVersion.latest());
+            return ToJObject(TCAPIVersion.Latest);
         }
 
-        public String ToJSON(TCAPIVersion version, Boolean pretty = false)
+		/// <inheritdoc />
+		public string ToJSON(TCAPIVersion version, bool pretty = false)
         {
-            Formatting formatting = Formatting.None;
+            var formatting = Formatting.None;
+
             if (pretty)
             {
                 formatting = Formatting.Indented;
@@ -40,9 +51,19 @@ namespace TinCan.Json
             return JsonConvert.SerializeObject(ToJObject(version), formatting);
         }
 
-        public String ToJSON(Boolean pretty = false)
+		/// <inheritdoc />
+		public string ToJSON(bool pretty = false)
         {
-            return ToJSON(TCAPIVersion.latest(), pretty);
+            return ToJSON(TCAPIVersion.Latest, pretty);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.JsonModel"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.JsonModel"/>.</returns>
+        public override string ToString()
+        {
+            return ToJSON();
         }
     }
 }

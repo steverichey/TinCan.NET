@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,32 +13,81 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class SubStatement : StatementBase, StatementTarget
+    /// <summary>
+    /// Sub statement.
+    /// </summary>
+    public class SubStatement : StatementBase, IStatementTarget
     {
-        public static readonly String OBJECT_TYPE = "SubStatement";
-        public String ObjectType { get { return OBJECT_TYPE; } }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.SubStatement"/> class.
+        /// </summary>
         public SubStatement() {}
 
-        public SubStatement(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.SubStatement"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public SubStatement(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.SubStatement"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public SubStatement(JObject jobj) : base(jobj) { }
 
-        public override JObject ToJObject(TCAPIVersion version) {
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
+        public override JObject ToJObject(TCAPIVersion version)
+        {
             var result = base.ToJObject(version);
 
             result.Add("objectType", ObjectType);
 
             return result;
-        }
+		}
 
-        public static explicit operator SubStatement(JObject jobj)
+		/// <summary>
+		/// Gets the type of the object.
+		/// </summary>
+		/// <value>The type of the object.</value>
+		public string ObjectType
+		{
+			get
+			{
+				return TypeName;
+			}
+		}
+
+		/// <summary>
+		/// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.SubStatement"/>.
+		/// </summary>
+		/// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.SubStatement"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("[SubStatement: Actor={0}, Verb={1}, Target={2}, Result={3}, Context={4}, Timestamp={5}]", 
+                                 Actor, Verb, Target, Result, Context, Timestamp);
+		}
+
+        /// <summary>
+        /// The name of the type.
+        /// </summary>
+        public static string TypeName = nameof(SubStatement);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator SubStatement(JObject jobj)
         {
             return new SubStatement(jobj);
         }

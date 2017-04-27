@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,44 +13,75 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class Group : Agent
+	/// <summary>
+	/// A Group represents a collection of Agents and can be used in most of the same situations an Agent can be used. 
+	/// </summary>
+	public class Group : Agent
     {
-        public static readonly new String OBJECT_TYPE = "Group";
-        public override String ObjectType { get { return OBJECT_TYPE; } }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
+        /// </summary>
+        public Group() { }
 
-        public List<Agent> member { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Group(StringOfJSON json) : this(json.ToJObject()) { }
 
-        public Group() : base() { }
-        public Group(StringOfJSON json) : this(json.toJObject()) { }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Group(JObject jobj) : base(jobj)
         {
             if (jobj["member"] != null)
             {
-                member = new List<Agent>();
+                Members = new List<Agent>();
+
                 foreach (JObject jagent in jobj["member"])
                 {
-                    member.Add(new Agent(jagent));
+                    Members.Add(new Agent(jagent));
                 }
             }
         }
 
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public override string ObjectType 
+        { 
+            get 
+            { 
+                return TypeName; 
+            } 
+        }
+
+        /// <summary>
+        /// Gets the members of this group.
+        /// </summary>
+        /// <value>The member.</value>
+        public List<Agent> Members { get; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = base.ToJObject(version);
-            if (member != null && member.Count > 0)
+            var result = base.ToJObject(version);
+
+            if (Members != null && Members.Count > 0)
             {
                 var jmember = new JArray();
                 result.Add("member", jmember);
 
-                foreach (Agent agent in member)
+                foreach (var agent in Members)
                 {
                     jmember.Add(agent.ToJObject(version));
                 }
@@ -59,7 +90,27 @@ namespace TinCan
             return result;
         }
 
-        public static explicit operator Group(JObject jobj)
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Group"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Group"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Agent: Name={0}, Mbox={1}, MboxSha1Sum={2}, OpenId={3}, Account={4}, Members={5}]",
+								 Name, Mbox, MboxSha1Sum, OpenId, Account, Members);
+        }
+
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
+        public static readonly new string TypeName = nameof(Group);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Group(JObject jobj)
         {
             return new Group(jobj);
         }

@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,66 +13,128 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class Activity : JsonModel, StatementTarget
+    /// <summary>
+    /// The base xAPI object.
+    /// </summary>
+    public class Activity : JsonModel, IStatementTarget
     {
-        public static readonly String OBJECT_TYPE = "Activity";
-        public String ObjectType { get { return OBJECT_TYPE; } }
+        string id;
 
-        private string _id;
-        public string id
-        {
-            get { return _id; }
-            set
-            {
-                Uri uri = new Uri(value);
-                _id = value;
-            }
-        }
-
-        public ActivityDefinition definition { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
+        /// </summary>
         public Activity() { }
 
-        public Activity(StringOfJSON json) : this(json.toJObject()) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Activity(StringOfJSON json) : this(json.ToJObject()) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
+        /// </summary>
+        /// <param name="jobj">The JSON object describing the activity.</param>
         public Activity(JObject jobj)
         {
+            if (jobj == null)
+            {
+                throw new ArgumentNullException(nameof(jobj));
+            }
+
             if (jobj["id"] != null)
             {
-                string idFromJSON = jobj.Value<String>("id");
-                Uri uri = new Uri(idFromJSON);
-                id = idFromJSON;
+                var idFromJSON = jobj.Value<string>("id");
+                Id = idFromJSON;
             }
+
             if (jobj["definition"] != null)
             {
-                definition = (ActivityDefinition)jobj.Value<JObject>("definition");
+                Definition = (ActivityDefinition)jobj.Value<JObject>("definition");
             }
         }
 
+		/// <inheritdoc />
+		public string ObjectType
+		{
+			get
+			{
+				return TypeName;
+			}
+		}
+
+        /// <summary>
+        /// Gets or sets the activity identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public string Id
+        {
+            get 
+            { 
+                return id;
+            }
+
+            set
+            {
+                var uri = new Uri(value);
+                id = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the activity definition.
+        /// </summary>
+        /// <value>The definition.</value>
+        public ActivityDefinition Definition { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
-            result.Add("objectType", ObjectType);
+            var result = new JObject
+            {
+                { "objectType", ObjectType }
+            };
 
-            if (id != null)
+            if (Id != null)
             {
-                result.Add("id", id);
+                result.Add("id", Id);
             }
-            if (definition != null)
+
+            if (Definition != null)
             {
-                result.Add("definition", definition.ToJObject(version));
+                result.Add("definition", Definition.ToJObject(version));
             }
 
             return result;
         }
 
-        public static explicit operator Activity(JObject jobj)
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Activity"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Activity"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Activity: ObjectType={0}, Id={1}, Definition={2}]", ObjectType, Id, Definition);
+        }
+
+		/// <summary>
+		/// The name of this object type.
+		/// </summary>
+		public static string TypeName = nameof(Activity);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Activity(JObject jobj)
         {
             return new Activity(jobj);
         }

@@ -13,14 +13,14 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using NUnit.Framework;
+using Newtonsoft.Json.Linq;
+using TinCan;
+using TinCan.Json;
+
 namespace TinCanTests
 {
-    using System;
-    using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
-    using TinCan;
-    using TinCan.Json;
-
     [TestFixture]
     class ResultTest
     {
@@ -29,12 +29,12 @@ namespace TinCanTests
         {
             var obj = new Result();
             Assert.IsInstanceOf<Result>(obj);
-            Assert.IsNull(obj.completion);
-            Assert.IsNull(obj.success);
-            Assert.IsNull(obj.response);
-            Assert.IsNull(obj.duration);
-            Assert.IsNull(obj.score);
-            Assert.IsNull(obj.extensions);
+            Assert.IsNull(obj.Completion);
+            Assert.IsNull(obj.Success);
+            Assert.IsNull(obj.Response);
+            Assert.IsNull(obj.Duration);
+            Assert.IsNull(obj.Score);
+            Assert.IsNull(obj.Extensions);
 
             StringAssert.AreEqualIgnoringCase("{}", obj.ToJSON());
         }
@@ -42,16 +42,18 @@ namespace TinCanTests
         [Test]
         public void TestJObjectCtr()
         {
-            var cfg = new JObject();
-            cfg.Add("completion", true);
-            cfg.Add("success", true);
-            cfg.Add("response", "Yes");
+            var cfg = new JObject
+            {
+                { "completion", true },
+                { "success", true },
+                { "response", "Yes" }
+            };
 
             var obj = new Result(cfg);
             Assert.IsInstanceOf<Result>(obj);
-            Assert.That(obj.completion, Is.EqualTo(true));
-            Assert.That(obj.success, Is.EqualTo(true));
-            Assert.That(obj.response, Is.EqualTo("Yes"));
+            Assert.That(obj.Completion, Is.EqualTo(true));
+            Assert.That(obj.Success, Is.EqualTo(true));
+            Assert.That(obj.Response, Is.EqualTo("Yes"));
         }
 
         [Test]
@@ -62,9 +64,9 @@ namespace TinCanTests
 
             var obj = new Result(strOfJson);
             Assert.IsInstanceOf<Result>(obj);
-            Assert.That(obj.success, Is.EqualTo(true));
-            Assert.That(obj.completion, Is.EqualTo(true));
-            Assert.That(obj.response, Is.EqualTo("Yes"));
+            Assert.That(obj.Success, Is.EqualTo(true));
+            Assert.That(obj.Completion, Is.EqualTo(true));
+            Assert.That(obj.Response, Is.EqualTo("Yes"));
         }
     }
 }

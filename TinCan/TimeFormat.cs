@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,18 +13,24 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
-using Newtonsoft.Json.Linq;
 
 namespace TinCan
 {
-    public interface StatementTarget
+    /// <summary>
+    /// Time format information storage.
+    /// </summary>
+    public static class TimeFormat
     {
-        JObject ToJObject(TCAPIVersion version);
-
-        String ObjectType
+        /// <summary>
+        /// Gets the default time format.
+        /// </summary>
+        /// <value>The default.</value>
+        public static string Default
         {
-            get;
+            get
+            {
+                return "o";
+            }
         }
     }
 }

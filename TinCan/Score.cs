@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,67 +13,125 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class Score : JsonModel
+	/// <summary>
+	/// An optional property that represents the outcome of a graded Activity achieved by an Agent.
+	/// </summary>
+	public class Score : JsonModel
     {
-        public Nullable<Double> scaled { get; set; }
-        public Nullable<Double> raw { get; set; }
-        public Nullable<Double> min { get; set; }
-        public Nullable<Double> max { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
+        /// </summary>
         public Score() {}
 
-        public Score(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Score(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Score(JObject jobj)
         {
             if (jobj["scaled"] != null)
             {
-                scaled = jobj.Value<Double>("scaled");
+                Scaled = jobj.Value<Double>("scaled");
             }
+
             if (jobj["raw"] != null)
             {
-                raw = jobj.Value<Double>("raw");
+                Raw = jobj.Value<Double>("raw");
             }
+
             if (jobj["min"] != null)
             {
-                min = jobj.Value<Double>("min");
+                Min = jobj.Value<Double>("min");
             }
+
             if (jobj["max"] != null)
             {
-                max = jobj.Value<Double>("max");
+                Max = jobj.Value<Double>("max");
             }
         }
 
-        public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+		/// <summary>
+		/// Gets or sets the score related to the experience as modified by scaling and/or normalization.
+		/// </summary>
+		/// <value>The score related to the experience as modified by scaling and/or normalization.</value>
+		public Double? Scaled { get; set; }
 
-            if (scaled != null)
+		/// <summary>
+		/// Gets or sets the score achieved by the Actor in the experience described by the Statement.
+		/// This is not modified by any scaling or normalization.
+		/// </summary>
+		/// <value>The score achieved by the Actor in the experience described by the Statement.</value>
+		public Double? Raw { get; set; }
+
+		/// <summary>
+		/// Gets or sets the lowest possible score for the experience described by the Statement.
+		/// </summary>
+		/// <value>The lowest possible score for the experience described by the Statement.</value>
+		public Double? Min { get; set; }
+
+		/// <summary>
+		/// Gets or sets the highest possible score for the experience described by the Statement.
+		/// </summary>
+		/// <value>The highest possible score for the experience described by the Statement.</value>
+		public Double? Max { get; set; }
+
+        /// <inheritdoc />
+        public override JObject ToJObject(TCAPIVersion version)
+        {
+            var result = new JObject();
+
+            if (Scaled != null)
             {
-                result.Add("scaled", scaled);
+                result.Add("scaled", Scaled);
             }
-            if (raw != null)
+
+            if (Raw != null)
             {
-                result.Add("raw", raw);
+                result.Add("raw", Raw);
             }
-            if (min != null)
+
+            if (Min != null)
             {
-                result.Add("min", min);
+                result.Add("min", Min);
             }
-            if (max != null)
+
+            if (Max != null)
             {
-                result.Add("max", max);
+                result.Add("max", Max);
             }
 
             return result;
         }
 
-        public static explicit operator Score(JObject jobj)
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Score"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Score"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Score: Scaled={0}, Raw={1}, Min={2}, Max={3}]", 
+                                 Scaled, Raw, Min, Max);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Score(JObject jobj)
         {
             return new Score(jobj);
         }

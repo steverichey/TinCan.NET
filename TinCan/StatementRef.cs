@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,48 +13,105 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class StatementRef : JsonModel, StatementTarget
+    /// <summary>
+    /// An object describing a reference to another statement.
+    /// </summary>
+    public class StatementRef : JsonModel, IStatementTarget
     {
-        public static readonly String OBJECT_TYPE = "StatementRef";
-        public String ObjectType { get { return OBJECT_TYPE; } }
-
-        public Nullable<Guid> id { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
         public StatementRef() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
         public StatementRef(Guid id)
         {
-            this.id = id;
+            Id = id;
         }
 
-        public StatementRef(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public StatementRef(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public StatementRef(JObject jobj)
         {
             if (jobj["id"] != null)
             {
-                id = new Guid(jobj.Value<String>("id"));
+                Id = new Guid(jobj.Value<string>("id"));
             }
         }
 
-        public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
-            result.Add("objectType", ObjectType);
-
-            if (id != null)
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public string ObjectType
+        { 
+            get 
             {
-                result.Add("id", id.ToString());
+                return TypeName; 
+            } 
+        }
+
+        /// <summary>
+        /// Gets or sets the identifier of the referenced statement.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public Guid? Id { get; set; }
+
+        /// <inheritdoc />
+        public override JObject ToJObject(TCAPIVersion version) 
+        {
+            var result = new JObject
+            {
+                { "objectType", ObjectType }
+            };
+
+            if (Id != null)
+            {
+                result.Add("id", Id.ToString());
             }
 
             return result;
         }
 
-        public static explicit operator StatementRef(JObject jobj)
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementRef"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementRef"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[StatementRef: ObjectType={0}, Id={1}]", 
+                                 ObjectType, Id);
+        }
+
+		/// <summary>
+		/// The type of the object.
+		/// </summary>
+		public static readonly string TypeName = nameof(StatementRef);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator StatementRef(JObject jobj)
         {
             return new StatementRef(jobj);
         }

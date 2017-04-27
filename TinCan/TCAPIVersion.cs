@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,76 +13,147 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Version of the xAPI/TinCan API.
+    /// </summary>
     public sealed class TCAPIVersion
     {
-        public static readonly TCAPIVersion V102 = new TCAPIVersion("1.0.2");
-        public static readonly TCAPIVersion V101 = new TCAPIVersion("1.0.1");
-        public static readonly TCAPIVersion V100 = new TCAPIVersion("1.0.0");
-        public static readonly TCAPIVersion V095 = new TCAPIVersion("0.95");
-        public static readonly TCAPIVersion V090 = new TCAPIVersion("0.9");
+        /// <summary>
+        /// Version 1.0.3
+        /// </summary>
+        public static readonly TCAPIVersion V103 = new TCAPIVersion("1.0.3");
 
-        public static TCAPIVersion latest()
+		/// <summary>
+		/// Version 1.0.2
+		/// </summary>
+		public static readonly TCAPIVersion V102 = new TCAPIVersion("1.0.2");
+
+		/// <summary>
+		/// Version 1.0.1
+		/// </summary>
+		public static readonly TCAPIVersion V101 = new TCAPIVersion("1.0.1");
+
+		/// <summary>
+		/// Version 1.0.0
+		/// </summary>
+		public static readonly TCAPIVersion V100 = new TCAPIVersion("1.0.0");
+
+		/// <summary>
+		/// Version 0.95
+		/// </summary>
+		public static readonly TCAPIVersion V095 = new TCAPIVersion("0.95");
+
+		/// <summary>
+		/// Version 0.90
+		/// </summary>
+		public static readonly TCAPIVersion V090 = new TCAPIVersion("0.9");
+
+        /// <summary>
+        /// Latest this instance.
+        /// </summary>
+        /// <returns>The latest.</returns>
+        public static TCAPIVersion Latest
         {
-            return V101;
+            get
+            {
+                return V103;
+            }
         }
 
-        private static Dictionary<String, TCAPIVersion> known;
-        private static Dictionary<String, TCAPIVersion> supported;
+        static Dictionary<string, TCAPIVersion> known;
+        static Dictionary<string, TCAPIVersion> supported;
 
-        public static Dictionary<String, TCAPIVersion> GetKnown()
+        /// <summary>
+        /// Gets the known.
+        /// </summary>
+        /// <returns>The known.</returns>
+        public static Dictionary<string, TCAPIVersion> Known
         {
-            if (known != null) {
+            get
+            {
+                if (known != null)
+                {
+                    return known;
+                }
+
+                known = new Dictionary<string, TCAPIVersion>
+                {
+                    { V103.text, V103 },
+                    { V102.text, V102 },
+                    { V101.text, V101 },
+                    { V100.text, V100 },
+                    { V095.text, V095 },
+                    { V090.text, V090 }
+                };
+
                 return known;
             }
-
-            known = new Dictionary<String, TCAPIVersion>();
-            known.Add("1.0.2", V102);
-            known.Add("1.0.1", V101);
-            known.Add("1.0.0", V100);
-            known.Add("0.95", V095);
-            known.Add("0.9", V090);
-
-            return known;
         }
 
-        public static Dictionary<String, TCAPIVersion> GetSupported()
+        /// <summary>
+        /// Gets the supported.
+        /// </summary>
+        /// <value>The supported.</value>
+        public static Dictionary<string, TCAPIVersion> Supported
         {
-            if (supported != null) {
+            get
+            {
+                if (supported != null)
+                {
+                    return supported;
+                }
+
+                supported = new Dictionary<string, TCAPIVersion>
+                {
+                    { V103.text, V103 },
+                    { V102.text, V102 },
+                    { V101.text, V101 },
+                    { V100.text, V100 }
+                };
+
                 return supported;
             }
-
-            supported = new Dictionary<String, TCAPIVersion>();
-            supported.Add("1.0.2", V102);
-            supported.Add("1.0.1", V101);
-            supported.Add("1.0.0", V100);
-
-            return supported;
         }
 
-        public static explicit operator TCAPIVersion(String vStr)
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="vStr">V string.</param>
+        public static explicit operator TCAPIVersion(string vStr)
         {
-            var s = GetKnown();
-            if (!s.ContainsKey(vStr))
+            var knownVersions = Known;
+
+            if (!knownVersions.ContainsKey(vStr))
             {
                 throw new ArgumentException("Unrecognized version: " + vStr);
             }
 
-            return s[vStr];
+            return knownVersions[vStr];
         }
 
-        private String text;
+        readonly string text;
 
-        private TCAPIVersion(String value)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.TCAPIVersion"/> class.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        TCAPIVersion(string value)
         {
             text = value;
         }
 
-        public override String ToString()
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.TCAPIVersion"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.TCAPIVersion"/>.</returns>
+        public override string ToString()
         {
             return text;
         }

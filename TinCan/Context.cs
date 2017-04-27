@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,114 +13,216 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class Context : JsonModel
+	/// <summary>
+	/// An optional object that provides a place to add contextual information to a Statement.
+	/// </summary>
+	public class Context : JsonModel
     {
-        public Nullable<Guid> registration { get; set; }
-        public Agent instructor { get; set; }
-        public Agent team { get; set; }
-        public ContextActivities contextActivities { get; set; }
-        public String revision { get; set; }
-        public String platform { get; set; }
-        public String language { get; set; }
-        public StatementRef statement { get; set; }
-        public Extensions extensions { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Context"/> class.
+        /// </summary>
         public Context() {}
 
-        public Context(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Context"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Context(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Context"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Context(JObject jobj)
         {
             if (jobj["registration"] != null)
             {
-                registration = new Guid(jobj.Value<String>("registration"));
+                Registration = new Guid(jobj.Value<string>("registration"));
             }
+
             if (jobj["instructor"] != null)
             {
-                // TODO: can be Group?
-                instructor = (Agent)jobj.Value<JObject>("instructor");
+                var actor = jobj.Value<JObject>("instructor");
+
+                if (actor.Value<string>("objectType") == Group.TypeName)
+                {
+                    Instructor = (Group)jobj.Value<JObject>("instructor");
+                }
+                else 
+                {
+                    Instructor = (Agent)jobj.Value<JObject>("instructor");
+                }
             }
+
             if (jobj["team"] != null)
             {
-                // TODO: can be Group?
-                team = (Agent)jobj.Value<JObject>("team");
+				var actor = jobj.Value<JObject>("team");
+
+				if (actor.Value<string>("objectType") == Group.TypeName)
+				{
+					Instructor = (Group)jobj.Value<JObject>("team");
+				}
+				else
+				{
+					Instructor = (Agent)jobj.Value<JObject>("team");
+				}
             }
+
             if (jobj["contextActivities"] != null)
             {
-                contextActivities = (ContextActivities)jobj.Value<JObject>("contextActivities");
+                ContextActivities = (ContextActivities)jobj.Value<JObject>("contextActivities");
             }
+
             if (jobj["revision"] != null)
             {
-                revision = jobj.Value<String>("revision");
+                Revision = jobj.Value<string>("revision");
             }
+
             if (jobj["platform"] != null)
             {
-                platform = jobj.Value<String>("platform");
+                Platform = jobj.Value<string>("platform");
             }
+
             if (jobj["language"] != null)
             {
-                language = jobj.Value<String>("language");
+                Language = jobj.Value<string>("language");
             }
+
             if (jobj["statement"] != null)
             {
-                statement = (StatementRef)jobj.Value<JObject>("statement");
+                Statement = (StatementRef)jobj.Value<JObject>("statement");
             }
+
             if (jobj["extensions"] != null)
             {
-                extensions = (Extensions)jobj.Value<JObject>("extensions");
+                Extensions = (Extensions)jobj.Value<JObject>("extensions");
             }
         }
 
-        public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+		/// <summary>
+		/// Gets or sets the registration.
+		/// </summary>
+		/// <value>The registration.</value>
+		public Guid? Registration { get; set; }
 
-            if (registration != null)
+		/// <summary>
+		/// Gets or sets the instructor.
+		/// </summary>
+		/// <value>The instructor.</value>
+		public Agent Instructor { get; set; }
+
+		/// <summary>
+		/// Gets or sets the team.
+		/// </summary>
+		/// <value>The team.</value>
+		public Agent Team { get; set; }
+
+		/// <summary>
+		/// Gets or sets the context activities.
+		/// </summary>
+		/// <value>The context activities.</value>
+		public ContextActivities ContextActivities { get; set; }
+
+		/// <summary>
+		/// Gets or sets the revision.
+		/// </summary>
+		/// <value>The revision.</value>
+		public string Revision { get; set; }
+
+		/// <summary>
+		/// Gets or sets the platform.
+		/// </summary>
+		/// <value>The platform.</value>
+		public string Platform { get; set; }
+
+		/// <summary>
+		/// Gets or sets the language.
+		/// </summary>
+		/// <value>The language.</value>
+		public string Language { get; set; }
+
+		/// <summary>
+		/// Gets or sets the statement.
+		/// </summary>
+		/// <value>The statement.</value>
+		public StatementRef Statement { get; set; }
+
+		/// <summary>
+		/// Gets or sets the extensions.
+		/// </summary>
+		/// <value>The extensions.</value>
+		public Extensions Extensions { get; set; }
+
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
+        public override JObject ToJObject(TCAPIVersion version) 
+        {
+            var result = new JObject();
+
+            if (Registration != null)
             {
-                result.Add("registration", registration.ToString());
+                result.Add("registration", Registration.ToString());
             }
-            if (instructor != null)
+
+            if (Instructor != null)
             {
-                result.Add("instructor", instructor.ToJObject(version));
+                result.Add("instructor", Instructor.ToJObject(version));
             }
-            if (team != null)
+
+            if (Team != null)
             {
-                result.Add("team", team.ToJObject(version));
+                result.Add("team", Team.ToJObject(version));
             }
-            if (contextActivities != null)
+
+            if (ContextActivities != null)
             {
-                result.Add("contextActivities", contextActivities.ToJObject(version));
+                result.Add("contextActivities", ContextActivities.ToJObject(version));
             }
-            if (revision != null)
+
+            if (Revision != null)
             {
-                result.Add("revision", revision);
+                result.Add("revision", Revision);
             }
-            if (platform != null)
+
+            if (Platform != null)
             {
-                result.Add("platform", platform);
+                result.Add("platform", Platform);
             }
-            if (language != null)
+
+            if (Language != null)
             {
-                result.Add("language", language);
+                result.Add("language", Language);
             }
-            if (statement != null)
+
+            if (Statement != null)
             {
-                result.Add("statement", statement.ToJObject(version));
+                result.Add("statement", Statement.ToJObject(version));
             }
-            if (extensions != null)
+
+            if (Extensions != null)
             {
-                result.Add("extensions", extensions.ToJObject(version));
+                result.Add("extensions", Extensions.ToJObject(version));
             }
 
             return result;
         }
 
-        public static explicit operator Context(JObject jobj)
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Context(JObject jobj)
         {
             return new Context(jobj);
         }

@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -16,8 +16,25 @@
 
 namespace TinCan.LRSResponses
 {
+    /// <summary>
+    /// A resource allowing for information to be saved that is related to an activity.
+    /// </summary>
     public class ActivityProfileLRSResponse : LRSResponse
     {
-        public TinCan.Documents.ActivityProfileDocument content { set; get; }
+        /// <summary>
+        /// Gets or sets the content related to the activity.
+        /// </summary>
+        /// <value>The content.</value>
+        public Documents.ActivityProfileDocument Content { set; get; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.ActivityProfileLRSResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.ActivityProfileLRSResponse"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}, Content={3}]",
+								 Success, HttpException, ErrorMessage, Content);
+		}
     }
 }

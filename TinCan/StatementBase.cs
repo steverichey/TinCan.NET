@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,112 +13,164 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// The abstract base for statement objects.
+    /// </summary>
     public abstract class StatementBase : JsonModel
     {
-        private const String ISODateTimeFormat = "o";
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementBase"/> class.
+        /// </summary>
+        internal StatementBase() { }
 
-        public Agent actor { get; set; }
-        public Verb verb { get; set; }
-        public StatementTarget target { get; set; }
-        public Result result { get; set; }
-        public Context context { get; set; }
-        public Nullable<DateTime> timestamp { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementBase"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        internal StatementBase(StringOfJSON json) : this(json.ToJObject()) { }
 
-        public StatementBase() { }
-        public StatementBase(StringOfJSON json) : this(json.toJObject()) { }
-
-        public StatementBase(JObject jobj)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementBase"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
+        internal StatementBase(JObject jobj)
         {
             if (jobj["actor"] != null)
             {
-                if (jobj["actor"]["objectType"] != null && (String)jobj["actor"]["objectType"] == Group.OBJECT_TYPE)
+                if (jobj["actor"]["objectType"] != null && (string)jobj["actor"]["objectType"] == Group.TypeName)
                 {
-                    actor = (Group)jobj.Value<JObject>("actor");
+                    Actor = (Group)jobj.Value<JObject>("actor");
                 }
                 else
                 {
-                    actor = (Agent)jobj.Value<JObject>("actor");
+                    Actor = (Agent)jobj.Value<JObject>("actor");
                 }
             }
+
             if (jobj["verb"] != null)
             {
-                verb = (Verb)jobj.Value<JObject>("verb");
+                Verb = (Verb)jobj.Value<JObject>("verb");
             }
+
             if (jobj["object"] != null)
             {
                 if (jobj["object"]["objectType"] != null)
                 {
-                    if ((String)jobj["object"]["objectType"] == Group.OBJECT_TYPE)
+                    if ((string)jobj["object"]["objectType"] == Group.TypeName)
                     {
-                        target = (Group)jobj.Value<JObject>("object");
+                        Target = (Group)jobj.Value<JObject>("object");
                     }
-                    else if ((String)jobj["object"]["objectType"] == Agent.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == Agent.TypeName)
                     {
-                        target = (Agent)jobj.Value<JObject>("object");
+                        Target = (Agent)jobj.Value<JObject>("object");
                     }
-                    else if ((String)jobj["object"]["objectType"] == Activity.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == Activity.TypeName)
                     {
-                        target = (Activity)jobj.Value<JObject>("object");
+                        Target = (Activity)jobj.Value<JObject>("object");
                     }
-                    else if ((String)jobj["object"]["objectType"] == StatementRef.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == StatementRef.TypeName)
                     {
-                        target = (StatementRef)jobj.Value<JObject>("object");
+                        Target = (StatementRef)jobj.Value<JObject>("object");
                     }
                 }
                 else
                 {
-                    target = (Activity)jobj.Value<JObject>("object");
+                    Target = (Activity)jobj.Value<JObject>("object");
                 }
             }
+
             if (jobj["result"] != null)
             {
-                result = (Result)jobj.Value<JObject>("result");
+                Result = (Result)jobj.Value<JObject>("result");
             }
+
             if (jobj["context"] != null)
             {
-                context = (Context)jobj.Value<JObject>("context");
+                Context = (Context)jobj.Value<JObject>("context");
             }
+
             if (jobj["timestamp"] != null)
             {
-                timestamp = jobj.Value<DateTime>("timestamp");
+                Timestamp = jobj.Value<DateTime>("timestamp");
             }
         }
 
+		/// <summary>
+		/// Gets or sets the actor related to this statement.
+		/// </summary>
+		/// <value>The actor.</value>
+		public Agent Actor { get; set; }
+
+		/// <summary>
+		/// Gets or sets the verb related to this statement.
+		/// </summary>
+		/// <value>The verb.</value>
+		public Verb Verb { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target related to this statement.
+		/// </summary>
+		/// <value>The target.</value>
+		public IStatementTarget Target { get; set; }
+
+		/// <summary>
+		/// Gets or sets the result related to this statement.
+		/// </summary>
+		/// <value>The result.</value>
+		public Result Result { get; set; }
+
+		/// <summary>
+		/// Gets or sets the context of this statement.
+		/// </summary>
+		/// <value>The context.</value>
+		public Context Context { get; set; }
+
+		/// <summary>
+		/// Gets or sets the timestamp of this statement.
+		/// </summary>
+		/// <value>The timestamp.</value>
+		public DateTime? Timestamp { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
+            var result = new JObject();
 
-            if (actor != null)
+            if (Actor != null)
             {
-                result.Add("actor", actor.ToJObject(version));
-            }
-
-            if (verb != null)
-            {
-                result.Add("verb", verb.ToJObject(version));
+                result.Add("actor", Actor.ToJObject(version));
             }
 
-            if (target != null)
+            if (Verb != null)
             {
-                result.Add("object", target.ToJObject(version));
+                result.Add("verb", Verb.ToJObject(version));
             }
-            if (this.result != null)
+
+            if (Target != null)
             {
-                result.Add("result", this.result.ToJObject(version));
+                result.Add("object", Target.ToJObject(version));
             }
-            if (this.context != null)
+
+            if (Result != null)
             {
-                result.Add("context", context.ToJObject(version));
+                result.Add("result", this.Result.ToJObject(version));
             }
-            if (timestamp != null)
+
+            if (Context != null)
             {
-                result.Add("timestamp", timestamp.Value.ToString(ISODateTimeFormat));
+                result.Add("context", Context.ToJObject(version));
+            }
+
+            if (Timestamp != null)
+            {
+                result.Add("timestamp", Timestamp.Value.ToString(TimeFormat.Default));
             }
 
             return result;

@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,14 +13,43 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
+using System.Text;
 
 namespace TinCan.Documents
 {
-    public class StateDocument : Document
+	/// <summary>
+	/// A document where information about a state is kept.
+	/// </summary>
+	public class StateDocument : Document
     {
-        public Activity activity { get; set; }
-        public Agent agent { get; set; }
-        public Nullable<Guid> registration { get; set; }
+        /// <summary>
+        /// Gets or sets the activity associated with this state.
+        /// </summary>
+        /// <value>The activity.</value>
+        public Activity Activity { get; set; }
+
+		/// <summary>
+		/// Gets or sets the agent associated with this state.
+		/// </summary>
+		/// <value>The agent.</value>
+		public Agent Agent { get; set; }
+
+		/// <summary>
+		/// Gets or sets the registration associated with this state.
+		/// </summary>
+		/// <value>The registration.</value>
+		public Guid? Registration { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.StateDocument"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.StateDocument"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[StateDocument: Id={0}, Etag={1}, Timestamp={2}, ContentType={3}, Content={4}, Activity={5}, Agent={6}, Registration={7}]", 
+                                 Id, Etag, Timestamp, ContentType, Encoding.UTF8.GetString(Content, 0, Content.Length), Activity, Agent, Registration);
+        }
     }
 }

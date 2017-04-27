@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,27 +13,49 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
-using System.Collections.Generic;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Statements query result format enumeration.
+    /// </summary>
     public sealed class StatementsQueryResultFormat
     {
-        public static readonly StatementsQueryResultFormat IDS = new StatementsQueryResultFormat("ids");
-        public static readonly StatementsQueryResultFormat EXACT = new StatementsQueryResultFormat("exact");
-        public static readonly StatementsQueryResultFormat CANONICAL = new StatementsQueryResultFormat("canonical");
+        readonly string text;
 
-        private String text;
-
-        private StatementsQueryResultFormat(String value)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsQueryResultFormat"/> class.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        StatementsQueryResultFormat(string value)
         {
             text = value;
         }
 
-        public override String ToString()
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsQueryResultFormat"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsQueryResultFormat"/>.</returns>
+        public override string ToString()
         {
             return text;
         }
+
+		/// <summary>
+		/// Only include minimum information necessary in Agent, Activity, Verb and Group Objects to identify them.
+        /// For Anonymous Groups this means including the minimum information needed to identify each member. 
+		/// </summary>
+		public static readonly StatementsQueryResultFormat Ids = new StatementsQueryResultFormat("ids");
+
+		/// <summary>
+		/// Return Agent, Activity, Verb and Group Objects populated exactly as they were when the Statement was received.
+        /// An LRS requesting Statements for the purpose of importing them would use a format of "exact" in order to maintain Statement Immutability. 
+		/// </summary>
+		public static readonly StatementsQueryResultFormat Exact = new StatementsQueryResultFormat("exact");
+
+		/// <summary>
+		/// Return Activity Objects and Verbs populated with the canonical definition of the Activity Objects and Display of the Verbs as determined by the LRS, after applying language filtering, and return the original Agent and Group Objects as in "exact" mode.
+		/// </summary>
+		public static readonly StatementsQueryResultFormat Canonical = new StatementsQueryResultFormat("canonical");
     }
 }

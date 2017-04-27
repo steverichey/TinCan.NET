@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,25 +13,34 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using System;
+using NUnit.Framework;
+using TinCan;
+
 namespace TinCanTests
 {
-    using System;
-    using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
-    using TinCan;
-    using TinCan.Json;
-
     [TestFixture]
     class RemoteLRSTest
     {
         [Test]
-        public void TestEmptyCtr()
+        public void TestBasicCtr()
         {
-            var obj = new RemoteLRS();
-            Assert.IsInstanceOf<RemoteLRS>(obj);
-            Assert.IsNull(obj.endpoint);
-            Assert.IsNull(obj.auth);
-            Assert.IsNull(obj.version);
+            var uri = new Uri("https://cloud.scorm.com/tc/U2S4SI5FY0/sandbox/");
+            var username = "Nja986GYE1_XrWMmFUE";
+            var password = "Bd9lDr1kjaWWY6RID_4";
+
+			var lrs = new RemoteLRS(
+				uri,
+				username,
+				password
+			);
+
+            Assert.That(lrs.Endpoint, Is.EqualTo(uri));
+            Assert.That(lrs.Auth, Is.Not.Null);
+            Assert.That(lrs.Auth, Is.Not.Empty);
+            Assert.That(lrs.Version, Is.EqualTo(TCAPIVersion.Latest));
+            Assert.That(lrs.Extended, Is.Empty);
         }
     }
 }

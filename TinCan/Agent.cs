@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,82 +13,155 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class Agent : JsonModel, StatementTarget
+    /// <summary>
+    /// An Agent (an individual) is a persona or system.
+    /// </summary>
+    public class Agent : JsonModel, IStatementTarget
     {
-        public static readonly String OBJECT_TYPE = "Agent";
-        public virtual String ObjectType { get { return OBJECT_TYPE; } }
-
-        public String name { get; set; }
-        public String mbox { get; set; }
-        public String mbox_sha1sum { get; set; }
-        public String openid { get; set; }
-        public AgentAccount account { get; set; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+        /// </summary>
         public Agent() { }
 
-        public Agent(StringOfJSON json) : this(json.toJObject()) { }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+		/// </summary>
+		/// <param name="json">String of JSON describing the object.</param>
+		public Agent(StringOfJSON json) : this(json.ToJObject()) { }
 
-        public Agent(JObject jobj)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+		/// </summary>
+		/// <param name="jobj">JSON object describing the object.</param>
+		public Agent(JObject jobj)
         {
             if (jobj["name"] != null)
             {
-                name = jobj.Value<String>("name");
+                Name = jobj.Value<string>("name");
             }
 
             if (jobj["mbox"] != null)
             {
-                mbox = jobj.Value<String>("mbox");
+                Mbox = jobj.Value<string>("mbox");
             }
+
             if (jobj["mbox_sha1sum"] != null)
             {
-                mbox_sha1sum = jobj.Value<String>("mbox_sha1sum");
+                MboxSha1Sum = jobj.Value<string>("mbox_sha1sum");
             }
+
             if (jobj["openid"] != null)
             {
-                openid = jobj.Value<String>("openid");
+                OpenId = jobj.Value<string>("openid");
             }
+
             if (jobj["account"] != null)
             {
-                account = (AgentAccount)jobj.Value<JObject>("account");
+                Account = (AgentAccount)jobj.Value<JObject>("account");
             }
         }
+        
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public virtual string ObjectType 
+        { 
+            get 
+            { 
+                return TypeName; 
+            } 
+        }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mbox.
+        /// </summary>
+        /// <value>The mbox.</value>
+        public string Mbox { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mbox sha1sum.
+        /// </summary>
+        /// <value>The mbox sha1sum.</value>
+        public string MboxSha1Sum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the openid.
+        /// </summary>
+        /// <value>The openid.</value>
+        public string OpenId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the account.
+        /// </summary>
+        /// <value>The account.</value>
+        public AgentAccount Account { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
-            result.Add("objectType", ObjectType);
+            var result = new JObject
+            {
+                { "objectType", ObjectType }
+            };
 
-            if (name != null)
+            if (Name != null)
             {
-                result.Add("name", name);
+                result.Add("name", Name);
             }
 
-            if (account != null)
+            if (Account != null)
             {
-                result.Add("account", account.ToJObject(version));
+                result.Add("account", Account.ToJObject(version));
             }
-            else if (mbox != null)
+            else if (Mbox != null)
             {
-                result.Add("mbox", mbox);
+                result.Add("mbox", Mbox);
             }
-            else if (mbox_sha1sum != null)
+            else if (MboxSha1Sum != null)
             {
-                result.Add("mbox_sha1sum", mbox_sha1sum);
+                result.Add("mbox_sha1sum", MboxSha1Sum);
             }
-            else if (openid != null)
+            else if (OpenId != null)
             {
-                result.Add("openid", openid);
+                result.Add("openid", OpenId);
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Agent"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Agent"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Agent: Name={0}, Mbox={1}, MboxSha1Sum={2}, OpenId={3}, Account={4}]", 
+                                 Name, Mbox, MboxSha1Sum, OpenId, Account);
+        }
+
+		/// <summary>
+		/// The name of this object type.
+		/// </summary>
+		public static string TypeName = nameof(Agent);
+
+        /// <summary>
+        /// Defines the operation to use when casting from a JObject to this type.
+        /// </summary>
+        /// <returns>The JObject as this type.</returns>
+        /// <param name="jobj">The JObject to cast.</param>
         public static explicit operator Agent(JObject jobj)
         {
             return new Agent(jobj);

@@ -1,5 +1,5 @@
 ﻿/*
-    Copyright 2014 Rustici Software
+    Copyright 2014-2017 Rustici Software
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
@@ -20,27 +21,51 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    public class Extensions : JsonModel
+	/// <summary>
+	/// A map of any other domain-specific context relevant to a Statement. 
+	/// </summary>
+	public class Extensions : JsonModel
     {
-        private Dictionary<Uri, JToken> map;
+        Dictionary<Uri, JToken> map;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Extensions"/> class.
+        /// </summary>
         public Extensions()
         {
             map = new Dictionary<Uri, JToken>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Extensions"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Extensions(JObject jobj) : this()
         {
             foreach (var item in jobj)
             {
                 map.Add(new Uri(item.Key), item.Value); 
             }
-        }
+		}
 
+		/// <summary>
+        /// Gets a value indicating whether this <see cref="T:TinCan.Extensions"/> is empty.
+        /// </summary>
+        /// <value><c>true</c> if is empty; otherwise, <c>false</c>.</value>
+		public bool IsEmpty
+		{
+            get
+            {
+                return map.Count <= 0;
+            }
+		}
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
             JObject result = new JObject();
-            foreach (KeyValuePair<Uri, JToken> entry in map)
+
+            foreach (var entry in map)
             {
                 result.Add(entry.Key.ToString(), entry.Value);
             }
@@ -48,12 +73,22 @@ namespace TinCan
             return result;
         }
 
-        public Boolean isEmpty()
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Extensions"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Extensions"/>.</returns>
+        public override string ToString()
         {
-            return map.Count > 0 ? false : true;
+            return string.Format("[Extensions: IsEmpty={0}, Map={1}]", 
+                                 IsEmpty, map);
         }
 
-        public static explicit operator Extensions(JObject jobj)
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Extensions(JObject jobj)
         {
             return new Extensions(jobj);
         }

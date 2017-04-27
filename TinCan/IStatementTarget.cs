@@ -14,19 +14,17 @@
     limitations under the License.
 */
 
-using NUnit.Framework;
-using TinCan;
-
-namespace TinCanTests
+namespace TinCan
 {
-    [TestFixture]
-    class LanguageMapTest
+    /// <summary>
+    /// Defines an object that can be the target of a statement.
+    /// </summary>
+    public interface IStatementTarget : Json.IJsonModel
     {
-        [Test]
-        public void TestEmptyCtr()
-        {
-            var obj = new LanguageMap();
-            Assert.IsInstanceOf<LanguageMap>(obj);
-        }
+        /// <summary>
+        /// Gets the string name of the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        string ObjectType { get; }
     }
 }
