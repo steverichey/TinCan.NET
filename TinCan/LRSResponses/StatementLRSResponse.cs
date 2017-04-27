@@ -16,8 +16,15 @@
 
 namespace TinCan.LRSResponses
 {
+    /// <summary>
+    /// Statement LRSR esponse.
+    /// </summary>
     public class StatementLRSResponse : LRSResponse
     {
-        public TinCan.Statement content { set; get; }
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public Statement Content { get; set; }
     }
 }

@@ -13,14 +13,14 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using NUnit.Framework;
+using Newtonsoft.Json.Linq;
+using TinCan;
+using TinCan.Json;
+
 namespace TinCanTests
 {
-    using System;
-    using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
-    using TinCan;
-    using TinCan.Json;
-
     [TestFixture]
     class AgentTest
     {
@@ -29,7 +29,7 @@ namespace TinCanTests
         {
             var obj = new Agent();
             Assert.IsInstanceOf<Agent>(obj);
-            Assert.IsNull(obj.mbox);
+            Assert.IsNull(obj.Mbox);
 
             StringAssert.AreEqualIgnoringCase("{\"objectType\":\"Agent\"}", obj.ToJSON());
         }
@@ -39,12 +39,14 @@ namespace TinCanTests
         {
             var mbox = "mailto:tincancsharp@tincanapi.com";
 
-            var cfg = new JObject();
-            cfg.Add("mbox", mbox);
+            var cfg = new JObject
+            {
+                { "mbox", mbox }
+            };
 
             var obj = new Agent(cfg);
             Assert.IsInstanceOf<Agent>(obj);
-            Assert.That(obj.mbox, Is.EqualTo(mbox));
+            Assert.That(obj.Mbox, Is.EqualTo(mbox));
         }
 
         [Test]
@@ -57,7 +59,7 @@ namespace TinCanTests
 
             var obj = new Agent(strOfJson);
             Assert.IsInstanceOf<Agent>(obj);
-            Assert.That(obj.mbox, Is.EqualTo(mbox));
+            Assert.That(obj.Mbox, Is.EqualTo(mbox));
         }
     }
 }

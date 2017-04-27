@@ -13,85 +13,168 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Statements query.
+    /// </summary>
     public class StatementsQuery
     {
-        // TODO: put in common location
-        private const String ISODateTimeFormat = "o";
+		/// <summary>
+		/// The ISOD ate time format.
+		/// TODO: put in common location
+		/// </summary>
+		const String ISODateTimeFormat = "o";
 
-        public Agent agent { get; set; }
-        public Uri verbId { get; set; }
-        private string _activityId;
-        public string activityId {
-            get { return _activityId; }
+        /// <summary>
+        /// Gets or sets the agent.
+        /// </summary>
+        /// <value>The agent.</value>
+        public Agent Agent { get; set; }
+
+        /// <summary>
+        /// Gets or sets the verb identifier.
+        /// </summary>
+        /// <value>The verb identifier.</value>
+        public Uri VerbId { get; set; }
+
+        /// <summary>
+        /// The activity identifier.
+        /// </summary>
+        string activityId;
+
+        /// <summary>
+        /// Gets or sets the activity identifier.
+        /// </summary>
+        /// <value>The activity identifier.</value>
+        public string ActivityId 
+        {
+            get 
+            { 
+                return activityId; 
+            }
+
             set
             {
                 Uri uri = new Uri(value);
-                _activityId = value;
+                activityId = value;
             }
         }
-        public Nullable<Guid> registration { get; set; }
-        public Nullable<Boolean> relatedActivities { get; set; }
-        public Nullable<Boolean> relatedAgents { get; set; }
-        public Nullable<DateTime> since { get; set; }
-        public Nullable<DateTime> until { get; set; }
-        public Nullable<Int32> limit { get; set; }
-        public StatementsQueryResultFormat format { get; set; }
-        public Nullable<Boolean> ascending { get; set; }
 
-        public StatementsQuery() {}
+        /// <summary>
+        /// Gets or sets the registration.
+        /// </summary>
+        /// <value>The registration.</value>
+        public Guid? Registration { get; set; }
 
+        /// <summary>
+        /// Gets or sets the related activities.
+        /// </summary>
+        /// <value>The related activities.</value>
+        public Boolean? RelatedActivities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the related agents.
+        /// </summary>
+        /// <value>The related agents.</value>
+        public Boolean? RelatedAgents { get; set; }
+
+        /// <summary>
+        /// Gets or sets the since.
+        /// </summary>
+        /// <value>The since.</value>
+        public DateTime? Since { get; set; }
+
+        /// <summary>
+        /// Gets or sets the until.
+        /// </summary>
+        /// <value>The until.</value>
+        public DateTime? Until { get; set; }
+
+        /// <summary>
+        /// Gets or sets the limit.
+        /// </summary>
+        /// <value>The limit.</value>
+        public Int32? Limit { get; set; }
+
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
+        /// <value>The format.</value>
+        public StatementsQueryResultFormat Format { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ascending.
+        /// </summary>
+        /// <value>The ascending.</value>
+        public Boolean? Ascending { get; set; }
+
+        /// <summary>
+        /// Tos the parameter map.
+        /// </summary>
+        /// <returns>The parameter map.</returns>
+        /// <param name="version">Version.</param>
         public Dictionary<String, String> ToParameterMap (TCAPIVersion version)
         {
             var result = new Dictionary<String, String>();
 
-            if (agent != null)
+            if (Agent != null)
             {
-                result.Add("agent", agent.ToJSON(version));
+                result.Add("agent", Agent.ToJSON(version));
             }
-            if (verbId != null)
+
+            if (VerbId != null)
             {
-                result.Add("verb", verbId.ToString());
+                result.Add("verb", VerbId.ToString());
             }
-            if (activityId != null)
+
+            if (ActivityId != null)
             {
-                result.Add("activity", activityId);
+                result.Add("activity", ActivityId);
             }
-            if (registration != null)
+
+            if (Registration != null)
             {
-                result.Add("registration", registration.Value.ToString());
+                result.Add("registration", Registration.Value.ToString());
             }
-            if (relatedActivities != null)
+
+            if (RelatedActivities != null)
             {
-                result.Add("related_activities", relatedActivities.Value.ToString());
+                result.Add("related_activities", RelatedActivities.Value.ToString());
             }
-            if (relatedAgents != null)
+
+            if (RelatedAgents != null)
             {
-                result.Add("related_agents", relatedAgents.Value.ToString());
+                result.Add("related_agents", RelatedAgents.Value.ToString());
             }
-            if (since != null)
+
+            if (Since != null)
             {
-                result.Add("since", since.Value.ToString(ISODateTimeFormat));
+                result.Add("since", Since.Value.ToString(ISODateTimeFormat));
             }
-            if (until != null)
+
+            if (Until != null)
             {
-                result.Add("until", until.Value.ToString(ISODateTimeFormat));
+                result.Add("until", Until.Value.ToString(ISODateTimeFormat));
             }
-            if (limit != null)
+
+            if (Limit != null)
             {
-                result.Add("limit", limit.ToString());
+                result.Add("limit", Limit.ToString());
             }
-            if (format != null)
+
+            if (Format != null)
             {
-                result.Add("format", format.ToString());
+                result.Add("format", Format.ToString());
             }
-            if (ascending != null)
+
+            if (Ascending != null)
             {
-                result.Add("ascending", ascending.Value.ToString());
+                result.Add("ascending", Ascending.Value.ToString());
             }
 
             return result;

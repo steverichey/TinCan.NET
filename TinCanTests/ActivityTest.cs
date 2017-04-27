@@ -13,11 +13,12 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using NUnit.Framework;
+using TinCan;
+
 namespace TinCanTests
 {
-    using NUnit.Framework;
-    using TinCan;
-
     [TestFixture]
     class ActivityTest
     {
@@ -25,18 +26,18 @@ namespace TinCanTests
         public void TestActivityIdTrailingSlash()
         {
             var activity = new Activity();
-            string noTrailingSlash = "http://foo";
-            activity.id = noTrailingSlash;
-            Assert.AreEqual(noTrailingSlash, activity.id);
+            var noTrailingSlash = "http://foo";
+            activity.Id = noTrailingSlash;
+            Assert.AreEqual(noTrailingSlash, activity.Id);
         }
 
         [Test]
         public void TestActivityIdCase()
         {
             var activity = new Activity();
-            string mixedCase = "http://fOO";
-            activity.id = mixedCase;
-            Assert.AreEqual(mixedCase, activity.id);
+            var mixedCase = "http://fOO";
+            activity.Id = mixedCase;
+            Assert.AreEqual(mixedCase, activity.Id);
         }
 
         [Test]
@@ -46,8 +47,8 @@ namespace TinCanTests
                 () =>
                 {
                     var activity = new Activity();
-                    string invalid = "foo";
-                    activity.id = invalid;
+                    var invalid = "foo";
+                    activity.Id = invalid;
                 }
             );
         }

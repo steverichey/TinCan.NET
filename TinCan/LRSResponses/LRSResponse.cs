@@ -13,23 +13,44 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
+using System.Text;
 
 namespace TinCan.LRSResponses
 {
-    //
-    // this isn't abstract because some responses for an LRS won't have content
-    // so in those cases we can get by just returning this base response
-    //
-    public class LRSResponse
+	/// <summary>
+	/// LRS response object.
+	/// This isn't abstract because some responses for an LRS won't have content.
+	/// In those cases we can get by just returning this base response.
+	/// </summary>
+	public class LRSResponse
     {
-        public Boolean success { get; set; }
-        public Exception httpException { get; set; }
-        public String errMsg { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this <see cref="T:TinCan.LRSResponses.LRSResponse"/> is success.
+        /// </summary>
+        /// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
+        public Boolean Success { get; set; }
 
+        /// <summary>
+        /// Gets or sets the http exception.
+        /// </summary>
+        /// <value>The http exception.</value>
+        public Exception HttpException { get; set; }
+
+        /// <summary>
+        /// Gets or sets the error message.
+        /// </summary>
+        /// <value>The error message.</value>
+        public String ErrorMessage { get; set; }
+
+        /// <summary>
+        /// Sets the error message from bytes.
+        /// </summary>
+        /// <param name="content">Content.</param>
         public void SetErrMsgFromBytes(byte[] content)
         {
-            errMsg = System.Text.Encoding.UTF8.GetString(content);
+            ErrorMessage = Encoding.UTF8.GetString(content);
         }
     }
 }

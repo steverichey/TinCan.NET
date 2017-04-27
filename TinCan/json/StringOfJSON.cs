@@ -18,16 +18,27 @@ using Newtonsoft.Json.Linq;
 
 namespace TinCan.Json
 {
+    /// <summary>
+    /// String of json.
+    /// </summary>
     public class StringOfJSON
     {
-        private String source;
+        readonly string source;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Json.StringOfJSON"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
         public StringOfJSON(String json)
         {
             source = json;
         }
 
-        public JObject toJObject()
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        public JObject ToJObject()
         {
             if (source == null)
             {
@@ -37,9 +48,13 @@ namespace TinCan.Json
             return JObject.Parse(source);
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.StringOfJSON"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.StringOfJSON"/>.</returns>
         public override String ToString()
         {
-            return this.source;
+            return source;
         }
     }
 }

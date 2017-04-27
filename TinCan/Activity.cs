@@ -19,59 +19,114 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    public class Activity : JsonModel, StatementTarget
+    /// <summary>
+    /// Activity.
+    /// </summary>
+    public class Activity : JsonModel, IStatementTarget
     {
-        public static readonly String OBJECT_TYPE = "Activity";
-        public String ObjectType { get { return OBJECT_TYPE; } }
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
+        public static readonly string OBJECT_TYPE = "Activity";
 
-        private string _id;
-        public string id
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public string ObjectType 
+        { 
+            get
+            { 
+                return OBJECT_TYPE; 
+            } 
+        }
+
+        string id;
+
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public string Id
         {
-            get { return _id; }
+            get 
+            { 
+                return id; 
+            }
+
             set
             {
                 Uri uri = new Uri(value);
-                _id = value;
+                id = value;
             }
         }
 
-        public ActivityDefinition definition { get; set; }
+        /// <summary>
+        /// Gets or sets the definition.
+        /// </summary>
+        /// <value>The definition.</value>
+        public ActivityDefinition Definition { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
+        /// </summary>
         public Activity() { }
 
-        public Activity(StringOfJSON json) : this(json.toJObject()) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Activity(StringOfJSON json) : this(json.ToJObject()) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Activity(JObject jobj)
         {
             if (jobj["id"] != null)
             {
                 string idFromJSON = jobj.Value<String>("id");
                 Uri uri = new Uri(idFromJSON);
-                id = idFromJSON;
+                Id = idFromJSON;
             }
+
             if (jobj["definition"] != null)
             {
-                definition = (ActivityDefinition)jobj.Value<JObject>("definition");
+                Definition = (ActivityDefinition)jobj.Value<JObject>("definition");
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
-            result.Add("objectType", ObjectType);
+            var result = new JObject
+            {
+                { "objectType", ObjectType }
+            };
 
-            if (id != null)
+            if (Id != null)
             {
-                result.Add("id", id);
+                result.Add("id", Id);
             }
-            if (definition != null)
+
+            if (Definition != null)
             {
-                result.Add("definition", definition.ToJObject(version));
+                result.Add("definition", Definition.ToJObject(version));
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator Activity(JObject jobj)
         {
             return new Activity(jobj);

@@ -19,60 +19,109 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Score.
+    /// </summary>
     public class Score : JsonModel
     {
-        public Nullable<Double> scaled { get; set; }
-        public Nullable<Double> raw { get; set; }
-        public Nullable<Double> min { get; set; }
-        public Nullable<Double> max { get; set; }
+        /// <summary>
+        /// Gets or sets the scaled.
+        /// </summary>
+        /// <value>The scaled.</value>
+        public Double? Scaled { get; set; }
 
+        /// <summary>
+        /// Gets or sets the raw.
+        /// </summary>
+        /// <value>The raw.</value>
+        public Double? Raw { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum.
+        /// </summary>
+        /// <value>The minimum.</value>
+        public Double? Min { get; set; }
+
+        /// <summary>
+        /// Gets or sets the max.
+        /// </summary>
+        /// <value>The max.</value>
+        public Double? Max { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
+        /// </summary>
         public Score() {}
 
-        public Score(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Score(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Score(JObject jobj)
         {
             if (jobj["scaled"] != null)
             {
-                scaled = jobj.Value<Double>("scaled");
+                Scaled = jobj.Value<Double>("scaled");
             }
+
             if (jobj["raw"] != null)
             {
-                raw = jobj.Value<Double>("raw");
+                Raw = jobj.Value<Double>("raw");
             }
+
             if (jobj["min"] != null)
             {
-                min = jobj.Value<Double>("min");
+                Min = jobj.Value<Double>("min");
             }
+
             if (jobj["max"] != null)
             {
-                max = jobj.Value<Double>("max");
+                Max = jobj.Value<Double>("max");
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+            var result = new JObject();
 
-            if (scaled != null)
+            if (Scaled != null)
             {
-                result.Add("scaled", scaled);
+                result.Add("scaled", Scaled);
             }
-            if (raw != null)
+
+            if (Raw != null)
             {
-                result.Add("raw", raw);
+                result.Add("raw", Raw);
             }
-            if (min != null)
+
+            if (Min != null)
             {
-                result.Add("min", min);
+                result.Add("min", Min);
             }
-            if (max != null)
+
+            if (Max != null)
             {
-                result.Add("max", max);
+                result.Add("max", Max);
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator Score(JObject jobj)
         {
             return new Score(jobj);

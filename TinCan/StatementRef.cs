@@ -13,47 +13,97 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    public class StatementRef : JsonModel, StatementTarget
+    /// <summary>
+    /// Statement reference.
+    /// </summary>
+    public class StatementRef : JsonModel, IStatementTarget
     {
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
         public static readonly String OBJECT_TYPE = "StatementRef";
-        public String ObjectType { get { return OBJECT_TYPE; } }
 
-        public Nullable<Guid> id { get; set; }
-
-        public StatementRef() {}
-        public StatementRef(Guid id)
-        {
-            this.id = id;
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public String ObjectType 
+        { 
+            get 
+            {
+                return OBJECT_TYPE; 
+            } 
         }
 
-        public StatementRef(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public Guid? Id { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        public StatementRef() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        public StatementRef(Guid id)
+        {
+            Id = id;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public StatementRef(StringOfJSON json): this(json.ToJObject()) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public StatementRef(JObject jobj)
         {
             if (jobj["id"] != null)
             {
-                id = new Guid(jobj.Value<String>("id"));
+                Id = new Guid(jobj.Value<String>("id"));
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
-            result.Add("objectType", ObjectType);
-
-            if (id != null)
+            var result = new JObject
             {
-                result.Add("id", id.ToString());
+                { "objectType", ObjectType }
+            };
+
+            if (Id != null)
+            {
+                result.Add("id", Id.ToString());
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator StatementRef(JObject jobj)
         {
             return new StatementRef(jobj);

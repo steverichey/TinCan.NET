@@ -19,50 +19,91 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Agent account resource.
+    /// </summary>
     public class AgentAccount : JsonModel
     {
-        // TODO: check to make sure is absolute?
-        public Uri homePage { get; set; }
-        public String name { get; set; }
+		/// <summary>
+		/// Gets or sets the home page.
+		/// TODO: check to make sure is absolute?
+		/// </summary>
+		/// <value>The home page.</value>
+		public Uri HomePage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public String Name { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.AgentAccount"/> class.
+        /// </summary>
         public AgentAccount() { }
 
-        public AgentAccount(StringOfJSON json) : this(json.toJObject()) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.AgentAccount"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public AgentAccount(StringOfJSON json) : this(json.ToJObject()) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.AgentAccount"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public AgentAccount(JObject jobj)
         {
             if (jobj["homePage"] != null)
             {
-                homePage = new Uri(jobj.Value<String>("homePage"));
+                HomePage = new Uri(jobj.Value<String>("homePage"));
             }
+
             if (jobj["name"] != null)
             {
-                name = jobj.Value<String>("name");
+                Name = jobj.Value<String>("name");
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.AgentAccount"/> class.
+        /// </summary>
+        /// <param name="homePage">Home page.</param>
+        /// <param name="name">Name.</param>
         public AgentAccount(Uri homePage, String name)
         {
-            this.homePage = homePage;
-            this.name = name;
+            HomePage = homePage;
+            Name = name;
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version)
         {
             JObject result = new JObject();
-            if (homePage != null)
+
+            if (HomePage != null)
             {
-                result.Add("homePage", homePage.ToString());
+                result.Add("homePage", HomePage.ToString());
             }
-            if (name != null)
+
+            if (Name != null)
             {
-                result.Add("name", name);
+                result.Add("name", Name);
             }
 
             return result;
         }
 
-        public static explicit operator AgentAccount(JObject jobj)
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator AgentAccount(JObject jobj)
         {
             return new AgentAccount(jobj);
         }

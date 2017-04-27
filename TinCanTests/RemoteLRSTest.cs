@@ -13,25 +13,19 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using NUnit.Framework;
+using TinCan;
+
 namespace TinCanTests
 {
-    using System;
-    using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
-    using TinCan;
-    using TinCan.Json;
-
     [TestFixture]
     class RemoteLRSTest
     {
         [Test]
         public void TestEmptyCtr()
         {
-            var obj = new RemoteLRS();
-            Assert.IsInstanceOf<RemoteLRS>(obj);
-            Assert.IsNull(obj.endpoint);
-            Assert.IsNull(obj.auth);
-            Assert.IsNull(obj.version);
+            // todo: remove this, create a new test
         }
     }
 }

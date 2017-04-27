@@ -19,17 +19,50 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    public class SubStatement : StatementBase, StatementTarget
+    /// <summary>
+    /// Sub statement.
+    /// </summary>
+    public class SubStatement : StatementBase, IStatementTarget
     {
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
         public static readonly String OBJECT_TYPE = "SubStatement";
-        public String ObjectType { get { return OBJECT_TYPE; } }
 
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public String ObjectType 
+        { 
+            get 
+            { 
+                return OBJECT_TYPE; 
+            } 
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.SubStatement"/> class.
+        /// </summary>
         public SubStatement() {}
 
-        public SubStatement(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.SubStatement"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public SubStatement(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.SubStatement"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public SubStatement(JObject jobj) : base(jobj) { }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version) {
             var result = base.ToJObject(version);
 
@@ -38,6 +71,11 @@ namespace TinCan
             return result;
         }
 
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator SubStatement(JObject jobj)
         {
             return new SubStatement(jobj);

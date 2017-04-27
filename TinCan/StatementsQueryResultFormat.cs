@@ -13,25 +13,42 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
-using System.Collections.Generic;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Statements query result format.
+    /// </summary>
     public sealed class StatementsQueryResultFormat
     {
-        public static readonly StatementsQueryResultFormat IDS = new StatementsQueryResultFormat("ids");
-        public static readonly StatementsQueryResultFormat EXACT = new StatementsQueryResultFormat("exact");
-        public static readonly StatementsQueryResultFormat CANONICAL = new StatementsQueryResultFormat("canonical");
+        /// <summary>
+        /// The identifiers.
+        /// </summary>
+        public static readonly StatementsQueryResultFormat Ids = new StatementsQueryResultFormat("ids");
 
-        private String text;
+        /// <summary>
+        /// The exact.
+        /// </summary>
+        public static readonly StatementsQueryResultFormat Exact = new StatementsQueryResultFormat("exact");
 
-        private StatementsQueryResultFormat(String value)
+        /// <summary>
+        /// The canonical.
+        /// </summary>
+        public static readonly StatementsQueryResultFormat Canonical = new StatementsQueryResultFormat("canonical");
+
+        readonly string text;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsQueryResultFormat"/> class.
+        /// </summary>
+        /// <param name="value">Value.</param>
+        StatementsQueryResultFormat(string value)
         {
             text = value;
         }
 
-        public override String ToString()
+        /// <inheritdoc />
+        public override string ToString()
         {
             return text;
         }

@@ -19,88 +19,140 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Context activities.
+    /// </summary>
     public class ContextActivities : JsonModel
     {
-        public List<Activity> parent { get; set; }
-        public List<Activity> grouping { get; set; }
-        public List<Activity> category { get; set; }
-        public List<Activity> other { get; set; }
+        /// <summary>
+        /// Gets or sets the parent.
+        /// </summary>
+        /// <value>The parent.</value>
+        public List<Activity> Parent { get; set; }
 
+        /// <summary>
+        /// Gets or sets the grouping.
+        /// </summary>
+        /// <value>The grouping.</value>
+        public List<Activity> Grouping { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category.
+        /// </summary>
+        /// <value>The category.</value>
+        public List<Activity> Category { get; set; }
+
+        /// <summary>
+        /// Gets or sets the other.
+        /// </summary>
+        /// <value>The other.</value>
+        public List<Activity> Other { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.ContextActivities"/> class.
+        /// </summary>
         public ContextActivities() {}
 
-        public ContextActivities(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.ContextActivities"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public ContextActivities(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.ContextActivities"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public ContextActivities(JObject jobj)
         {
             if (jobj["parent"] != null)
             {
-                parent = new List<Activity>();
-                foreach (JObject jactivity in jobj["parent"]) {
-                    parent.Add((Activity)jactivity);
+                Parent = new List<Activity>();
+
+                foreach (var jactivity in jobj["parent"]) 
+                {
+                    Parent.Add((Activity)jactivity);
                 }
             }
+
             if (jobj["grouping"] != null)
             {
-                grouping = new List<Activity>();
-                foreach (JObject jactivity in jobj["grouping"]) {
-                    grouping.Add((Activity)jactivity);
+                Grouping = new List<Activity>();
+
+                foreach (var jactivity in jobj["grouping"]) 
+                {
+                    Grouping.Add((Activity)jactivity);
                 }
             }
+
             if (jobj["category"] != null)
             {
-                category = new List<Activity>();
-                foreach (JObject jactivity in jobj["category"]) {
-                    category.Add((Activity)jactivity);
+                Category = new List<Activity>();
+
+                foreach (var jactivity in jobj["category"]) 
+                {
+                    Category.Add((Activity)jactivity);
                 }
             }
+
             if (jobj["other"] != null)
             {
-                other = new List<Activity>();
-                foreach (JObject jactivity in jobj["other"]) {
-                    other.Add((Activity)jactivity);
+                Other = new List<Activity>();
+
+                foreach (var jactivity in jobj["other"]) 
+                {
+                    Other.Add((Activity)jactivity);
                 }
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+            var result = new JObject();
 
-            if (parent != null && parent.Count > 0)
+            if (Parent != null && Parent.Count > 0)
             {
                 var jparent = new JArray();
                 result.Add("parent", jparent);
 
-                foreach (Activity activity in parent)
+                foreach (var activity in Parent)
                 {
                     jparent.Add(activity.ToJObject(version));
                 }
             }
-            if (grouping != null && grouping.Count > 0)
+
+            if (Grouping != null && Grouping.Count > 0)
             {
                 var jgrouping = new JArray();
                 result.Add("grouping", jgrouping);
 
-                foreach (Activity activity in grouping)
+                foreach (var activity in Grouping)
                 {
                     jgrouping.Add(activity.ToJObject(version));
                 }
             }
-            if (category != null && category.Count > 0)
+
+            if (Category != null && Category.Count > 0)
             {
                 var jcategory = new JArray();
                 result.Add("category", jcategory);
 
-                foreach (Activity activity in category)
+                foreach (var activity in Category)
                 {
                     jcategory.Add(activity.ToJObject(version));
                 }
             }
-            if (other != null && other.Count > 0)
+
+            if (Other != null && Other.Count > 0)
             {
                 var jother = new JArray();
                 result.Add("other", jother);
 
-                foreach (Activity activity in other)
+                foreach (var activity in Other)
                 {
                     jother.Add(activity.ToJObject(version));
                 }
@@ -109,7 +161,12 @@ namespace TinCan
             return result;
         }
 
-        public static explicit operator ContextActivities(JObject jobj)
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator ContextActivities(JObject jobj)
         {
             return new ContextActivities(jobj);
         }

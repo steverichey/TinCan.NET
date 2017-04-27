@@ -20,27 +20,58 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Extensions.
+    /// </summary>
     public class Extensions : JsonModel
     {
-        private Dictionary<Uri, JToken> map;
+        /// <summary>
+        /// The map.
+        /// </summary>
+        Dictionary<Uri, JToken> map;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Extensions"/> class.
+        /// </summary>
         public Extensions()
         {
             map = new Dictionary<Uri, JToken>();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Extensions"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Extensions(JObject jobj) : this()
         {
             foreach (var item in jobj)
             {
                 map.Add(new Uri(item.Key), item.Value); 
             }
-        }
+		}
 
+		/// <summary>
+        /// Gets a value indicating whether this <see cref="T:TinCan.Extensions"/> is empty.
+        /// </summary>
+        /// <value><c>true</c> if is empty; otherwise, <c>false</c>.</value>
+		public Boolean IsEmpty
+		{
+            get
+            {
+                return map.Count <= 0;
+            }
+		}
+
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version)
         {
             JObject result = new JObject();
-            foreach (KeyValuePair<Uri, JToken> entry in map)
+
+            foreach (var entry in map)
             {
                 result.Add(entry.Key.ToString(), entry.Value);
             }
@@ -48,11 +79,11 @@ namespace TinCan
             return result;
         }
 
-        public Boolean isEmpty()
-        {
-            return map.Count > 0 ? false : true;
-        }
-
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator Extensions(JObject jobj)
         {
             return new Extensions(jobj);

@@ -13,53 +13,54 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using System;
+using NUnit.Framework;
+using Newtonsoft.Json.Linq;
+using TinCan;
+
 namespace TinCanTests
 {
-    using System;
-    using System.Collections.Generic;
-    using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
-    using TinCan;
-    using TinCan.Json;
-
     [TestFixture]
     class StatementTest
     {
         [SetUp]
         public void Init()
         {
-            Console.WriteLine("Running " + TestContext.CurrentContext.Test.FullName);
+            Console.WriteLine(string.Format("Running {0}", TestContext.CurrentContext.Test.FullName));
         }
 
         [Test]
         public void TestEmptyCtr()
         {
-            Statement obj = new Statement();
+            var obj = new Statement();
             Assert.IsInstanceOf<Statement>(obj);
-            Assert.IsNull(obj.id);
-            Assert.IsNull(obj.actor);
-            Assert.IsNull(obj.verb);
-            Assert.IsNull(obj.target);
-            Assert.IsNull(obj.result);
-            Assert.IsNull(obj.context);
-            Assert.IsNull(obj.version);
-            Assert.IsNull(obj.timestamp);
-            Assert.IsNull(obj.stored);
+            Assert.IsNull(obj.Id);
+            Assert.IsNull(obj.Actor);
+            Assert.IsNull(obj.Verb);
+            Assert.IsNull(obj.Target);
+            Assert.IsNull(obj.Result);
+            Assert.IsNull(obj.Context);
+            Assert.IsNull(obj.Version);
+            Assert.IsNull(obj.Timestamp);
+            Assert.IsNull(obj.Stored);
 
-            StringAssert.AreEqualIgnoringCase("{\"version\":\"1.0.1\"}", obj.ToJSON());
+            StringAssert.AreEqualIgnoringCase("{\"version\":\"1.0.3\"}", obj.ToJSON());
         }
 
         [Test]
         public void TestJObjectCtrSubStatement()
         {
-            JObject cfg = new JObject();
-            cfg.Add("actor", Support.agent.ToJObject());
-            cfg.Add("verb", Support.verb.ToJObject());
-            cfg.Add("object", Support.subStatement.ToJObject());
+            JObject cfg = new JObject
+            {
+                { "actor", Support.Agent.ToJObject() },
+                { "verb", Support.Verb.ToJObject() },
+                { "object", Support.SubStatement.ToJObject() }
+            };
 
             Statement obj = new Statement(cfg);
             Assert.IsInstanceOf<Statement>(obj);
-            Assert.IsInstanceOf<SubStatement>(obj.target);
+            Assert.IsInstanceOf<SubStatement>(obj.Target);
         }
     }
 }

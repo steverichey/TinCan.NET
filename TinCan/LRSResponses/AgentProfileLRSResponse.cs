@@ -16,8 +16,15 @@
 
 namespace TinCan.LRSResponses
 {
+    /// <summary>
+    /// Agent profile LRSR esponse.
+    /// </summary>
     public class AgentProfileLRSResponse : LRSResponse
     {
-        public TinCan.Documents.AgentProfileDocument content { set; get; }
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public Documents.AgentProfileDocument Content { get; set; }
     }
 }

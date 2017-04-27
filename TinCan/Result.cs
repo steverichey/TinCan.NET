@@ -20,78 +20,141 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Result.
+    /// </summary>
     public class Result : JsonModel
     {
-        public Nullable<Boolean> completion { get; set; }
-        public Nullable<Boolean> success { get; set; }
-        public String response { get; set; }
-        public Nullable<TimeSpan> duration { get; set; }
-        public Score score { get; set; }
-        public Extensions extensions { get; set; }
+        /// <summary>
+        /// Gets or sets the completion.
+        /// </summary>
+        /// <value>The completion.</value>
+        public Boolean? Completion { get; set; }
 
+        /// <summary>
+        /// Gets or sets the success.
+        /// </summary>
+        /// <value>The success.</value>
+        public Boolean? Success { get; set; }
+
+        /// <summary>
+        /// Gets or sets the response.
+        /// </summary>
+        /// <value>The response.</value>
+        public string Response { get; set; }
+
+        /// <summary>
+        /// Gets or sets the duration.
+        /// </summary>
+        /// <value>The duration.</value>
+        public TimeSpan? Duration { get; set; }
+
+        /// <summary>
+        /// Gets or sets the score.
+        /// </summary>
+        /// <value>The score.</value>
+        public Score Score { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extensions.
+        /// </summary>
+        /// <value>The extensions.</value>
+        public Extensions Extensions { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Result"/> class.
+        /// </summary>
         public Result() {}
 
-        public Result(StringOfJSON json): this(json.toJObject()) {}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Result"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Result(StringOfJSON json): this(json.ToJObject()) {}
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Result"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Result(JObject jobj)
         {
             if (jobj["completion"] != null)
             {
-                completion = jobj.Value<Boolean>("completion");
+                Completion = jobj.Value<Boolean>("completion");
             }
+
             if (jobj["success"] != null)
             {
-                success = jobj.Value<Boolean>("success");
+                Success = jobj.Value<Boolean>("success");
             }
+
             if (jobj["response"] != null)
             {
-                response = jobj.Value<String>("response");
+                Response = jobj.Value<String>("response");
             }
+
             if (jobj["duration"] != null)
             {
-                duration = XmlConvert.ToTimeSpan(jobj.Value<String>("duration"));
+                Duration = XmlConvert.ToTimeSpan(jobj.Value<String>("duration"));
             }
+
             if (jobj["score"] != null)
             {
-                score = (Score)jobj.Value<JObject>("score");
+                Score = (Score)jobj.Value<JObject>("score");
             }
+
             if (jobj["extensions"] != null)
             {
-                extensions = (Extensions)jobj.Value<JObject>("extensions");
+                Extensions = (Extensions)jobj.Value<JObject>("extensions");
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+            var result = new JObject();
 
-            if (completion != null)
+            if (Completion != null)
             {
-                result.Add("completion", completion);
+                result.Add("completion", Completion);
             }
-            if (success != null)
+
+            if (Success != null)
             {
-                result.Add("success", success);
+                result.Add("success", Success);
             }
-            if (response != null)
+
+            if (Response != null)
             {
-                result.Add("response", response);
+                result.Add("response", Response);
             }
-            if (duration != null)
+
+            if (Duration != null)
             {
-                result.Add("duration", XmlConvert.ToString((TimeSpan)duration));
+                result.Add("duration", XmlConvert.ToString((TimeSpan)Duration));
             }
-            if (score != null)
+
+            if (Score != null)
             {
-                result.Add("score", score.ToJObject(version));
+                result.Add("score", Score.ToJObject(version));
             }
-            if (extensions != null)
+
+            if (Extensions != null)
             {
-                result.Add("extensions", extensions.ToJObject(version));
+                result.Add("extensions", Extensions.ToJObject(version));
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator Result(JObject jobj)
         {
             return new Result(jobj);

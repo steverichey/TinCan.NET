@@ -13,24 +13,23 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
+using NUnit.Framework;
+using Newtonsoft.Json.Linq;
+using TinCan;
+using TinCan.Json;
+
 namespace TinCanTests
 {
-    using System;
-    using NUnit.Framework;
-    using Newtonsoft.Json.Linq;
-    using TinCan;
-    using TinCan.Json;
-
     [TestFixture]
     class VerbTest
     {
         [Test]
         public void TestEmptyCtr()
         {
-            Verb obj = new Verb();
-            Assert.IsInstanceOf<Verb>(obj);
-            Assert.IsNull(obj.id);
-            Assert.IsNull(obj.display);
+            var obj = new Verb();
+            Assert.IsNull(obj.Id);
+            Assert.IsNull(obj.Display);
 
             StringAssert.AreEqualIgnoringCase("{}", obj.ToJSON());
         }
@@ -38,25 +37,24 @@ namespace TinCanTests
         [Test]
         public void TestJObjectCtr()
         {
-            String id = "http://adlnet.gov/expapi/verbs/experienced";
+            var id = "http://adlnet.gov/expapi/verbs/experienced";
+            var cfg = new JObject
+            {
+                { "id", id }
+            };
 
-            JObject cfg = new JObject();
-            cfg.Add("id", id);
-
-            Verb obj = new Verb(cfg);
-            Assert.IsInstanceOf<Verb>(obj);
+            var obj = new Verb(cfg);
             Assert.That(obj.ToJSON(), Is.EqualTo("{\"id\":\"" + id + "\"}"));
         }
 
         [Test]
         public void TestStringOfJSONCtr()
         {
-            String id = "http://adlnet.gov/expapi/verbs/experienced";
-            String json = "{\"id\":\"" + id + "\"}";
-            StringOfJSON strOfJson = new StringOfJSON(json);
+            var id = "http://adlnet.gov/expapi/verbs/experienced";
+            var json = "{\"id\":\"" + id + "\"}";
+            var strOfJson = new StringOfJSON(json);
 
-            Verb obj = new Verb(strOfJson);
-            Assert.IsInstanceOf<Verb>(obj);
+            var obj = new Verb(strOfJson);
             Assert.That(obj.ToJSON(), Is.EqualTo(json));
         }
     }

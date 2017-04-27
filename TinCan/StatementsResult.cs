@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
@@ -20,32 +21,68 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Statements result.
+    /// </summary>
     public class StatementsResult
     {
-        public List<Statement> statements { get; set; }
-        public String more { get; set; }
+        /// <summary>
+        /// Gets or sets the statements.
+        /// </summary>
+        /// <value>The statements.</value>
+        public List<Statement> Statements { get; set; }
 
+        /// <summary>
+        /// Gets or sets the more.
+        /// </summary>
+        /// <value>The more.</value>
+        public String More { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+        /// </summary>
         public StatementsResult() {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+        /// </summary>
+        /// <param name="str">String.</param>
         public StatementsResult(String str) : this(new StringOfJSON(str)) {}
-        public StatementsResult(StringOfJSON json) : this(json.toJObject()) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public StatementsResult(StringOfJSON json) : this(json.ToJObject()) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+        /// </summary>
+        /// <param name="statements">Statements.</param>
         public StatementsResult(List<Statement> statements)
         {
-            this.statements = statements;
+            Statements = statements;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public StatementsResult(JObject jobj)
         {
             if (jobj["statements"] != null)
             {
-                statements = new List<Statement>();
+                Statements = new List<Statement>();
+
                 foreach (var item in jobj.Value<JArray>("statements"))
                 {
-                    statements.Add(new Statement((JObject)item));
+                    Statements.Add(new Statement((JObject)item));
                 }
             }
+
             if (jobj["more"] != null)
             {
-                more = jobj.Value<String>("more");
+                More = jobj.Value<String>("more");
             }
         }
     }

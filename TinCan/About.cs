@@ -13,51 +13,87 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// An object containing information about this LRS.
+    /// </summary>
     public class About : JsonModel
     {
-        public List<TCAPIVersion> version { get; set; }
-        public Extensions extensions { get; set; }
+        /// <summary>
+        /// Gets or sets the xAPI versions this LRS supports.
+        /// </summary>
+        /// <value>The supported versions.</value>
+        public List<TCAPIVersion> Version { get; set; }
 
-        public About(String str) : this(new StringOfJSON(str)) {}
-        public About(StringOfJSON json) : this(json.toJObject()) {}
+        /// <summary>
+        /// A map of other properties as needed.
+        /// </summary>
+        /// <value>Other needed properties.</value>
+        public Extensions Extensions { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.About"/> class.
+        /// </summary>
+        /// <param name="str">String of JSON content for an About resource.</param>
+        public About(string str) : this(new StringOfJSON(str)) {}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TinCan.About"/> class.
+		/// </summary>
+		/// <param name="json">String of JSON content for an About resource.</param>
+		public About(StringOfJSON json) : this(json.ToJObject()) {}
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.About"/> class.
+        /// </summary>
+        /// <param name="jobj">JSON content for an About resource.</param>
         public About(JObject jobj)
         {
             if (jobj["version"] != null)
             {
-                version = new List<TCAPIVersion>();
-                foreach (String item in jobj.Value<JArray>("version"))
+                Version = new List<TCAPIVersion>();
+
+                foreach (string item in jobj.Value<JArray>("version"))
                 {
-                    version.Add((TCAPIVersion)item);
+                    Version.Add((TCAPIVersion)item);
                 }
             }
+
             if (jobj["extensions"] != null)
             {
-                extensions = new Extensions(jobj.Value<JObject>("extensions"));
+                Extensions = new Extensions(jobj.Value<JObject>("extensions"));
             }
         }
 
+        /// <summary>
+        /// Convert this to a JObject.
+        /// </summary>
+        /// <returns>The About resource as a JObject.</returns>
+        /// <param name="version">Version to specify when creating extension properties.</param>
         public override JObject ToJObject(TCAPIVersion version) {
             JObject result = new JObject();
-            if (this.version != null)
+
+            if (Version != null)
             {
                 var versions = new JArray();
-                foreach (var v in this.version) {
+
+                foreach (var v in Version) 
+                {
                     versions.Add(v.ToString());
                 }
+
                 result.Add("version", versions);
             }
 
-            if (extensions != null && ! extensions.isEmpty())
+            if (Extensions != null && !Extensions.IsEmpty)
             {
-                result.Add("extensions", extensions.ToJObject(version));
+                result.Add("extensions", Extensions.ToJObject(version));
             }
 
             return result;

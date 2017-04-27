@@ -19,19 +19,38 @@ using Newtonsoft.Json.Linq;
 
 namespace TinCan.Json
 {
+    /// <summary>
+    /// Json model.
+    /// </summary>
     public abstract class JsonModel : IJsonModel
     {
-        // TODO: rename methods to ToJObject and ToJSON
-        public abstract JObject ToJObject(TCAPIVersion version);
+		/// <summary>
+		/// Tos the JO bject.
+		/// TODO: rename methods to ToJObject and ToJSON
+		/// </summary>
+		/// <returns>The JO bject.</returns>
+		/// <param name="version">Version.</param>
+		public abstract JObject ToJObject(TCAPIVersion version);
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
         public JObject ToJObject()
         {
-            return ToJObject(TCAPIVersion.latest());
+            return ToJObject(TCAPIVersion.Latest);
         }
 
+        /// <summary>
+        /// Tos the json.
+        /// </summary>
+        /// <returns>The json.</returns>
+        /// <param name="version">Version.</param>
+        /// <param name="pretty">If set to <c>true</c> pretty.</param>
         public String ToJSON(TCAPIVersion version, Boolean pretty = false)
         {
-            Formatting formatting = Formatting.None;
+            var formatting = Formatting.None;
+
             if (pretty)
             {
                 formatting = Formatting.Indented;
@@ -40,9 +59,14 @@ namespace TinCan.Json
             return JsonConvert.SerializeObject(ToJObject(version), formatting);
         }
 
+        /// <summary>
+        /// Tos the json.
+        /// </summary>
+        /// <returns>The json.</returns>
+        /// <param name="pretty">If set to <c>true</c> pretty.</param>
         public String ToJSON(Boolean pretty = false)
         {
-            return ToJSON(TCAPIVersion.latest(), pretty);
+            return ToJSON(TCAPIVersion.Latest, pretty);
         }
     }
 }

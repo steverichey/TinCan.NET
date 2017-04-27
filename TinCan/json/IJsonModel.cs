@@ -18,12 +18,37 @@ using Newtonsoft.Json.Linq;
 
 namespace TinCan.Json
 {
+    /// <summary>
+    /// Json model.
+    /// </summary>
     public interface IJsonModel
     {
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         JObject ToJObject(TCAPIVersion version);
+
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
         JObject ToJObject();
 
+        /// <summary>
+        /// Tos the json.
+        /// </summary>
+        /// <returns>The json.</returns>
+        /// <param name="version">Version.</param>
+        /// <param name="pretty">If set to <c>true</c> pretty.</param>
         String ToJSON(TCAPIVersion version, Boolean pretty = false);
+
+        /// <summary>
+        /// Tos the json.
+        /// </summary>
+        /// <returns>The json.</returns>
+        /// <param name="pretty">If set to <c>true</c> pretty.</param>
         String ToJSON(Boolean pretty = false);
     }
 }

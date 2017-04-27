@@ -16,8 +16,15 @@
 
 namespace TinCan.Documents
 {
+    /// <summary>
+    /// Agent profile document.
+    /// </summary>
     public class AgentProfileDocument : Document
     {
-        public Agent agent { get; set; }
+        /// <summary>
+        /// Gets or sets the agent.
+        /// </summary>
+        /// <value>The agent.</value>
+        public Agent Agent { get; set; }
     }
 }

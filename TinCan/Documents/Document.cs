@@ -13,16 +13,51 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
+using System.Text;
 
 namespace TinCan.Documents
 {
+    /// <summary>
+    /// Document.
+    /// </summary>
     public abstract class Document
     {
-        public String id { get; set; }
-        public String etag { get; set; }
-        public DateTime timestamp { get; set; }
-        public String contentType { get; set; }
-        public byte[] content { get; set; }
+        /// <summary>
+        /// Gets or sets the identifier.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the etag.
+        /// </summary>
+        /// <value>The etag.</value>
+        public string Etag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the timestamp.
+        /// </summary>
+        /// <value>The timestamp.</value>
+        public DateTime Timestamp { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the content.
+        /// </summary>
+        /// <value>The type of the content.</value>
+        public string ContentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public byte[] Content { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("[Document: Id={0}, Etag={1}, Timestamp={2}, ContentType={3}, Content={4}]", 
+                                 Id, Etag, Timestamp, ContentType, Encoding.UTF8.GetString(Content, 0, Content.Length));
+        }
     }
 }

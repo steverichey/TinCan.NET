@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
@@ -20,30 +21,73 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Language map.
+    /// </summary>
     public class LanguageMap : JsonModel
     {
-        private Dictionary<String, String> map;
+        /// <summary>
+        /// The map.
+        /// </summary>
+        Dictionary<String, String> map;
 
-        public LanguageMap() {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.LanguageMap"/> class.
+        /// </summary>
+        public LanguageMap() 
+        {
             map = new Dictionary<String, String>();
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.LanguageMap"/> class.
+        /// </summary>
+        /// <param name="map">Map.</param>
         public LanguageMap(Dictionary<String, String> map)
         {
             this.map = map;
         }
 
-        public LanguageMap(StringOfJSON json) : this(json.toJObject()) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.LanguageMap"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public LanguageMap(StringOfJSON json) : this(json.ToJObject()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.LanguageMap"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public LanguageMap(JObject jobj) : this()
         {
-            foreach (KeyValuePair<String,JToken> entry in jobj) {
+            foreach (var entry in jobj) 
+            {
                 map.Add(entry.Key, (String)entry.Value);
             }
         }
 
+        /// <summary>
+        /// Ises the empty.
+        /// </summary>
+        /// <returns><c>true</c>, if empty was ised, <c>false</c> otherwise.</returns>
+		public Boolean IsEmpty
+		{
+            get
+            {
+                return map.Count <= 0;
+            }
+		}
+
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version)
         {
             JObject result = new JObject();
-            foreach (KeyValuePair<String, String> entry in this.map)
+
+            foreach (var entry in map)
             {
                 result.Add(entry.Key, entry.Value);
             }
@@ -51,16 +95,22 @@ namespace TinCan
             return result;
         }
 
-        public Boolean isEmpty()
+        /// <summary>
+        /// Add the specified lang and value.
+        /// </summary>
+        /// <returns>The add.</returns>
+        /// <param name="lang">Lang.</param>
+        /// <param name="value">Value.</param>
+        public void Add(String lang, string value)
         {
-            return map.Count > 0 ? false : true;
+            map.Add(lang, value);
         }
 
-        public void Add(String lang, String value)
-        {
-            this.map.Add(lang, value);
-        }
-
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator LanguageMap(JObject jobj)
         {
             return new LanguageMap(jobj);

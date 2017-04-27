@@ -16,8 +16,15 @@
 
 namespace TinCan.LRSResponses
 {
+    /// <summary>
+    /// About LRSR esponse.
+    /// </summary>
     public class AboutLRSResponse : LRSResponse
     {
-        public TinCan.About content { set; get; }
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public About Content { set; get; }
     }
 }

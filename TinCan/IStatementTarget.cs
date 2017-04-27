@@ -18,7 +18,10 @@ using Newtonsoft.Json.Linq;
 
 namespace TinCan
 {
-    public interface StatementTarget
+    /// <summary>
+    /// Statement target.
+    /// </summary>
+    public interface IStatementTarget
     {
         JObject ToJObject(TCAPIVersion version);
 

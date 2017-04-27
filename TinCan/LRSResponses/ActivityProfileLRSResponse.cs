@@ -16,8 +16,15 @@
 
 namespace TinCan.LRSResponses
 {
+    /// <summary>
+    /// Activity profile LRSR esponse.
+    /// </summary>
     public class ActivityProfileLRSResponse : LRSResponse
     {
-        public TinCan.Documents.ActivityProfileDocument content { set; get; }
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public Documents.ActivityProfileDocument Content { set; get; }
     }
 }

@@ -13,39 +13,181 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using TinCan.Documents;
 using TinCan.LRSResponses;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Lrs.
+    /// </summary>
     public interface ILRS
     {
-        AboutLRSResponse About();
+        /// <summary>
+        /// About this instance.
+        /// </summary>
+        /// <returns>The about.</returns>
+        Task<AboutLRSResponse> About();
 
-        StatementLRSResponse SaveStatement(Statement statement);
-        StatementLRSResponse VoidStatement(Guid id, Agent agent);
-        StatementsResultLRSResponse SaveStatements(List<Statement> statements);
-        StatementLRSResponse RetrieveStatement(Guid id);
-        StatementLRSResponse RetrieveVoidedStatement(Guid id);
-        StatementsResultLRSResponse QueryStatements(StatementsQuery query);
-        StatementsResultLRSResponse MoreStatements(StatementsResult result);
+        /// <summary>
+        /// Saves the statement.
+        /// </summary>
+        /// <returns>The statement.</returns>
+        /// <param name="statement">Statement.</param>
+        Task<StatementLRSResponse> SaveStatement(Statement statement);
 
-        ProfileKeysLRSResponse RetrieveStateIds(Activity activity, Agent agent, Nullable<Guid> registration = null);
-        StateLRSResponse RetrieveState(String id, Activity activity, Agent agent, Nullable<Guid> registration = null);
-        LRSResponse SaveState(StateDocument state);
-        LRSResponse DeleteState(StateDocument state);
-        LRSResponse ClearState(Activity activity, Agent agent, Nullable<Guid> registration = null);
+        /// <summary>
+        /// Voids the statement.
+        /// </summary>
+        /// <returns>The statement.</returns>
+        /// <param name="id">Identifier.</param>
+        /// <param name="agent">Agent.</param>
+        Task<StatementLRSResponse> VoidStatement(Guid id, Agent agent);
 
-        ProfileKeysLRSResponse RetrieveActivityProfileIds(Activity activity);
-        ActivityProfileLRSResponse RetrieveActivityProfile(String id, Activity activity);
-        LRSResponse SaveActivityProfile(ActivityProfileDocument profile);
-        LRSResponse DeleteActivityProfile(ActivityProfileDocument profile);
+        /// <summary>
+        /// Saves the statements.
+        /// </summary>
+        /// <returns>The statements.</returns>
+        /// <param name="statements">Statements.</param>
+        Task<StatementsResultLRSResponse> SaveStatements(List<Statement> statements);
 
-        ProfileKeysLRSResponse RetrieveAgentProfileIds(Agent agent);
-        AgentProfileLRSResponse RetrieveAgentProfile(String id, Agent agent);
-        LRSResponse SaveAgentProfile(AgentProfileDocument profile);
-        LRSResponse DeleteAgentProfile(AgentProfileDocument profile);
+        /// <summary>
+        /// Retrieves the statement.
+        /// </summary>
+        /// <returns>The statement.</returns>
+        /// <param name="id">Identifier.</param>
+        Task<StatementLRSResponse> RetrieveStatement(Guid id);
+
+        /// <summary>
+        /// Retrieves the voided statement.
+        /// </summary>
+        /// <returns>The voided statement.</returns>
+        /// <param name="id">Identifier.</param>
+        Task<StatementLRSResponse> RetrieveVoidedStatement(Guid id);
+
+        /// <summary>
+        /// Queries the statements.
+        /// </summary>
+        /// <returns>The statements.</returns>
+        /// <param name="query">Query.</param>
+        Task<StatementsResultLRSResponse> QueryStatements(StatementsQuery query);
+
+        /// <summary>
+        /// Mores the statements.
+        /// </summary>
+        /// <returns>The statements.</returns>
+        /// <param name="result">Result.</param>
+        Task<StatementsResultLRSResponse> MoreStatements(StatementsResult result);
+
+        /// <summary>
+        /// Retrieves the state identifiers.
+        /// </summary>
+        /// <returns>The state identifiers.</returns>
+        /// <param name="activity">Activity.</param>
+        /// <param name="agent">Agent.</param>
+        /// <param name="registration">Registration.</param>
+        Task<ProfileKeysLRSResponse> RetrieveStateIds(Activity activity, Agent agent, Guid? registration = null);
+
+        /// <summary>
+        /// Retrieves the state.
+        /// </summary>
+        /// <returns>The state.</returns>
+        /// <param name="id">Identifier.</param>
+        /// <param name="activity">Activity.</param>
+        /// <param name="agent">Agent.</param>
+        /// <param name="registration">Registration.</param>
+        Task<StateLRSResponse> RetrieveState(string id, Activity activity, Agent agent, Guid? registration = null);
+
+        /// <summary>
+        /// Saves the state.
+        /// </summary>
+        /// <returns>The state.</returns>
+        /// <param name="state">State.</param>
+        Task<LRSResponse> SaveState(StateDocument state);
+
+        /// <summary>
+        /// Deletes the state.
+        /// </summary>
+        /// <returns>The state.</returns>
+        /// <param name="state">State.</param>
+        Task<LRSResponse> DeleteState(StateDocument state);
+
+        /// <summary>
+        /// Clears the state.
+        /// </summary>
+        /// <returns>The state.</returns>
+        /// <param name="activity">Activity.</param>
+        /// <param name="agent">Agent.</param>
+        /// <param name="registration">Registration.</param>
+        Task<LRSResponse> ClearState(Activity activity, Agent agent, Guid? registration = null);
+
+        /// <summary>
+        /// Retrieves the activity profile identifiers.
+        /// </summary>
+        /// <returns>The activity profile identifiers.</returns>
+        /// <param name="activity">Activity.</param>
+        Task<ProfileKeysLRSResponse> RetrieveActivityProfileIds(Activity activity);
+
+        /// <summary>
+        /// Retrieves the activity profile.
+        /// </summary>
+        /// <returns>The activity profile.</returns>
+        /// <param name="id">Identifier.</param>
+        /// <param name="activity">Activity.</param>
+        Task<ActivityProfileLRSResponse> RetrieveActivityProfile(string id, Activity activity);
+
+        /// <summary>
+        /// Saves the activity profile.
+        /// </summary>
+        /// <returns>The activity profile.</returns>
+        /// <param name="profile">Profile.</param>
+        Task<LRSResponse> SaveActivityProfile(ActivityProfileDocument profile);
+
+        /// <summary>
+        /// Deletes the activity profile.
+        /// </summary>
+        /// <returns>The activity profile.</returns>
+        /// <param name="profile">Profile.</param>
+        Task<LRSResponse> DeleteActivityProfile(ActivityProfileDocument profile);
+
+        /// <summary>
+        /// Retrieves the agent profile identifiers.
+        /// </summary>
+        /// <returns>The agent profile identifiers.</returns>
+        /// <param name="agent">Agent.</param>
+        Task<ProfileKeysLRSResponse> RetrieveAgentProfileIds(Agent agent);
+
+        /// <summary>
+        /// Retrieves the agent profile.
+        /// </summary>
+        /// <returns>The agent profile.</returns>
+        /// <param name="id">Identifier.</param>
+        /// <param name="agent">Agent.</param>
+        Task<AgentProfileLRSResponse> RetrieveAgentProfile(string id, Agent agent);
+
+        /// <summary>
+        /// Saves the agent profile.
+        /// </summary>
+        /// <returns>The agent profile.</returns>
+        /// <param name="profile">Profile.</param>
+        Task<LRSResponse> SaveAgentProfile(AgentProfileDocument profile);
+
+        /// <summary>
+        /// Forces the save agent profile.
+        /// </summary>
+        /// <returns>The save agent profile.</returns>
+        /// <param name="profile">Profile.</param>
+        Task<LRSResponse> ForceSaveAgentProfile(AgentProfileDocument profile);
+
+        /// <summary>
+        /// Deletes the agent profile.
+        /// </summary>
+        /// <returns>The agent profile.</returns>
+        /// <param name="profile">Profile.</param>
+        Task<LRSResponse> DeleteAgentProfile(AgentProfileDocument profile);
     }
 }

@@ -20,21 +20,55 @@ using TinCan.Json;
 
 namespace TinCan
 {
+    /// <summary>
+    /// Group.
+    /// </summary>
     public class Group : Agent
     {
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
         public static readonly new String OBJECT_TYPE = "Group";
-        public override String ObjectType { get { return OBJECT_TYPE; } }
 
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        public override String ObjectType 
+        { 
+            get 
+            { 
+                return OBJECT_TYPE; 
+            } 
+        }
+
+        /// <summary>
+        /// Gets or sets the member.
+        /// </summary>
+        /// <value>The member.</value>
         public List<Agent> member { get; set; }
 
-        public Group() : base() { }
-        public Group(StringOfJSON json) : this(json.toJObject()) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
+        /// </summary>
+        public Group() { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Group(StringOfJSON json) : this(json.ToJObject()) { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Group(JObject jobj) : base(jobj)
         {
             if (jobj["member"] != null)
             {
                 member = new List<Agent>();
+
                 foreach (JObject jagent in jobj["member"])
                 {
                     member.Add(new Agent(jagent));
@@ -42,15 +76,21 @@ namespace TinCan
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version)
         {
             JObject result = base.ToJObject(version);
+
             if (member != null && member.Count > 0)
             {
                 var jmember = new JArray();
                 result.Add("member", jmember);
 
-                foreach (Agent agent in member)
+                foreach (var agent in member)
                 {
                     jmember.Add(agent.ToJObject(version));
                 }
@@ -59,6 +99,11 @@ namespace TinCan
             return result;
         }
 
+        /// <summary>
+        /// Ops the explicit.
+        /// </summary>
+        /// <returns>The explicit.</returns>
+        /// <param name="jobj">Jobj.</param>
         public static explicit operator Group(JObject jobj)
         {
             return new Group(jobj);

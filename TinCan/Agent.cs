@@ -19,76 +19,137 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    public class Agent : JsonModel, StatementTarget
+    /// <summary>
+    /// Agent resource object.
+    /// </summary>
+    public class Agent : JsonModel, IStatementTarget
     {
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
         public static readonly String OBJECT_TYPE = "Agent";
+
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
         public virtual String ObjectType { get { return OBJECT_TYPE; } }
 
-        public String name { get; set; }
-        public String mbox { get; set; }
-        public String mbox_sha1sum { get; set; }
-        public String openid { get; set; }
-        public AgentAccount account { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        public String Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the mbox.
+        /// </summary>
+        /// <value>The mbox.</value>
+        public String Mbox { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mbox sha1sum.
+        /// </summary>
+        /// <value>The mbox sha1sum.</value>
+        public String MboxSha1Sum { get; set; }
+
+        /// <summary>
+        /// Gets or sets the openid.
+        /// </summary>
+        /// <value>The openid.</value>
+        public String OpenId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the account.
+        /// </summary>
+        /// <value>The account.</value>
+        public AgentAccount Account { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+        /// </summary>
         public Agent() { }
 
-        public Agent(StringOfJSON json) : this(json.toJObject()) { }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+        /// </summary>
+        /// <param name="json">Json.</param>
+        public Agent(StringOfJSON json) : this(json.ToJObject()) { }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+        /// </summary>
+        /// <param name="jobj">Jobj.</param>
         public Agent(JObject jobj)
         {
             if (jobj["name"] != null)
             {
-                name = jobj.Value<String>("name");
+                Name = jobj.Value<String>("name");
             }
 
             if (jobj["mbox"] != null)
             {
-                mbox = jobj.Value<String>("mbox");
+                Mbox = jobj.Value<String>("mbox");
             }
+
             if (jobj["mbox_sha1sum"] != null)
             {
-                mbox_sha1sum = jobj.Value<String>("mbox_sha1sum");
+                MboxSha1Sum = jobj.Value<String>("mbox_sha1sum");
             }
+
             if (jobj["openid"] != null)
             {
-                openid = jobj.Value<String>("openid");
+                OpenId = jobj.Value<String>("openid");
             }
+
             if (jobj["account"] != null)
             {
-                account = (AgentAccount)jobj.Value<JObject>("account");
+                Account = (AgentAccount)jobj.Value<JObject>("account");
             }
         }
 
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
-            result.Add("objectType", ObjectType);
+            JObject result = new JObject
+            {
+                { "objectType", ObjectType }
+            };
 
-            if (name != null)
+            if (Name != null)
             {
-                result.Add("name", name);
+                result.Add("name", Name);
             }
 
-            if (account != null)
+            if (Account != null)
             {
-                result.Add("account", account.ToJObject(version));
+                result.Add("account", Account.ToJObject(version));
             }
-            else if (mbox != null)
+            else if (Mbox != null)
             {
-                result.Add("mbox", mbox);
+                result.Add("mbox", Mbox);
             }
-            else if (mbox_sha1sum != null)
+            else if (MboxSha1Sum != null)
             {
-                result.Add("mbox_sha1sum", mbox_sha1sum);
+                result.Add("mbox_sha1sum", MboxSha1Sum);
             }
-            else if (openid != null)
+            else if (OpenId != null)
             {
-                result.Add("openid", openid);
+                result.Add("openid", OpenId);
             }
 
             return result;
         }
 
+        /// <summary>
+        /// Defines the operation to use when casting from a JObject to this type.
+        /// </summary>
+        /// <returns>The JObject as this type.</returns>
+        /// <param name="jobj">The JObject to cast.</param>
         public static explicit operator Agent(JObject jobj)
         {
             return new Agent(jobj);

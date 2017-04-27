@@ -16,8 +16,15 @@
 
 namespace TinCan.Documents
 {
+    /// <summary>
+    /// Activity profile document.
+    /// </summary>
     public class ActivityProfileDocument : Document
     {
-        public Activity activity { get; set; }
+        /// <summary>
+        /// Gets or sets the activity.
+        /// </summary>
+        /// <value>The activity.</value>
+        public Activity Activity { get; set; }
     }
 }
