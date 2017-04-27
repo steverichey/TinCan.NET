@@ -1,11 +1,5 @@
 ﻿<Properties StartupConfiguration="{854413C2-2F81-4A82-9949-DE2868A10078}|Unit Tests">
-  <MonoDevelop.Ide.Workbench ActiveDocument="TinCan/Documents/Document.cs">
-    <Files>
-      <File FileName="TinCan/RemoteLRS.cs" Line="705" Column="1" />
-      <File FileName="TinCanTests/RemoteLRSResourceTest.cs" Line="254" Column="37" />
-      <File FileName="TinCan/Documents/StateDocument.cs" Line="23" Column="39" />
-      <File FileName="TinCan/Documents/Document.cs" Line="23" Column="27" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="MonoDevelop.UnitTesting.TestPad">
         <State name="__root__">

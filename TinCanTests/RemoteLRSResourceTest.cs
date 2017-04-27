@@ -251,8 +251,6 @@ namespace TinCanTests
                 Content = Encoding.UTF8.GetBytes("Test value")
             };
 
-            Console.WriteLine("TestSaveState: " + doc.ToString());
-
             var lrsRes = await lrs.SaveState(doc);
             Assert.IsTrue(lrsRes.Success);
         }

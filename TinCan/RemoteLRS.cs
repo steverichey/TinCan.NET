@@ -702,7 +702,15 @@ namespace TinCan
             {
                 webReq.Content = new ByteArrayContent(request.Content);
                 webReq.Content.Headers.Add("Content-Length", request.Content.Length.ToString());
-                webReq.Content.Headers.Add("Content-Type", request.ContentType);
+
+                if (!string.IsNullOrWhiteSpace(request.ContentType))
+                {
+                    webReq.Content.Headers.Add("Content-Type", request.ContentType);
+                }
+                else
+                {
+                    webReq.Content.Headers.Add("Content-Type", "application/json");
+                }
             }
 
             LRSHttpResponse response;

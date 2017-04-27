@@ -58,6 +58,10 @@ namespace TinCan
         /// <value>The content.</value>
 		public byte[] Content { get; set; }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSHttpRequest"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSHttpRequest"/>.</returns>
 		public override string ToString()
 		{
 			return string.Format(

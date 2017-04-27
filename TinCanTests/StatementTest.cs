@@ -14,7 +14,6 @@
     limitations under the License.
 */
 
-using System;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 using TinCan;
@@ -24,12 +23,6 @@ namespace TinCanTests
     [TestFixture]
     class StatementTest
     {
-        [SetUp]
-        public void Init()
-        {
-            Console.WriteLine(string.Format("Running {0}", TestContext.CurrentContext.Test.FullName));
-        }
-
         [Test]
         public void TestEmptyCtr()
         {

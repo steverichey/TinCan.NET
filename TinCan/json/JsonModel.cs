@@ -68,5 +68,14 @@ namespace TinCan.Json
         {
             return ToJSON(TCAPIVersion.Latest, pretty);
         }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.JsonModel"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.JsonModel"/>.</returns>
+        public override string ToString()
+        {
+            return ToJSON();
+        }
     }
 }
