@@ -27,7 +27,7 @@ namespace TinCan
         /// <summary>
         /// The ISOD ate time format.
         /// </summary>
-        const String ISODateTimeFormat = "o";
+        const string ISODateTimeFormat = "o";
 
         /// <summary>
         /// Gets or sets the actor.
@@ -84,7 +84,7 @@ namespace TinCan
         {
             if (jobj["actor"] != null)
             {
-                if (jobj["actor"]["objectType"] != null && (String)jobj["actor"]["objectType"] == Group.OBJECT_TYPE)
+                if (jobj["actor"]["objectType"] != null && (string)jobj["actor"]["objectType"] == Group.OBJECT_TYPE)
                 {
                     Actor = (Group)jobj.Value<JObject>("actor");
                 }
@@ -103,19 +103,19 @@ namespace TinCan
             {
                 if (jobj["object"]["objectType"] != null)
                 {
-                    if ((String)jobj["object"]["objectType"] == Group.OBJECT_TYPE)
+                    if ((string)jobj["object"]["objectType"] == Group.OBJECT_TYPE)
                     {
                         Target = (Group)jobj.Value<JObject>("object");
                     }
-                    else if ((String)jobj["object"]["objectType"] == Agent.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == Agent.OBJECT_TYPE)
                     {
                         Target = (Agent)jobj.Value<JObject>("object");
                     }
-                    else if ((String)jobj["object"]["objectType"] == Activity.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == Activity.OBJECT_TYPE)
                     {
                         Target = (Activity)jobj.Value<JObject>("object");
                     }
-                    else if ((String)jobj["object"]["objectType"] == StatementRef.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == StatementRef.OBJECT_TYPE)
                     {
                         Target = (StatementRef)jobj.Value<JObject>("object");
                     }

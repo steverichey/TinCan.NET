@@ -95,7 +95,7 @@ namespace TinCan
         /// Gets or sets the authentication header.
         /// </summary>
         /// <value>The authentication header.</value>
-        public String Auth { get; private set; }
+        public string Auth { get; private set; }
 
         /// <summary>
         /// Gets the extended parameters.
@@ -108,7 +108,7 @@ namespace TinCan
         /// </summary>
         /// <param name="username">Username for authentication.</param>
         /// <param name="password">Password for authentication.</param>
-        public void SetAuth(String username, String password)
+        public void SetAuth(string username, string password)
         {
             Auth = string.Format("Basic {0}", Convert.ToBase64String(Encoding.UTF8.GetBytes(string.Format("{0}:{1}", username, password))));
         }
@@ -182,7 +182,7 @@ namespace TinCan
                 }
 
                 var ids = JArray.Parse(Encoding.UTF8.GetString(res.Content));
-                statement.Id = new Guid((String)ids[0]);
+                statement.Id = new Guid((string)ids[0]);
             }
             else 
             {
@@ -273,7 +273,7 @@ namespace TinCan
 
             for (int i = 0; i < ids.Count; i++)
             {
-                statements[i].Id = new Guid((String)ids[i]);
+                statements[i].Id = new Guid((string)ids[i]);
             }
 
             response.Success = true;
@@ -508,7 +508,7 @@ namespace TinCan
         {
             var response = new ActivityProfileLRSResponse();
 
-            var queryParams = new Dictionary<String, String>
+            var queryParams = new Dictionary<string, string>
             {
                 { "profileId", id },
                 { "activityId", activity.Id }
@@ -539,7 +539,7 @@ namespace TinCan
 		/// <inheritdoc />
 		public async Task<LRSResponse> SaveActivityProfile(ActivityProfileDocument profile)
         {
-            var queryParams = new Dictionary<String, String>
+            var queryParams = new Dictionary<string, string>
             {
                 { "profileId", profile.Id },
                 { "activityId", profile.Activity.Id }
@@ -551,7 +551,7 @@ namespace TinCan
 		/// <inheritdoc />
 		public async Task<LRSResponse> DeleteActivityProfile(ActivityProfileDocument profile)
         {
-            var queryParams = new Dictionary<String, String>
+            var queryParams = new Dictionary<string, string>
             {
                 { "profileId", profile.Id },
                 { "activityId", profile.Activity.Id }
@@ -845,11 +845,11 @@ namespace TinCan
 
             if (keys.Count > 0) 
             {
-                response.Content = new List<String>();
+                response.Content = new List<string>();
 
                 foreach (JToken key in keys) 
                 {
-                    response.Content.Add((String)key);
+                    response.Content.Add((string)key);
                 }
             }
 
@@ -939,7 +939,7 @@ namespace TinCan
 
         async Task<LRSResponse> SaveAgentProfile(AgentProfileDocument profile, HttpMethod method)
 		{
-			var queryParams = new Dictionary<String, String>
+			var queryParams = new Dictionary<string, string>
 			{
 				{ "profileId", profile.Id },
 				{ "agent", profile.Agent.ToJSON(Version) }

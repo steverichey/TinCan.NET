@@ -86,7 +86,7 @@ namespace TinCan
         {
             if (jobj["id"] != null)
             {
-                string idFromJSON = jobj.Value<String>("id");
+                string idFromJSON = jobj.Value<string>("id");
                 Uri uri = new Uri(idFromJSON);
                 Id = idFromJSON;
             }

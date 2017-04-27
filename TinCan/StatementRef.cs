@@ -28,13 +28,13 @@ namespace TinCan
         /// <summary>
         /// The type of the object.
         /// </summary>
-        public static readonly String OBJECT_TYPE = "StatementRef";
+        public static readonly string OBJECT_TYPE = "StatementRef";
 
         /// <summary>
         /// Gets the type of the object.
         /// </summary>
         /// <value>The type of the object.</value>
-        public String ObjectType 
+        public string ObjectType 
         { 
             get 
             {
@@ -76,7 +76,7 @@ namespace TinCan
         {
             if (jobj["id"] != null)
             {
-                Id = new Guid(jobj.Value<String>("id"));
+                Id = new Guid(jobj.Value<string>("id"));
             }
         }
 

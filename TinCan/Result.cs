@@ -29,13 +29,13 @@ namespace TinCan
         /// Gets or sets the completion.
         /// </summary>
         /// <value>The completion.</value>
-        public Boolean? Completion { get; set; }
+        public bool? Completion { get; set; }
 
         /// <summary>
         /// Gets or sets the success.
         /// </summary>
         /// <value>The success.</value>
-        public Boolean? Success { get; set; }
+        public bool? Success { get; set; }
 
         /// <summary>
         /// Gets or sets the response.
@@ -80,22 +80,22 @@ namespace TinCan
         {
             if (jobj["completion"] != null)
             {
-                Completion = jobj.Value<Boolean>("completion");
+                Completion = jobj.Value<bool>("completion");
             }
 
             if (jobj["success"] != null)
             {
-                Success = jobj.Value<Boolean>("success");
+                Success = jobj.Value<bool>("success");
             }
 
             if (jobj["response"] != null)
             {
-                Response = jobj.Value<String>("response");
+                Response = jobj.Value<string>("response");
             }
 
             if (jobj["duration"] != null)
             {
-                Duration = XmlConvert.ToTimeSpan(jobj.Value<String>("duration"));
+                Duration = XmlConvert.ToTimeSpan(jobj.Value<string>("duration"));
             }
 
             if (jobj["score"] != null)

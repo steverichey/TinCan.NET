@@ -13,7 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using Newtonsoft.Json.Linq;
 
 namespace TinCan
@@ -23,11 +23,17 @@ namespace TinCan
     /// </summary>
     public interface IStatementTarget
     {
+        /// <summary>
+        /// Tos the JO bject.
+        /// </summary>
+        /// <returns>The JO bject.</returns>
+        /// <param name="version">Version.</param>
         JObject ToJObject(TCAPIVersion version);
 
-        String ObjectType
-        {
-            get;
-        }
+        /// <summary>
+        /// Gets the type of the object.
+        /// </summary>
+        /// <value>The type of the object.</value>
+        string ObjectType { get; }
     }
 }

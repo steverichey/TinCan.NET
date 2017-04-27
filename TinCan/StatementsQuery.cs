@@ -28,7 +28,7 @@ namespace TinCan
 		/// The ISOD ate time format.
 		/// TODO: put in common location
 		/// </summary>
-		const String ISODateTimeFormat = "o";
+		const string ISODateTimeFormat = "o";
 
         /// <summary>
         /// Gets or sets the agent.
@@ -75,13 +75,13 @@ namespace TinCan
         /// Gets or sets the related activities.
         /// </summary>
         /// <value>The related activities.</value>
-        public Boolean? RelatedActivities { get; set; }
+        public bool? RelatedActivities { get; set; }
 
         /// <summary>
         /// Gets or sets the related agents.
         /// </summary>
         /// <value>The related agents.</value>
-        public Boolean? RelatedAgents { get; set; }
+        public bool? RelatedAgents { get; set; }
 
         /// <summary>
         /// Gets or sets the since.
@@ -111,16 +111,16 @@ namespace TinCan
         /// Gets or sets the ascending.
         /// </summary>
         /// <value>The ascending.</value>
-        public Boolean? Ascending { get; set; }
+        public bool? Ascending { get; set; }
 
         /// <summary>
         /// Tos the parameter map.
         /// </summary>
         /// <returns>The parameter map.</returns>
         /// <param name="version">Version.</param>
-        public Dictionary<String, String> ToParameterMap (TCAPIVersion version)
+        public Dictionary<string, string> ToParameterMap (TCAPIVersion version)
         {
-            var result = new Dictionary<String, String>();
+            var result = new Dictionary<string, string>();
 
             if (Agent != null)
             {

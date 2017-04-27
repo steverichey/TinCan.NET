@@ -73,12 +73,12 @@ namespace TinCan
         {
             if (jobj["type"] != null)
             {
-                Type = new Uri(jobj.Value<String>("type"));
+                Type = new Uri(jobj.Value<string>("type"));
             }
 
             if (jobj["moreInfo"] != null)
             {
-                MoreInfo = new Uri(jobj.Value<String>("moreInfo"));
+                MoreInfo = new Uri(jobj.Value<string>("moreInfo"));
             }
 
             if (jobj["name"] != null)

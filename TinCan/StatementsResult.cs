@@ -36,7 +36,7 @@ namespace TinCan
         /// Gets or sets the more.
         /// </summary>
         /// <value>The more.</value>
-        public String More { get; set; }
+        public string More { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
@@ -47,7 +47,7 @@ namespace TinCan
         /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
         /// </summary>
         /// <param name="str">String.</param>
-        public StatementsResult(String str) : this(new StringOfJSON(str)) {}
+        public StatementsResult(string str) : this(new StringOfJSON(str)) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
@@ -82,7 +82,7 @@ namespace TinCan
 
             if (jobj["more"] != null)
             {
-                More = jobj.Value<String>("more");
+                More = jobj.Value<string>("more");
             }
         }
     }

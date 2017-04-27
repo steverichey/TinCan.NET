@@ -29,7 +29,7 @@ namespace TinCan.Json
         /// Initializes a new instance of the <see cref="T:TinCan.Json.StringOfJSON"/> class.
         /// </summary>
         /// <param name="json">Json.</param>
-        public StringOfJSON(String json)
+        public StringOfJSON(string json)
         {
             source = json;
         }
@@ -52,7 +52,7 @@ namespace TinCan.Json
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.StringOfJSON"/>.
         /// </summary>
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Json.StringOfJSON"/>.</returns>
-        public override String ToString()
+        public override string ToString()
         {
             return source;
         }

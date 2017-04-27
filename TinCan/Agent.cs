@@ -27,37 +27,43 @@ namespace TinCan
         /// <summary>
         /// The type of the object.
         /// </summary>
-        public static readonly String OBJECT_TYPE = "Agent";
+        public static readonly string OBJECT_TYPE = "Agent";
 
         /// <summary>
         /// Gets the type of the object.
         /// </summary>
         /// <value>The type of the object.</value>
-        public virtual String ObjectType { get { return OBJECT_TYPE; } }
+        public virtual string ObjectType 
+        { 
+            get 
+            { 
+                return OBJECT_TYPE; 
+            } 
+        }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public String Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the mbox.
         /// </summary>
         /// <value>The mbox.</value>
-        public String Mbox { get; set; }
+        public string Mbox { get; set; }
 
         /// <summary>
         /// Gets or sets the mbox sha1sum.
         /// </summary>
         /// <value>The mbox sha1sum.</value>
-        public String MboxSha1Sum { get; set; }
+        public string MboxSha1Sum { get; set; }
 
         /// <summary>
         /// Gets or sets the openid.
         /// </summary>
         /// <value>The openid.</value>
-        public String OpenId { get; set; }
+        public string OpenId { get; set; }
 
         /// <summary>
         /// Gets or sets the account.
@@ -84,22 +90,22 @@ namespace TinCan
         {
             if (jobj["name"] != null)
             {
-                Name = jobj.Value<String>("name");
+                Name = jobj.Value<string>("name");
             }
 
             if (jobj["mbox"] != null)
             {
-                Mbox = jobj.Value<String>("mbox");
+                Mbox = jobj.Value<string>("mbox");
             }
 
             if (jobj["mbox_sha1sum"] != null)
             {
-                MboxSha1Sum = jobj.Value<String>("mbox_sha1sum");
+                MboxSha1Sum = jobj.Value<string>("mbox_sha1sum");
             }
 
             if (jobj["openid"] != null)
             {
-                OpenId = jobj.Value<String>("openid");
+                OpenId = jobj.Value<string>("openid");
             }
 
             if (jobj["account"] != null)

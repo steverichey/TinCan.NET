@@ -35,7 +35,7 @@ namespace TinCan
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        public String Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.AgentAccount"/> class.
@@ -56,12 +56,12 @@ namespace TinCan
         {
             if (jobj["homePage"] != null)
             {
-                HomePage = new Uri(jobj.Value<String>("homePage"));
+                HomePage = new Uri(jobj.Value<string>("homePage"));
             }
 
             if (jobj["name"] != null)
             {
-                Name = jobj.Value<String>("name");
+                Name = jobj.Value<string>("name");
             }
         }
 
@@ -70,7 +70,7 @@ namespace TinCan
         /// </summary>
         /// <param name="homePage">Home page.</param>
         /// <param name="name">Name.</param>
-        public AgentAccount(Uri homePage, String name)
+        public AgentAccount(Uri homePage, string name)
         {
             HomePage = homePage;
             Name = name;

@@ -47,7 +47,7 @@ namespace TinCan.Json
         /// <returns>The json.</returns>
         /// <param name="version">Version.</param>
         /// <param name="pretty">If set to <c>true</c> pretty.</param>
-        public String ToJSON(TCAPIVersion version, Boolean pretty = false)
+        public string ToJSON(TCAPIVersion version, bool pretty = false)
         {
             var formatting = Formatting.None;
 
@@ -64,7 +64,7 @@ namespace TinCan.Json
         /// </summary>
         /// <returns>The json.</returns>
         /// <param name="pretty">If set to <c>true</c> pretty.</param>
-        public String ToJSON(Boolean pretty = false)
+        public string ToJSON(bool pretty = false)
         {
             return ToJSON(TCAPIVersion.Latest, pretty);
         }

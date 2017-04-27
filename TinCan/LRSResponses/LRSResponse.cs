@@ -30,7 +30,7 @@ namespace TinCan.LRSResponses
         /// Gets or sets a value indicating whether this <see cref="T:TinCan.LRSResponses.LRSResponse"/> is success.
         /// </summary>
         /// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
-        public Boolean Success { get; set; }
+        public bool Success { get; set; }
 
         /// <summary>
         /// Gets or sets the http exception.
@@ -42,7 +42,7 @@ namespace TinCan.LRSResponses
         /// Gets or sets the error message.
         /// </summary>
         /// <value>The error message.</value>
-        public String ErrorMessage { get; set; }
+        public string ErrorMessage { get; set; }
 
         /// <summary>
         /// Sets the error message from bytes.

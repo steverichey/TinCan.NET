@@ -66,14 +66,14 @@ namespace TinCan
             }
         }
 
-        static Dictionary<String, TCAPIVersion> known;
-        static Dictionary<String, TCAPIVersion> supported;
+        static Dictionary<string, TCAPIVersion> known;
+        static Dictionary<string, TCAPIVersion> supported;
 
         /// <summary>
         /// Gets the known.
         /// </summary>
         /// <returns>The known.</returns>
-        public static Dictionary<String, TCAPIVersion> Known
+        public static Dictionary<string, TCAPIVersion> Known
         {
             get
             {
@@ -82,7 +82,7 @@ namespace TinCan
                     return known;
                 }
 
-                known = new Dictionary<String, TCAPIVersion>
+                known = new Dictionary<string, TCAPIVersion>
                 {
                     { V103.text, V103 },
                     { V102.text, V102 },
@@ -100,7 +100,7 @@ namespace TinCan
         /// Gets the supported.
         /// </summary>
         /// <value>The supported.</value>
-        public static Dictionary<String, TCAPIVersion> Supported
+        public static Dictionary<string, TCAPIVersion> Supported
         {
             get
             {
@@ -109,7 +109,7 @@ namespace TinCan
                     return supported;
                 }
 
-                supported = new Dictionary<String, TCAPIVersion>
+                supported = new Dictionary<string, TCAPIVersion>
                 {
                     { V103.text, V103 },
                     { V102.text, V102 },
@@ -126,7 +126,7 @@ namespace TinCan
         /// </summary>
         /// <returns>The explicit.</returns>
         /// <param name="vStr">V string.</param>
-        public static explicit operator TCAPIVersion(String vStr)
+        public static explicit operator TCAPIVersion(string vStr)
         {
             var knownVersions = Known;
 
@@ -153,7 +153,7 @@ namespace TinCan
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.TCAPIVersion"/>.
         /// </summary>
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.TCAPIVersion"/>.</returns>
-        public override String ToString()
+        public override string ToString()
         {
             return text;
         }

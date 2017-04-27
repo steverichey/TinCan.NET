@@ -54,7 +54,7 @@ namespace TinCan
         /// Gets a value indicating whether this <see cref="T:TinCan.Extensions"/> is empty.
         /// </summary>
         /// <value><c>true</c> if is empty; otherwise, <c>false</c>.</value>
-		public Boolean IsEmpty
+		public bool IsEmpty
 		{
             get
             {

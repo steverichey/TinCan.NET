@@ -21,6 +21,9 @@ using System.Text;
 
 namespace TinCan
 {
+    /// <summary>
+    /// LRSH ttp response.
+    /// </summary>
 	public class LRSHttpResponse
 	{
         /// <summary>
@@ -33,7 +36,7 @@ namespace TinCan
         /// Gets or sets the type of the content.
         /// </summary>
         /// <value>The type of the content.</value>
-		public String ContentType { get; set; }
+		public string ContentType { get; set; }
 
         /// <summary>
         /// Gets or sets the content.
@@ -51,7 +54,7 @@ namespace TinCan
         /// Gets or sets the etag.
         /// </summary>
         /// <value>The etag.</value>
-		public String Etag { get; set; }
+		public string Etag { get; set; }
 
         /// <summary>
         /// Gets or sets the ex.
@@ -95,6 +98,10 @@ namespace TinCan
             Content = response.Content.ReadAsByteArrayAsync().Result;
 		}
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSHttpResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSHttpResponse"/>.</returns>
         public override string ToString()
         {
             return string.Format("[MyHTTPResponse: Status={0}, ContentType={1}, Content={2}, LastModified={3}, Etag={4}, Exception={5}]", 

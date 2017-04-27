@@ -29,7 +29,7 @@ namespace TinCan
 		/// The ISOD ate time format.
 		/// TODO: put in common location
 		/// </summary>
-		const String ISODateTimeFormat = "o";
+		const string ISODateTimeFormat = "o";
 
         /// <summary>
         /// Gets or sets the identifier.
@@ -73,7 +73,7 @@ namespace TinCan
         public Statement(JObject jobj) : base(jobj) {
             if (jobj["id"] != null)
             {
-                Id = new Guid(jobj.Value<String>("id"));
+                Id = new Guid(jobj.Value<string>("id"));
             }
 
             if (jobj["stored"] != null)
@@ -88,12 +88,12 @@ namespace TinCan
 
             if (jobj["version"] != null)
             {
-                Version = (TCAPIVersion)jobj.Value<String>("version");
+                Version = (TCAPIVersion)jobj.Value<string>("version");
             }
 
             // handle SubStatement as target which isn't provided by StatementBase
             // because SubStatements are not allowed to nest
-            if (jobj["object"] != null && (String)jobj["object"]["objectType"] == SubStatement.OBJECT_TYPE)
+            if (jobj["object"] != null && (string)jobj["object"]["objectType"] == SubStatement.OBJECT_TYPE)
             {
                 Target = (SubStatement)jobj.Value<JObject>("object");
             }

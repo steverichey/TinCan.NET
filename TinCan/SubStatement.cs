@@ -27,13 +27,13 @@ namespace TinCan
         /// <summary>
         /// The type of the object.
         /// </summary>
-        public static readonly String OBJECT_TYPE = "SubStatement";
+        public static readonly string OBJECT_TYPE = "SubStatement";
 
         /// <summary>
         /// Gets the type of the object.
         /// </summary>
         /// <value>The type of the object.</value>
-        public String ObjectType 
+        public string ObjectType 
         { 
             get 
             { 

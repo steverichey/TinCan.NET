@@ -97,7 +97,7 @@ namespace TinCan
         {
             if (jobj["registration"] != null)
             {
-                Registration = new Guid(jobj.Value<String>("registration"));
+                Registration = new Guid(jobj.Value<string>("registration"));
             }
 
             if (jobj["instructor"] != null)
@@ -119,17 +119,17 @@ namespace TinCan
 
             if (jobj["revision"] != null)
             {
-                Revision = jobj.Value<String>("revision");
+                Revision = jobj.Value<string>("revision");
             }
 
             if (jobj["platform"] != null)
             {
-                Platform = jobj.Value<String>("platform");
+                Platform = jobj.Value<string>("platform");
             }
 
             if (jobj["language"] != null)
             {
-                Language = jobj.Value<String>("language");
+                Language = jobj.Value<string>("language");
             }
 
             if (jobj["statement"] != null)

@@ -28,13 +28,13 @@ namespace TinCan
         /// <summary>
         /// The type of the object.
         /// </summary>
-        public static readonly new String OBJECT_TYPE = "Group";
+        public static readonly new string OBJECT_TYPE = "Group";
 
         /// <summary>
         /// Gets the type of the object.
         /// </summary>
         /// <value>The type of the object.</value>
-        public override String ObjectType 
+        public override string ObjectType 
         { 
             get 
             { 

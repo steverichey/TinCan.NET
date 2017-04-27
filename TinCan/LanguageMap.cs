@@ -29,21 +29,21 @@ namespace TinCan
         /// <summary>
         /// The map.
         /// </summary>
-        Dictionary<String, String> map;
+        Dictionary<string, string> map;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.LanguageMap"/> class.
         /// </summary>
         public LanguageMap() 
         {
-            map = new Dictionary<String, String>();
+            map = new Dictionary<string, string>();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.LanguageMap"/> class.
         /// </summary>
         /// <param name="map">Map.</param>
-        public LanguageMap(Dictionary<String, String> map)
+        public LanguageMap(Dictionary<string, string> map)
         {
             this.map = map;
         }
@@ -62,7 +62,7 @@ namespace TinCan
         {
             foreach (var entry in jobj) 
             {
-                map.Add(entry.Key, (String)entry.Value);
+                map.Add(entry.Key, (string)entry.Value);
             }
         }
 
@@ -70,7 +70,7 @@ namespace TinCan
         /// Ises the empty.
         /// </summary>
         /// <returns><c>true</c>, if empty was ised, <c>false</c> otherwise.</returns>
-		public Boolean IsEmpty
+		public bool IsEmpty
 		{
             get
             {
@@ -101,7 +101,7 @@ namespace TinCan
         /// <returns>The add.</returns>
         /// <param name="lang">Lang.</param>
         /// <param name="value">Value.</param>
-        public void Add(String lang, string value)
+        public void Add(string lang, string value)
         {
             map.Add(lang, value);
         }
