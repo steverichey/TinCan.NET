@@ -158,3 +158,6 @@ Thumbs.db
 
 # dotCover
 *.dotCover
+
+# user preferences
+*.userprefs
