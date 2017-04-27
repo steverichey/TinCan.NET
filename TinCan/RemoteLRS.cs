@@ -633,6 +633,16 @@ namespace TinCan
             return await DeleteDocument("agents/profile", queryParams);
         }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.RemoteLRS"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.RemoteLRS"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[RemoteLRS: Endpoint={0}, Version={1}, Auth={2}, Extended={3}]", 
+                                 Endpoint, Version, Auth, Extended);
+        }
+
         async Task<LRSHttpResponse> MakeRequest(LRSHttpRequest request)
         {
             if (request == null)

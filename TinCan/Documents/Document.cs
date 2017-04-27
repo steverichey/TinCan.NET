@@ -19,10 +19,10 @@ using System.Text;
 
 namespace TinCan.Documents
 {
-    /// <summary>
-    /// Document.
-    /// </summary>
-    public abstract class Document
+	/// <summary>
+	/// A construct where information about the learner or activity is kept.
+	/// </summary>
+	public abstract class Document
     {
         /// <summary>
         /// Gets or sets the identifier.
@@ -31,9 +31,9 @@ namespace TinCan.Documents
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the etag.
+        /// Gets or sets the Etag.
         /// </summary>
-        /// <value>The etag.</value>
+        /// <value>An opaque identifier assigned by a web server to a specific version of a resource.</value>
         public string Etag { get; set; }
 
         /// <summary>

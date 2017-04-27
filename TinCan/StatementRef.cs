@@ -21,33 +21,10 @@ using TinCan.Json;
 namespace TinCan
 {
     /// <summary>
-    /// Statement reference.
+    /// An object describing a reference to another statement.
     /// </summary>
     public class StatementRef : JsonModel, IStatementTarget
     {
-        /// <summary>
-        /// The type of the object.
-        /// </summary>
-        public static readonly string OBJECT_TYPE = "StatementRef";
-
-        /// <summary>
-        /// Gets the type of the object.
-        /// </summary>
-        /// <value>The type of the object.</value>
-        public string ObjectType 
-        { 
-            get 
-            {
-                return OBJECT_TYPE; 
-            } 
-        }
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public Guid? Id { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.StatementRef"/> class.
         /// </summary>
@@ -81,11 +58,26 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Tos the JO bject.
+        /// Gets the type of the object.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
-        public override JObject ToJObject(TCAPIVersion version) {
+        /// <value>The type of the object.</value>
+        public string ObjectType
+        { 
+            get 
+            {
+                return TypeName; 
+            } 
+        }
+
+        /// <summary>
+        /// Gets or sets the identifier of the referenced statement.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public Guid? Id { get; set; }
+
+        /// <inheritdoc />
+        public override JObject ToJObject(TCAPIVersion version) 
+        {
             var result = new JObject
             {
                 { "objectType", ObjectType }
@@ -100,11 +92,26 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementRef"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator StatementRef(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementRef"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[StatementRef: ObjectType={0}, Id={1}]", 
+                                 ObjectType, Id);
+        }
+
+		/// <summary>
+		/// The type of the object.
+		/// </summary>
+		public static readonly string TypeName = nameof(StatementRef);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator StatementRef(JObject jobj)
         {
             return new StatementRef(jobj);
         }

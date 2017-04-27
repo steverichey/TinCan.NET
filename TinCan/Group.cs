@@ -13,41 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Group.
-    /// </summary>
-    public class Group : Agent
+	/// <summary>
+	/// A Group represents a collection of Agents and can be used in most of the same situations an Agent can be used. 
+	/// </summary>
+	public class Group : Agent
     {
-        /// <summary>
-        /// The type of the object.
-        /// </summary>
-        public static readonly new string OBJECT_TYPE = "Group";
-
-        /// <summary>
-        /// Gets the type of the object.
-        /// </summary>
-        /// <value>The type of the object.</value>
-        public override string ObjectType 
-        { 
-            get 
-            { 
-                return OBJECT_TYPE; 
-            } 
-        }
-
-        /// <summary>
-        /// Gets or sets the member.
-        /// </summary>
-        /// <value>The member.</value>
-        public List<Agent> member { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Group"/> class.
         /// </summary>
@@ -67,30 +44,44 @@ namespace TinCan
         {
             if (jobj["member"] != null)
             {
-                member = new List<Agent>();
+                Members = new List<Agent>();
 
                 foreach (JObject jagent in jobj["member"])
                 {
-                    member.Add(new Agent(jagent));
+                    Members.Add(new Agent(jagent));
                 }
             }
         }
 
         /// <summary>
-        /// Tos the JO bject.
+        /// Gets the type of the object.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <value>The type of the object.</value>
+        public override string ObjectType 
+        { 
+            get 
+            { 
+                return TypeName; 
+            } 
+        }
+
+        /// <summary>
+        /// Gets the members of this group.
+        /// </summary>
+        /// <value>The member.</value>
+        public List<Agent> Members { get; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = base.ToJObject(version);
+            var result = base.ToJObject(version);
 
-            if (member != null && member.Count > 0)
+            if (Members != null && Members.Count > 0)
             {
                 var jmember = new JArray();
                 result.Add("member", jmember);
 
-                foreach (var agent in member)
+                foreach (var agent in Members)
                 {
                     jmember.Add(agent.ToJObject(version));
                 }
@@ -100,11 +91,26 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Group"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator Group(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Group"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Agent: Name={0}, Mbox={1}, MboxSha1Sum={2}, OpenId={3}, Account={4}, Members={5}]",
+								 Name, Mbox, MboxSha1Sum, OpenId, Account, Members);
+        }
+
+        /// <summary>
+        /// The type of the object.
+        /// </summary>
+        public static readonly new string TypeName = nameof(Group);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Group(JObject jobj)
         {
             return new Group(jobj);
         }

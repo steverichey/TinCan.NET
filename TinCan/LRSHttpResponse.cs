@@ -22,46 +22,10 @@ using System.Text;
 namespace TinCan
 {
     /// <summary>
-    /// LRSH ttp response.
+    /// LRS HTTP response.
     /// </summary>
-	public class LRSHttpResponse
+	class LRSHttpResponse
 	{
-        /// <summary>
-        /// Gets or sets the status.
-        /// </summary>
-        /// <value>The status.</value>
-		public HttpStatusCode Status { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type of the content.
-        /// </summary>
-        /// <value>The type of the content.</value>
-		public string ContentType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content.
-        /// </summary>
-        /// <value>The content.</value>
-		public byte[] Content { get; set; }
-
-        /// <summary>
-        /// Gets or sets the last modified.
-        /// </summary>
-        /// <value>The last modified.</value>
-		public DateTime LastModified { get; set; }
-
-        /// <summary>
-        /// Gets or sets the etag.
-        /// </summary>
-        /// <value>The etag.</value>
-		public string Etag { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ex.
-        /// </summary>
-        /// <value>The ex.</value>
-		public Exception Exception { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.MyHTTPResponse"/> class.
         /// </summary>
@@ -97,6 +61,42 @@ namespace TinCan
 
             Content = response.Content.ReadAsByteArrayAsync().Result;
 		}
+
+        /// <summary>
+        /// Gets or sets the status.
+        /// </summary>
+        /// <value>The status.</value>
+        public HttpStatusCode Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the type of the content.
+        /// </summary>
+        /// <value>The type of the content.</value>
+        public string ContentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the content.
+        /// </summary>
+        /// <value>The content.</value>
+        public byte[] Content { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last modified.
+        /// </summary>
+        /// <value>The last modified.</value>
+        public DateTime LastModified { get; set; }
+
+        /// <summary>
+        /// Gets or sets the etag.
+        /// </summary>
+        /// <value>The etag.</value>
+        public string Etag { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ex.
+        /// </summary>
+        /// <value>The ex.</value>
+        public Exception Exception { get; set; }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSHttpResponse"/>.

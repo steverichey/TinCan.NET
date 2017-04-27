@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Xml;
 using Newtonsoft.Json.Linq;
@@ -20,47 +21,11 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Result.
-    /// </summary>
-    public class Result : JsonModel
+	/// <summary>
+	/// An optional property that represents a measured outcome related to the Statement in which it is included.
+	/// </summary>
+	public class Result : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the completion.
-        /// </summary>
-        /// <value>The completion.</value>
-        public bool? Completion { get; set; }
-
-        /// <summary>
-        /// Gets or sets the success.
-        /// </summary>
-        /// <value>The success.</value>
-        public bool? Success { get; set; }
-
-        /// <summary>
-        /// Gets or sets the response.
-        /// </summary>
-        /// <value>The response.</value>
-        public string Response { get; set; }
-
-        /// <summary>
-        /// Gets or sets the duration.
-        /// </summary>
-        /// <value>The duration.</value>
-        public TimeSpan? Duration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the score.
-        /// </summary>
-        /// <value>The score.</value>
-        public Score Score { get; set; }
-
-        /// <summary>
-        /// Gets or sets the extensions.
-        /// </summary>
-        /// <value>The extensions.</value>
-        public Extensions Extensions { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Result"/> class.
         /// </summary>
@@ -109,12 +74,49 @@ namespace TinCan
             }
         }
 
+		/// <summary>
+		/// Gets or sets whether or not the Activity was completed.
+		/// </summary>
+		/// <value>Whether or not the Activity was completed.</value>
+		public bool? Completion { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether or not the attempt on the Activity was successful.
+		/// </summary>
+		/// <value>Whether or not the attempt on the Activity was successful.</value>
+		public bool? Success { get; set; }
+
+		/// <summary>
+		/// Gets or sets a response appropriately formatted for the given Activity.
+		/// </summary>
+		/// <value>A response appropriately formatted for the given Activity.</value>
+		public string Response { get; set; }
+
+		/// <summary>
+		/// Gets or sets the period of time over which the Statement occurred.
+		/// </summary>
+		/// <value>The period of time over which the Statement occurred.</value>
+		public TimeSpan? Duration { get; set; }
+
+		/// <summary>
+		/// Gets or sets the score of the Agent in relation to the success or quality of the experience.
+		/// </summary>
+		/// <value>The score of the Agent in relation to the success or quality of the experience.</value>
+		public Score Score { get; set; }
+
+		/// <summary>
+		/// Gets or sets a map of other properties as needed
+		/// </summary>
+		/// <value>A map of other properties as needed</value>
+		public Extensions Extensions { get; set; }
+
         /// <summary>
         /// Tos the JO bject.
         /// </summary>
         /// <returns>The JO bject.</returns>
         /// <param name="version">Version.</param>
-        public override JObject ToJObject(TCAPIVersion version) {
+        public override JObject ToJObject(TCAPIVersion version)
+        {
             var result = new JObject();
 
             if (Completion != null)
@@ -151,11 +153,21 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Result"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator Result(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Result"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Result: Completion={0}, Success={1}, Response={2}, Duration={3}, Score={4}, Extensions={5}]", 
+                                 Completion, Success, Response, Duration, Score, Extensions);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Result(JObject jobj)
         {
             return new Result(jobj);
         }

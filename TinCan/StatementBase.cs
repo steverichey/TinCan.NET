@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
@@ -20,51 +21,10 @@ using TinCan.Json;
 namespace TinCan
 {
     /// <summary>
-    /// Statement base.
+    /// The abstract base for statement objects.
     /// </summary>
     public abstract class StatementBase : JsonModel
     {
-        /// <summary>
-        /// The ISOD ate time format.
-        /// </summary>
-        const string ISODateTimeFormat = "o";
-
-        /// <summary>
-        /// Gets or sets the actor.
-        /// </summary>
-        /// <value>The actor.</value>
-        public Agent Actor { get; set; }
-
-        /// <summary>
-        /// Gets or sets the verb.
-        /// </summary>
-        /// <value>The verb.</value>
-        public Verb Verb { get; set; }
-
-        /// <summary>
-        /// Gets or sets the target.
-        /// </summary>
-        /// <value>The target.</value>
-        public IStatementTarget Target { get; set; }
-
-        /// <summary>
-        /// Gets or sets the result.
-        /// </summary>
-        /// <value>The result.</value>
-        public Result Result { get; set; }
-
-        /// <summary>
-        /// Gets or sets the context.
-        /// </summary>
-        /// <value>The context.</value>
-        public Context Context { get; set; }
-
-        /// <summary>
-        /// Gets or sets the timestamp.
-        /// </summary>
-        /// <value>The timestamp.</value>
-        public DateTime? Timestamp { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.StatementBase"/> class.
         /// </summary>
@@ -84,7 +44,7 @@ namespace TinCan
         {
             if (jobj["actor"] != null)
             {
-                if (jobj["actor"]["objectType"] != null && (string)jobj["actor"]["objectType"] == Group.OBJECT_TYPE)
+                if (jobj["actor"]["objectType"] != null && (string)jobj["actor"]["objectType"] == Group.TypeName)
                 {
                     Actor = (Group)jobj.Value<JObject>("actor");
                 }
@@ -103,19 +63,19 @@ namespace TinCan
             {
                 if (jobj["object"]["objectType"] != null)
                 {
-                    if ((string)jobj["object"]["objectType"] == Group.OBJECT_TYPE)
+                    if ((string)jobj["object"]["objectType"] == Group.TypeName)
                     {
                         Target = (Group)jobj.Value<JObject>("object");
                     }
-                    else if ((string)jobj["object"]["objectType"] == Agent.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == Agent.TypeName)
                     {
                         Target = (Agent)jobj.Value<JObject>("object");
                     }
-                    else if ((string)jobj["object"]["objectType"] == Activity.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == Activity.TypeName)
                     {
                         Target = (Activity)jobj.Value<JObject>("object");
                     }
-                    else if ((string)jobj["object"]["objectType"] == StatementRef.OBJECT_TYPE)
+                    else if ((string)jobj["object"]["objectType"] == StatementRef.TypeName)
                     {
                         Target = (StatementRef)jobj.Value<JObject>("object");
                     }
@@ -142,14 +102,46 @@ namespace TinCan
             }
         }
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+		/// <summary>
+		/// Gets or sets the actor related to this statement.
+		/// </summary>
+		/// <value>The actor.</value>
+		public Agent Actor { get; set; }
+
+		/// <summary>
+		/// Gets or sets the verb related to this statement.
+		/// </summary>
+		/// <value>The verb.</value>
+		public Verb Verb { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target related to this statement.
+		/// </summary>
+		/// <value>The target.</value>
+		public IStatementTarget Target { get; set; }
+
+		/// <summary>
+		/// Gets or sets the result related to this statement.
+		/// </summary>
+		/// <value>The result.</value>
+		public Result Result { get; set; }
+
+		/// <summary>
+		/// Gets or sets the context of this statement.
+		/// </summary>
+		/// <value>The context.</value>
+		public Context Context { get; set; }
+
+		/// <summary>
+		/// Gets or sets the timestamp of this statement.
+		/// </summary>
+		/// <value>The timestamp.</value>
+		public DateTime? Timestamp { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
+            var result = new JObject();
 
             if (Actor != null)
             {
@@ -178,7 +170,7 @@ namespace TinCan
 
             if (Timestamp != null)
             {
-                result.Add("timestamp", Timestamp.Value.ToString(ISODateTimeFormat));
+                result.Add("timestamp", Timestamp.Value.ToString(TimeFormat.Default));
             }
 
             return result;

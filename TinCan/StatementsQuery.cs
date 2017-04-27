@@ -20,35 +20,26 @@ using System.Collections.Generic;
 namespace TinCan
 {
     /// <summary>
-    /// Statements query.
+    /// An object describing a query for statements.
     /// </summary>
     public class StatementsQuery
     {
-		/// <summary>
-		/// The ISOD ate time format.
-		/// TODO: put in common location
-		/// </summary>
-		const string ISODateTimeFormat = "o";
+        string activityId;
 
         /// <summary>
-        /// Gets or sets the agent.
+        /// Gets or sets the agent to query.
         /// </summary>
         /// <value>The agent.</value>
         public Agent Agent { get; set; }
 
         /// <summary>
-        /// Gets or sets the verb identifier.
+        /// Gets or sets the verb identifier to query.
         /// </summary>
         /// <value>The verb identifier.</value>
         public Uri VerbId { get; set; }
 
         /// <summary>
-        /// The activity identifier.
-        /// </summary>
-        string activityId;
-
-        /// <summary>
-        /// Gets or sets the activity identifier.
+        /// Gets or sets the activity identifier to query.
         /// </summary>
         /// <value>The activity identifier.</value>
         public string ActivityId 
@@ -60,64 +51,64 @@ namespace TinCan
 
             set
             {
-                Uri uri = new Uri(value);
+                var uri = new Uri(value);
                 activityId = value;
             }
         }
 
         /// <summary>
-        /// Gets or sets the registration.
+        /// Gets or sets the registration ID to query.
         /// </summary>
         /// <value>The registration.</value>
         public Guid? Registration { get; set; }
 
-        /// <summary>
-        /// Gets or sets the related activities.
-        /// </summary>
-        /// <value>The related activities.</value>
-        public bool? RelatedActivities { get; set; }
+		/// <summary>
+		/// Gets or sets whether or not to apply the activity filter broadly.
+		/// </summary>
+		/// <value>Whether or not to apply the activity filter broadly.</value>
+		public bool? RelatedActivities { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether or not to apply the agent filter broadly.
+		/// </summary>
+		/// <value>Whether or not to apply the agent filter broadly.</value>
+		public bool? RelatedAgents { get; set; }
+
+		/// <summary>
+		/// Gets or sets the time for which only Statements stored since the specified Timestamp (exclusive) are returned.
+		/// </summary>
+		/// <value>The timestamp.</value>
+		public DateTime? Since { get; set; }
+
+		/// <summary>
+		/// Gets or sets the time for which only Statements stored at or before the specified Timestamp are returned.
+		/// </summary>
+		/// <value>The timestamp.</value>
+		public DateTime? Until { get; set; }
 
         /// <summary>
-        /// Gets or sets the related agents.
-        /// </summary>
-        /// <value>The related agents.</value>
-        public bool? RelatedAgents { get; set; }
-
-        /// <summary>
-        /// Gets or sets the since.
-        /// </summary>
-        /// <value>The since.</value>
-        public DateTime? Since { get; set; }
-
-        /// <summary>
-        /// Gets or sets the until.
-        /// </summary>
-        /// <value>The until.</value>
-        public DateTime? Until { get; set; }
-
-        /// <summary>
-        /// Gets or sets the limit.
+        /// Gets or sets the maximum number of statements to return.
         /// </summary>
         /// <value>The limit.</value>
         public Int32? Limit { get; set; }
 
         /// <summary>
-        /// Gets or sets the format.
+        /// Gets or sets the format to return.
         /// </summary>
         /// <value>The format.</value>
         public StatementsQueryResultFormat Format { get; set; }
 
-        /// <summary>
-        /// Gets or sets the ascending.
-        /// </summary>
-        /// <value>The ascending.</value>
-        public bool? Ascending { get; set; }
+		/// <summary>
+		/// Gets or sets whether or not to return in ascending order.
+		/// </summary>
+		/// <value>Whether or not to return in ascending order.</value>
+		public bool? Ascending { get; set; }
 
         /// <summary>
-        /// Tos the parameter map.
+        /// Convert this query to a query parameter map.
         /// </summary>
         /// <returns>The parameter map.</returns>
-        /// <param name="version">Version.</param>
+        /// <param name="version">Version of xAPI to use when building the map.</param>
         public Dictionary<string, string> ToParameterMap (TCAPIVersion version)
         {
             var result = new Dictionary<string, string>();
@@ -154,12 +145,12 @@ namespace TinCan
 
             if (Since != null)
             {
-                result.Add("since", Since.Value.ToString(ISODateTimeFormat));
+                result.Add("since", Since.Value.ToString(TimeFormat.Default));
             }
 
             if (Until != null)
             {
-                result.Add("until", Until.Value.ToString(ISODateTimeFormat));
+                result.Add("until", Until.Value.ToString(TimeFormat.Default));
             }
 
             if (Limit != null)
@@ -178,6 +169,16 @@ namespace TinCan
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsQuery"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsQuery"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[StatementsQuery: Agent={0}, VerbId={1}, ActivityId={2}, Registration={3}, RelatedActivities={4}, RelatedAgents={5}, Since={6}, Until={7}, Limit={8}, Format={9}, Ascending={10}]", 
+                                 Agent, VerbId, ActivityId, Registration, RelatedActivities, RelatedAgents, Since, Until, Limit, Format, Ascending);
         }
     }
 }

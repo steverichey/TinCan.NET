@@ -13,41 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Context activities.
-    /// </summary>
-    public class ContextActivities : JsonModel
+	/// <summary>
+	/// A map of the types of learning activity context that a Statement is related to.
+	/// </summary>
+	public class ContextActivities : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the parent.
-        /// </summary>
-        /// <value>The parent.</value>
-        public List<Activity> Parent { get; set; }
-
-        /// <summary>
-        /// Gets or sets the grouping.
-        /// </summary>
-        /// <value>The grouping.</value>
-        public List<Activity> Grouping { get; set; }
-
-        /// <summary>
-        /// Gets or sets the category.
-        /// </summary>
-        /// <value>The category.</value>
-        public List<Activity> Category { get; set; }
-
-        /// <summary>
-        /// Gets or sets the other.
-        /// </summary>
-        /// <value>The other.</value>
-        public List<Activity> Other { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.ContextActivities"/> class.
         /// </summary>
@@ -106,12 +83,33 @@ namespace TinCan
             }
         }
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
-        public override JObject ToJObject(TCAPIVersion version) {
+		/// <summary>
+		/// Gets or sets the parent context types.
+		/// </summary>
+		/// <value>The relevant context types.</value>
+		public List<Activity> Parent { get; set; }
+
+		/// <summary>
+		/// Gets or sets the grouping context types.
+		/// </summary>
+		/// <value>The relevant context types.</value>
+		public List<Activity> Grouping { get; set; }
+
+		/// <summary>
+		/// Gets or sets the category context types.
+		/// </summary>
+		/// <value>The relevant context types.</value>
+		public List<Activity> Category { get; set; }
+
+		/// <summary>
+		/// Gets or sets the other context types.
+		/// </summary>
+		/// <value>The relevant context types.</value>
+		public List<Activity> Other { get; set; }
+
+        /// <inheritdoc />
+        public override JObject ToJObject(TCAPIVersion version) 
+        {
             var result = new JObject();
 
             if (Parent != null && Parent.Count > 0)
@@ -159,6 +157,16 @@ namespace TinCan
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.ContextActivities"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.ContextActivities"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[ContextActivities: Parent={0}, Grouping={1}, Category={2}, Other={3}]", 
+                                 Parent, Grouping, Category, Other);
         }
 
 		/// <summary>

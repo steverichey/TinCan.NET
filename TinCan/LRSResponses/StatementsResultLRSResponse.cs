@@ -16,15 +16,25 @@
 
 namespace TinCan.LRSResponses
 {
-    /// <summary>
-    /// Statements result LRSR esponse.
-    /// </summary>
-    public class StatementsResultLRSResponse : LRSResponse
+	/// <summary>
+	/// A resource allowing for information to be saved that is related to a statements result.
+	/// </summary>
+	public class StatementsResultLRSResponse : LRSResponse
     {
         /// <summary>
-        /// Gets or sets the content.
+        /// Gets or sets the statments result.
         /// </summary>
         /// <value>The content.</value>
         public StatementsResult Content { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.StatementsResultLRSResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.StatementsResultLRSResponse"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}, Content={3}]",
+								 Success, HttpException, ErrorMessage, Content);
+		}
     }
 }

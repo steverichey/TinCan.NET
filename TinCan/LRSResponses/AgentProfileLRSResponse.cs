@@ -16,15 +16,25 @@
 
 namespace TinCan.LRSResponses
 {
-    /// <summary>
-    /// Agent profile LRSR esponse.
-    /// </summary>
-    public class AgentProfileLRSResponse : LRSResponse
+	/// <summary>
+	/// A resource allowing for information to be saved that is related to an agent.
+	/// </summary>
+	public class AgentProfileLRSResponse : LRSResponse
     {
         /// <summary>
-        /// Gets or sets the content.
+        /// Gets or sets the content related to the agent.
         /// </summary>
         /// <value>The content.</value>
         public Documents.AgentProfileDocument Content { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.AgentProfileLRSResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.AgentProfileLRSResponse"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}, Content={3}]",
+								 Success, HttpException, ErrorMessage, Content);
+		}
     }
 }

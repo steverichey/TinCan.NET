@@ -18,15 +18,25 @@ using System.Collections.Generic;
 
 namespace TinCan.LRSResponses
 {
-    /// <summary>
-    /// Profile keys LRSR esponse.
-    /// </summary>
-    public class ProfileKeysLRSResponse : LRSResponse
+	/// <summary>
+	/// A resource allowing for information to be saved that is related to an profile IDs.
+	/// </summary>
+	public class ProfileKeysLRSResponse : LRSResponse
     {
+		/// <summary>
+		/// Gets or sets the profile IDs.
+		/// </summary>
+		/// <value>The profile IDs.</value>
+		public List<string> Content { get; set; }
+
         /// <summary>
-        /// Gets or sets the content.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.ProfileKeysLRSResponse"/>.
         /// </summary>
-        /// <value>The content.</value>
-        public List<string> Content { get; set; }
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.ProfileKeysLRSResponse"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}, Content={3}]",
+								 Success, HttpException, ErrorMessage, Content);
+		}
     }
 }

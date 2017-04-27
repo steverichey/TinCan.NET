@@ -27,22 +27,24 @@ namespace TinCan.LRSResponses
 	public class LRSResponse
     {
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="T:TinCan.LRSResponses.LRSResponse"/> is success.
+        /// Gets or sets a value indicating whether this <see cref="T:TinCan.LRSResponses.LRSResponse"/> was successful.
         /// </summary>
         /// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
         public bool Success { get; set; }
 
-        /// <summary>
-        /// Gets or sets the http exception.
-        /// </summary>
-        /// <value>The http exception.</value>
-        public Exception HttpException { get; set; }
+		/// <summary>
+		/// Gets or sets the HTTP exception, if one exists.
+        /// This should only be non-null if the Success property is false.
+		/// </summary>
+		/// <value>The HTTP exception.</value>
+		public Exception HttpException { get; set; }
 
-        /// <summary>
-        /// Gets or sets the error message.
-        /// </summary>
-        /// <value>The error message.</value>
-        public string ErrorMessage { get; set; }
+		/// <summary>
+		/// Gets or sets the error message, if one exists.
+		/// This should only be non-null if the Success property is false.
+		/// </summary>
+		/// <value>The error message.</value>
+		public string ErrorMessage { get; set; }
 
         /// <summary>
         /// Sets the error message from bytes.
@@ -50,7 +52,22 @@ namespace TinCan.LRSResponses
         /// <param name="content">Content.</param>
         public void SetErrMsgFromBytes(byte[] content)
         {
+            if (content == null)
+            {
+                throw new ArgumentNullException(nameof(content));
+            }
+
             ErrorMessage = Encoding.UTF8.GetString(content);
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.LRSResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.LRSResponse"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}]", 
+                                 Success, HttpException, ErrorMessage);
         }
     }
 }

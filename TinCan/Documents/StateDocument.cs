@@ -19,28 +19,28 @@ using System.Text;
 
 namespace TinCan.Documents
 {
-    /// <summary>
-    /// State document.
-    /// </summary>
-    public class StateDocument : Document
+	/// <summary>
+	/// A document where information about a state is kept.
+	/// </summary>
+	public class StateDocument : Document
     {
         /// <summary>
-        /// Gets or sets the activity.
+        /// Gets or sets the activity associated with this state.
         /// </summary>
         /// <value>The activity.</value>
         public Activity Activity { get; set; }
 
-        /// <summary>
-        /// Gets or sets the agent.
-        /// </summary>
-        /// <value>The agent.</value>
-        public Agent Agent { get; set; }
+		/// <summary>
+		/// Gets or sets the agent associated with this state.
+		/// </summary>
+		/// <value>The agent.</value>
+		public Agent Agent { get; set; }
 
-        /// <summary>
-        /// Gets or sets the registration.
-        /// </summary>
-        /// <value>The registration.</value>
-        public Guid? Registration { get; set; }
+		/// <summary>
+		/// Gets or sets the registration associated with this state.
+		/// </summary>
+		/// <value>The registration.</value>
+		public Guid? Registration { get; set; }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.StateDocument"/>.

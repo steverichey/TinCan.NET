@@ -20,41 +20,11 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Statement.
-    /// </summary>
-    public class Statement : StatementBase
+	/// <summary>
+	/// The basic communication mechanism of the Experience API.
+	/// </summary>
+	public class Statement : StatementBase
     {
-		/// <summary>
-		/// The ISOD ate time format.
-		/// TODO: put in common location
-		/// </summary>
-		const string ISODateTimeFormat = "o";
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public Guid? Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the stored.
-        /// </summary>
-        /// <value>The stored.</value>
-        public DateTime? Stored { get; set; }
-
-        /// <summary>
-        /// Gets or sets the authority.
-        /// </summary>
-        /// <value>The authority.</value>
-        public Agent Authority { get; set; }
-
-        /// <summary>
-        /// Gets or sets the version.
-        /// </summary>
-        /// <value>The version.</value>
-        public TCAPIVersion Version { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Statement"/> class.
         /// </summary>
@@ -70,7 +40,8 @@ namespace TinCan
         /// Initializes a new instance of the <see cref="T:TinCan.Statement"/> class.
         /// </summary>
         /// <param name="jobj">Jobj.</param>
-        public Statement(JObject jobj) : base(jobj) {
+        public Statement(JObject jobj) : base(jobj) 
+        {
             if (jobj["id"] != null)
             {
                 Id = new Guid(jobj.Value<string>("id"));
@@ -93,17 +64,37 @@ namespace TinCan
 
             // handle SubStatement as target which isn't provided by StatementBase
             // because SubStatements are not allowed to nest
-            if (jobj["object"] != null && (string)jobj["object"]["objectType"] == SubStatement.OBJECT_TYPE)
+            if (jobj["object"] != null && (string)jobj["object"]["objectType"] == SubStatement.TypeName)
             {
                 Target = (SubStatement)jobj.Value<JObject>("object");
             }
         }
 
         /// <summary>
-        /// Tos the JO bject.
+        /// Gets or sets the unique identifier of this statement.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <value>The identifier.</value>
+        public Guid? Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time this statement was stored.
+        /// </summary>
+        /// <value>The stored time.</value>
+        public DateTime? Stored { get; set; }
+
+		/// <summary>
+		/// Gets or sets information about whom or what has asserted that this Statement is true.
+		/// </summary>
+		/// <value>The authority.</value>
+		public Agent Authority { get; set; }
+
+        /// <summary>
+        /// Gets or sets the xAPI version.
+        /// </summary>
+        /// <value>The version.</value>
+        public TCAPIVersion Version { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
             var result = base.ToJObject(version);
@@ -115,7 +106,7 @@ namespace TinCan
 
             if (Stored != null)
             {
-                result.Add("stored", Stored.Value.ToString(ISODateTimeFormat));
+                result.Add("stored", Stored.Value.ToString(TimeFormat.Default));
             }
 
             if (Authority != null)
@@ -132,7 +123,7 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Stamp this instance.
+        /// Stamp this instance with a unique identifier and timestamp.
         /// </summary>
         public void Stamp()
         {
@@ -145,6 +136,26 @@ namespace TinCan
             {
                 Timestamp = DateTime.UtcNow;
             }
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Statement"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Statement"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Statement: Actor={0}, Verb={1}, Target={2}, Result={3}, Context={4}, Timestamp={5}, Id={6}, Stored={7}, Authority={8}, Version={9}]", 
+                                 Actor, Verb, Target, Result, Context, Timestamp, Id, Stored, Authority, Version);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Statement(JObject jobj)
+        {
+            return new Statement(jobj);
         }
     }
 }

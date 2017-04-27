@@ -17,7 +17,7 @@
 namespace TinCan.LRSResponses
 {
     /// <summary>
-    /// About LRSR esponse.
+    /// LRS response containing information about the LRS, including the xAPI version supported.
     /// </summary>
     public class AboutLRSResponse : LRSResponse
     {
@@ -25,6 +25,16 @@ namespace TinCan.LRSResponses
         /// Gets or sets the content.
         /// </summary>
         /// <value>The content.</value>
-        public About Content { set; get; }
+        public About Content { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.AboutLRSResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.AboutLRSResponse"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}, Content={3}]", 
+                                 Success, HttpException, ErrorMessage, Content);
+		}
     }
 }

@@ -92,6 +92,7 @@
     <Compile Include="TCAPIVersion.cs" />
     <Compile Include="LRSHttpRequest.cs" />
     <Compile Include="LRSHttpResponse.cs" />
+    <Compile Include="TimeFormat.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

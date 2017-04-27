@@ -23,20 +23,8 @@ namespace TinCan
     /// <summary>
     /// An object containing information about this LRS.
     /// </summary>
-    public class About : JsonModel
+    public sealed class About : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the xAPI versions this LRS supports.
-        /// </summary>
-        /// <value>The supported versions.</value>
-        public List<TCAPIVersion> Version { get; set; }
-
-        /// <summary>
-        /// A map of other properties as needed.
-        /// </summary>
-        /// <value>Other needed properties.</value>
-        public Extensions Extensions { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.About"/> class.
         /// </summary>
@@ -57,11 +45,11 @@ namespace TinCan
         {
             if (jobj["version"] != null)
             {
-                Version = new List<TCAPIVersion>();
+                Versions = new List<TCAPIVersion>();
 
                 foreach (string item in jobj.Value<JArray>("version"))
                 {
-                    Version.Add((TCAPIVersion)item);
+                    Versions.Add((TCAPIVersion)item);
                 }
             }
 
@@ -72,20 +60,28 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Convert this to a JObject.
+        /// Gets the xAPI versions this LRS supports.
         /// </summary>
-        /// <returns>The About resource as a JObject.</returns>
-        /// <param name="version">Version to specify when creating extension properties.</param>
+        /// <value>The supported versions.</value>
+        public List<TCAPIVersion> Versions { get; }
+
+        /// <summary>
+        /// Gets the map of other properties as needed.
+        /// </summary>
+        /// <value>Other needed properties.</value>
+        public Extensions Extensions { get; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version) {
             JObject result = new JObject();
 
-            if (Version != null)
+            if (Versions != null)
             {
                 var versions = new JArray();
 
-                foreach (var v in Version) 
+                foreach (var ver in Versions) 
                 {
-                    versions.Add(v.ToString());
+                    versions.Add(ver.ToString());
                 }
 
                 result.Add("version", versions);
@@ -97,6 +93,26 @@ namespace TinCan
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.About"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.About"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[About: Versions={0}, Extensions={1}]", 
+                                 Versions, Extensions);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator About(JObject jobj)
+        {
+            return new About(jobj);
         }
     }
 }

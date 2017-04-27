@@ -17,25 +17,10 @@
 namespace TinCan
 {
     /// <summary>
-    /// Statements query result format.
+    /// Statements query result format enumeration.
     /// </summary>
     public sealed class StatementsQueryResultFormat
     {
-        /// <summary>
-        /// The identifiers.
-        /// </summary>
-        public static readonly StatementsQueryResultFormat Ids = new StatementsQueryResultFormat("ids");
-
-        /// <summary>
-        /// The exact.
-        /// </summary>
-        public static readonly StatementsQueryResultFormat Exact = new StatementsQueryResultFormat("exact");
-
-        /// <summary>
-        /// The canonical.
-        /// </summary>
-        public static readonly StatementsQueryResultFormat Canonical = new StatementsQueryResultFormat("canonical");
-
         readonly string text;
 
         /// <summary>
@@ -47,10 +32,30 @@ namespace TinCan
             text = value;
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsQueryResultFormat"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsQueryResultFormat"/>.</returns>
         public override string ToString()
         {
             return text;
         }
+
+		/// <summary>
+		/// Only include minimum information necessary in Agent, Activity, Verb and Group Objects to identify them.
+        /// For Anonymous Groups this means including the minimum information needed to identify each member. 
+		/// </summary>
+		public static readonly StatementsQueryResultFormat Ids = new StatementsQueryResultFormat("ids");
+
+		/// <summary>
+		/// Return Agent, Activity, Verb and Group Objects populated exactly as they were when the Statement was received.
+        /// An LRS requesting Statements for the purpose of importing them would use a format of "exact" in order to maintain Statement Immutability. 
+		/// </summary>
+		public static readonly StatementsQueryResultFormat Exact = new StatementsQueryResultFormat("exact");
+
+		/// <summary>
+		/// Return Activity Objects and Verbs populated with the canonical definition of the Activity Objects and Display of the Verbs as determined by the LRS, after applying language filtering, and return the original Agent and Group Objects as in "exact" mode.
+		/// </summary>
+		public static readonly StatementsQueryResultFormat Canonical = new StatementsQueryResultFormat("canonical");
     }
 }

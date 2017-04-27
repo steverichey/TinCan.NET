@@ -14,7 +14,6 @@
     limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
@@ -26,9 +25,6 @@ namespace TinCan
     /// </summary>
     public class LanguageMap : JsonModel
     {
-        /// <summary>
-        /// The map.
-        /// </summary>
         Dictionary<string, string> map;
 
         /// <summary>
@@ -67,9 +63,9 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ises the empty.
+        /// Gets a value indicating whether this <see cref="T:TinCan.LanguageMap"/> is empty.
         /// </summary>
-        /// <returns><c>true</c>, if empty was ised, <c>false</c> otherwise.</returns>
+        /// <value><c>true</c> if is empty; otherwise, <c>false</c>.</value>
 		public bool IsEmpty
 		{
             get
@@ -78,14 +74,10 @@ namespace TinCan
             }
 		}
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
+            var result = new JObject();
 
             foreach (var entry in map)
             {
@@ -96,22 +88,30 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Add the specified lang and value.
-        /// </summary>
-        /// <returns>The add.</returns>
-        /// <param name="lang">Lang.</param>
-        /// <param name="value">Value.</param>
+        /// Add the specified language and value to this map.
+        /// </summary>]
+        /// <param name="lang">Language related to this value.</param>
+        /// <param name="value">Value related to the given language.</param>
         public void Add(string lang, string value)
         {
             map.Add(lang, value);
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LanguageMap"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator LanguageMap(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LanguageMap"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[LanguageMap: IsEmpty={0}, Map={1}]", IsEmpty, map);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator LanguageMap(JObject jobj)
         {
             return new LanguageMap(jobj);
         }

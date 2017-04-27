@@ -20,23 +20,11 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Verb.
-    /// </summary>
-    public class Verb : JsonModel
+	/// <summary>
+	/// The Verb defines the action between an Actor and an Activity.
+	/// </summary>
+	public class Verb : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public Uri Id { get; set; }
-
-        /// <summary>
-        /// Gets or sets the display.
-        /// </summary>
-        /// <value>The display.</value>
-        public LanguageMap Display { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Verb"/> class.
         /// </summary>
@@ -98,12 +86,26 @@ namespace TinCan
         }
 
         /// <summary>
+        /// Gets or sets a value which corresponds to a Verb definition. 
+        /// Each Verb definition corresponds to the meaning of a Verb, not the word.
+        /// </summary>
+        /// <value>The identifier.</value>
+        public Uri Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the human readable representation of the Verb in one or more languages.
+        /// </summary>
+        /// <value>The human readable representation of the Verb in one or more languages.</value>
+        public LanguageMap Display { get; set; }
+
+        /// <summary>
         /// Tos the JO bject.
         /// </summary>
         /// <returns>The JO bject.</returns>
         /// <param name="version">Version.</param>
-        public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+        public override JObject ToJObject(TCAPIVersion version) 
+        {
+            var result = new JObject();
 
             if (Id != null)
             {
@@ -116,28 +118,6 @@ namespace TinCan
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Ops the explicit.
-        /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator Verb(JObject jobj)
-        {
-            return new Verb(jobj);
-        }
-
-        /// <summary>
-        /// Internal method to generate an xAPI verb from a string name.
-        /// Defaults to "en-US".
-        /// </summary>
-        /// <returns>The new xAPI verb.</returns>
-        /// <param name="name">String name of the xAPI verb. Will be converted to lowercase.</param>
-        internal static Verb FromName(string name)
-        {
-            var lowercaseName = name.ToLower();
-            return new Verb(new Uri(string.Format("http://adlnet.gov/expapi/verbs/{0}", lowercaseName)), "en-US", lowercaseName);
         }
 
         /// <summary>
@@ -300,5 +280,27 @@ namespace TinCan
         /// A waived statement is used to indicate that the activity may be skipped by the actor.
 		/// </summary>
 		public static readonly Verb Waived = FromName(nameof(Waived));
+
+        /// <summary>
+        /// Internal method to generate an xAPI verb from a string name.
+        /// Defaults to "en-US".
+        /// </summary>
+        /// <returns>The new xAPI verb.</returns>
+        /// <param name="name">String name of the xAPI verb. Will be converted to lowercase.</param>
+        internal static Verb FromName(string name)
+        {
+            var lowercaseName = name.ToLower();
+            return new Verb(new Uri(string.Format("http://adlnet.gov/expapi/verbs/{0}", lowercaseName)), "en-US", lowercaseName);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Verb(JObject jobj)
+        {
+            return new Verb(jobj);
+        }
     }
 }

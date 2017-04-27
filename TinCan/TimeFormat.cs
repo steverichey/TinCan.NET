@@ -17,14 +17,20 @@
 namespace TinCan
 {
     /// <summary>
-    /// Defines an object that can be the target of a statement.
+    /// Time format information storage.
     /// </summary>
-    public interface IStatementTarget : Json.IJsonModel
+    public static class TimeFormat
     {
         /// <summary>
-        /// Gets the string name of the type of the object.
+        /// Gets the default time format.
         /// </summary>
-        /// <value>The type of the object.</value>
-        string ObjectType { get; }
+        /// <value>The default.</value>
+        public static string Default
+        {
+            get
+            {
+                return "o";
+            }
+        }
     }
 }

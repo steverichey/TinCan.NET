@@ -13,41 +13,33 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace TinCan.Json
 {
     /// <summary>
-    /// Json model.
+    /// Base implementation of the JSON model interface.
     /// </summary>
     public abstract class JsonModel : IJsonModel
     {
 		/// <summary>
-		/// Tos the JO bject.
-		/// TODO: rename methods to ToJObject and ToJSON
-		/// </summary>
-		/// <returns>The JO bject.</returns>
-		/// <param name="version">Version.</param>
+        /// Implementing classes should use this to convert data to JObject format.
+        /// Other methods in this abstract class will use this implementation.
+        /// </summary>
+        /// <returns>The implementing object as a JObject.</returns>
+        /// <param name="version">Version of the API to use.</param>
 		public abstract JObject ToJObject(TCAPIVersion version);
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        public JObject ToJObject()
+		/// <inheritdoc />
+		public JObject ToJObject()
         {
             return ToJObject(TCAPIVersion.Latest);
         }
 
-        /// <summary>
-        /// Tos the json.
-        /// </summary>
-        /// <returns>The json.</returns>
-        /// <param name="version">Version.</param>
-        /// <param name="pretty">If set to <c>true</c> pretty.</param>
-        public string ToJSON(TCAPIVersion version, bool pretty = false)
+		/// <inheritdoc />
+		public string ToJSON(TCAPIVersion version, bool pretty = false)
         {
             var formatting = Formatting.None;
 
@@ -59,12 +51,8 @@ namespace TinCan.Json
             return JsonConvert.SerializeObject(ToJObject(version), formatting);
         }
 
-        /// <summary>
-        /// Tos the json.
-        /// </summary>
-        /// <returns>The json.</returns>
-        /// <param name="pretty">If set to <c>true</c> pretty.</param>
-        public string ToJSON(bool pretty = false)
+		/// <inheritdoc />
+		public string ToJSON(bool pretty = false)
         {
             return ToJSON(TCAPIVersion.Latest, pretty);
         }

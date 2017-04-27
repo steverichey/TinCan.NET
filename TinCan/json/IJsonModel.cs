@@ -19,36 +19,36 @@ using Newtonsoft.Json.Linq;
 namespace TinCan.Json
 {
     /// <summary>
-    /// Json model.
+    /// Defines an object that can be converted to a JObject or JSON string.
     /// </summary>
     public interface IJsonModel
     {
         /// <summary>
-        /// Tos the JO bject.
+        /// Convert this object to a JObject.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <returns>The new JObject.</returns>
+        /// <param name="version">Version of the API to use.</param>
         JObject ToJObject(TCAPIVersion version);
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        JObject ToJObject();
+		/// <summary>
+		/// Convert this object to a JObject.
+		/// </summary>
+		/// <returns>The new JObject.</returns>
+		JObject ToJObject();
 
         /// <summary>
-        /// Tos the json.
+        /// Convert this object to a JSON string.
         /// </summary>
-        /// <returns>The json.</returns>
-        /// <param name="version">Version.</param>
-        /// <param name="pretty">If set to <c>true</c> pretty.</param>
+        /// <returns>The new JSON string.</returns>
+        /// <param name="version">Version of the API to use.</param>
+        /// <param name="pretty">If set to <c>true</c>, string will be formatted with newlines and tabs.</param>
         string ToJSON(TCAPIVersion version, bool pretty = false);
 
-        /// <summary>
-        /// Tos the json.
-        /// </summary>
-        /// <returns>The json.</returns>
-        /// <param name="pretty">If set to <c>true</c> pretty.</param>
-        string ToJSON(bool pretty = false);
+		/// <summary>
+		/// Convert this object to a JSON string.
+		/// </summary>
+		/// <returns>The new JSON string.</returns>
+		/// <param name="pretty">If set to <c>true</c>, string will be formatted with newlines and tabs.</param>
+		string ToJSON(bool pretty = false);
     }
 }

@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
@@ -20,23 +21,10 @@ using TinCan.Json;
 namespace TinCan
 {
     /// <summary>
-    /// Agent account resource.
+    /// An account associated with an agent.
     /// </summary>
     public class AgentAccount : JsonModel
     {
-		/// <summary>
-		/// Gets or sets the home page.
-		/// TODO: check to make sure is absolute?
-		/// </summary>
-		/// <value>The home page.</value>
-		public Uri HomePage { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        public string Name { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.AgentAccount"/> class.
         /// </summary>
@@ -72,18 +60,36 @@ namespace TinCan
         /// <param name="name">Name.</param>
         public AgentAccount(Uri homePage, string name)
         {
-            HomePage = homePage;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException(nameof(name));
+            }
+
+            if (!homePage.IsAbsoluteUri)
+            {
+                throw new ArgumentException("Homepage URI must be absolute");
+            }
+
+            HomePage = homePage ?? throw new ArgumentNullException(nameof(homePage));
             Name = name;
         }
 
         /// <summary>
-        /// Tos the JO bject.
+        /// Gets or sets the home page.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <value>The home page.</value>
+        public Uri HomePage { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the Agent's account.
+        /// </summary>
+        /// <value>The name.</value>
+        public string Name { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject();
+            var result = new JObject();
 
             if (HomePage != null)
             {
@@ -96,6 +102,16 @@ namespace TinCan
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.AgentAccount"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.AgentAccount"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[AgentAccount: HomePage={0}, Name={1}]", 
+                                 HomePage, Name);
         }
 
 		/// <summary>

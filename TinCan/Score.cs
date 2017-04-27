@@ -13,41 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Score.
-    /// </summary>
-    public class Score : JsonModel
+	/// <summary>
+	/// An optional property that represents the outcome of a graded Activity achieved by an Agent.
+	/// </summary>
+	public class Score : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the scaled.
-        /// </summary>
-        /// <value>The scaled.</value>
-        public Double? Scaled { get; set; }
-
-        /// <summary>
-        /// Gets or sets the raw.
-        /// </summary>
-        /// <value>The raw.</value>
-        public Double? Raw { get; set; }
-
-        /// <summary>
-        /// Gets or sets the minimum.
-        /// </summary>
-        /// <value>The minimum.</value>
-        public Double? Min { get; set; }
-
-        /// <summary>
-        /// Gets or sets the max.
-        /// </summary>
-        /// <value>The max.</value>
-        public Double? Max { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Score"/> class.
         /// </summary>
@@ -86,12 +63,34 @@ namespace TinCan
             }
         }
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
-        public override JObject ToJObject(TCAPIVersion version) {
+		/// <summary>
+		/// Gets or sets the score related to the experience as modified by scaling and/or normalization.
+		/// </summary>
+		/// <value>The score related to the experience as modified by scaling and/or normalization.</value>
+		public Double? Scaled { get; set; }
+
+		/// <summary>
+		/// Gets or sets the score achieved by the Actor in the experience described by the Statement.
+		/// This is not modified by any scaling or normalization.
+		/// </summary>
+		/// <value>The score achieved by the Actor in the experience described by the Statement.</value>
+		public Double? Raw { get; set; }
+
+		/// <summary>
+		/// Gets or sets the lowest possible score for the experience described by the Statement.
+		/// </summary>
+		/// <value>The lowest possible score for the experience described by the Statement.</value>
+		public Double? Min { get; set; }
+
+		/// <summary>
+		/// Gets or sets the highest possible score for the experience described by the Statement.
+		/// </summary>
+		/// <value>The highest possible score for the experience described by the Statement.</value>
+		public Double? Max { get; set; }
+
+        /// <inheritdoc />
+        public override JObject ToJObject(TCAPIVersion version)
+        {
             var result = new JObject();
 
             if (Scaled != null)
@@ -118,11 +117,21 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Score"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator Score(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Score"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Score: Scaled={0}, Raw={1}, Min={2}, Max={3}]", 
+                                 Scaled, Raw, Min, Max);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Score(JObject jobj)
         {
             return new Score(jobj);
         }

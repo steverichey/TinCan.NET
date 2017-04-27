@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
@@ -20,40 +21,10 @@ using TinCan.Json;
 namespace TinCan
 {
     /// <summary>
-    /// Activity definition object.
+    /// Object defining information about an activity.
     /// </summary>
     public class ActivityDefinition : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the type.
-        /// </summary>
-        /// <value>The type.</value>
-        public Uri Type { get; set; }
-
-        /// <summary>
-        /// Gets or sets the more info.
-        /// </summary>
-        /// <value>The more info.</value>
-        public Uri MoreInfo { get; set; }
-
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        public LanguageMap Name { get; set; }
-
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        public LanguageMap Description { get; set; }
-
-        /// <summary>
-        /// Gets or sets the extensions.
-        /// </summary>
-        /// <value>The extensions.</value>
-        public Extensions Extensions { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.ActivityDefinition"/> class.
         /// </summary>
@@ -62,13 +33,13 @@ namespace TinCan
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.ActivityDefinition"/> class.
         /// </summary>
-        /// <param name="json">Json.</param>
+        /// <param name="json">String of JSON describing the object.</param>
         public ActivityDefinition(StringOfJSON json): this(json.ToJObject()) {}
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.ActivityDefinition"/> class.
         /// </summary>
-        /// <param name="jobj">Jobj.</param>
+        /// <param name="jobj">JSON object describing the object.</param>
         public ActivityDefinition(JObject jobj)
         {
             if (jobj["type"] != null)
@@ -98,13 +69,39 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Tos the JO bject.
+        /// Gets or sets the object type.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <value>The type of the object.</value>
+        public Uri Type { get; set; }
+
+        /// <summary>
+        /// Gets or sets the URI for accessing more info.
+        /// </summary>
+        /// <value>The more info endpoint.</value>
+        public Uri MoreInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language map name of this activity.
+        /// </summary>
+        /// <value>The name.</value>
+        public LanguageMap Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        public LanguageMap Description { get; set; }
+
+        /// <summary>
+        /// Gets or sets the additional data associated with the activity.
+        /// </summary>
+        /// <value>The additional data.</value>
+        public Extensions Extensions { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version) 
         {
-            JObject result = new JObject();
+            var result = new JObject();
 
             if (Type != null)
             {
@@ -135,11 +132,21 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.ActivityDefinition"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator ActivityDefinition(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.ActivityDefinition"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[ActivityDefinition: Type={0}, MoreInfo={1}, Name={2}, Description={3}, Extensions={4}]", 
+                                 Type, MoreInfo, Name, Description, Extensions);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator ActivityDefinition(JObject jobj)
         {
             return new ActivityDefinition(jobj);
         }

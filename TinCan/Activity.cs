@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
@@ -20,52 +21,11 @@ using TinCan.Json;
 namespace TinCan
 {
     /// <summary>
-    /// Activity.
+    /// The base xAPI object.
     /// </summary>
     public class Activity : JsonModel, IStatementTarget
     {
-        /// <summary>
-        /// The type of the object.
-        /// </summary>
-        public static readonly string OBJECT_TYPE = "Activity";
-
-        /// <summary>
-        /// Gets the type of the object.
-        /// </summary>
-        /// <value>The type of the object.</value>
-        public string ObjectType 
-        { 
-            get
-            { 
-                return OBJECT_TYPE; 
-            } 
-        }
-
         string id;
-
-        /// <summary>
-        /// Gets or sets the identifier.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public string Id
-        {
-            get 
-            { 
-                return id; 
-            }
-
-            set
-            {
-                Uri uri = new Uri(value);
-                id = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the definition.
-        /// </summary>
-        /// <value>The definition.</value>
-        public ActivityDefinition Definition { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
@@ -81,13 +41,17 @@ namespace TinCan
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Activity"/> class.
         /// </summary>
-        /// <param name="jobj">Jobj.</param>
+        /// <param name="jobj">The JSON object describing the activity.</param>
         public Activity(JObject jobj)
         {
+            if (jobj == null)
+            {
+                throw new ArgumentNullException(nameof(jobj));
+            }
+
             if (jobj["id"] != null)
             {
-                string idFromJSON = jobj.Value<string>("id");
-                Uri uri = new Uri(idFromJSON);
+                var idFromJSON = jobj.Value<string>("id");
                 Id = idFromJSON;
             }
 
@@ -97,11 +61,40 @@ namespace TinCan
             }
         }
 
+		/// <inheritdoc />
+		public string ObjectType
+		{
+			get
+			{
+				return TypeName;
+			}
+		}
+
         /// <summary>
-        /// Tos the JO bject.
+        /// Gets or sets the activity identifier.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <value>The identifier.</value>
+        public string Id
+        {
+            get 
+            { 
+                return id;
+            }
+
+            set
+            {
+                var uri = new Uri(value);
+                id = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the activity definition.
+        /// </summary>
+        /// <value>The definition.</value>
+        public ActivityDefinition Definition { get; set; }
+
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
             var result = new JObject
@@ -123,11 +116,25 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Activity"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator Activity(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Activity"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Activity: ObjectType={0}, Id={1}, Definition={2}]", ObjectType, Id, Definition);
+        }
+
+		/// <summary>
+		/// The name of this object type.
+		/// </summary>
+		public static string TypeName = nameof(Activity);
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Activity(JObject jobj)
         {
             return new Activity(jobj);
         }

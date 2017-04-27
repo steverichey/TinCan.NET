@@ -21,9 +21,9 @@ using System.Net.Http;
 namespace TinCan
 {
     /// <summary>
-    /// LRSH ttp request.
+    /// LRS HTTP request.
     /// </summary>
-    public class LRSHttpRequest
+    class LRSHttpRequest
     {
         /// <summary>
         /// Gets or sets the method.

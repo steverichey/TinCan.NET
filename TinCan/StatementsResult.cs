@@ -14,7 +14,6 @@
     limitations under the License.
 */
 
-using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
@@ -22,22 +21,10 @@ using TinCan.Json;
 namespace TinCan
 {
     /// <summary>
-    /// Statements result.
+    /// LRS result with statement information.
     /// </summary>
     public class StatementsResult
     {
-        /// <summary>
-        /// Gets or sets the statements.
-        /// </summary>
-        /// <value>The statements.</value>
-        public List<Statement> Statements { get; set; }
-
-        /// <summary>
-        /// Gets or sets the more.
-        /// </summary>
-        /// <value>The more.</value>
-        public string More { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
         /// </summary>
@@ -62,28 +49,50 @@ namespace TinCan
         public StatementsResult(List<Statement> statements)
         {
             Statements = statements;
-        }
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+		/// </summary>
+		/// <param name="jobj">Jobj.</param>
+		public StatementsResult(JObject jobj)
+		{
+			if (jobj["statements"] != null)
+			{
+				Statements = new List<Statement>();
+
+				foreach (var item in jobj.Value<JArray>("statements"))
+				{
+					Statements.Add(new Statement((JObject)item));
+				}
+			}
+
+			if (jobj["more"] != null)
+			{
+				More = jobj.Value<string>("more");
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the statements from the LRS.
+		/// </summary>
+		/// <value>The statements.</value>
+		public List<Statement> Statements { get; set; }
+
+		/// <summary>
+		/// Gets or sets the ID to use to get more results, if applicable.
+		/// </summary>
+		/// <value>The identifier.</value>
+		public string More { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:TinCan.StatementsResult"/> class.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsResult"/>.
         /// </summary>
-        /// <param name="jobj">Jobj.</param>
-        public StatementsResult(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.StatementsResult"/>.</returns>
+        public override string ToString()
         {
-            if (jobj["statements"] != null)
-            {
-                Statements = new List<Statement>();
-
-                foreach (var item in jobj.Value<JArray>("statements"))
-                {
-                    Statements.Add(new Statement((JObject)item));
-                }
-            }
-
-            if (jobj["more"] != null)
-            {
-                More = jobj.Value<string>("more");
-            }
+            return string.Format("[StatementsResult: Statements={0}, More={1}]", 
+                                 Statements, More);
         }
     }
 }

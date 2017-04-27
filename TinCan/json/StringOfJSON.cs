@@ -13,38 +13,40 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 
 namespace TinCan.Json
 {
     /// <summary>
-    /// String of json.
+    /// An object that stores a string that can be parsed to a JObject.
     /// </summary>
-    public class StringOfJSON
+    public class StringOfJSON : JsonModel
     {
         readonly string source;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Json.StringOfJSON"/> class.
         /// </summary>
-        /// <param name="json">Json.</param>
+        /// <param name="json">String JSON content.</param>
         public StringOfJSON(string json)
         {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                throw new ArgumentException(nameof(json));
+            }
+
             source = json;
         }
 
         /// <summary>
-        /// Tos the JO bject.
+        /// Parse this string to a new JObject.
         /// </summary>
-        /// <returns>The JO bject.</returns>
-        public JObject ToJObject()
+        /// <returns>The string as a JObject.</returns>
+        /// <param name="version">Version of the API to use; currently unused.</param>
+        public override JObject ToJObject(TCAPIVersion version)
         {
-            if (source == null)
-            {
-                return null;
-            }
-
             return JObject.Parse(source);
         }
 

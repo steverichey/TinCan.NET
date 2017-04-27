@@ -14,17 +14,29 @@
     limitations under the License.
 */
 
+using System.Text;
+
 namespace TinCan.Documents
 {
-    /// <summary>
-    /// Agent profile document.
-    /// </summary>
-    public class AgentProfileDocument : Document
+	/// <summary>
+	/// A document where information about an agent is kept.
+	/// </summary>
+	public class AgentProfileDocument : Document
     {
         /// <summary>
         /// Gets or sets the agent.
         /// </summary>
         /// <value>The agent.</value>
         public Agent Agent { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.AgentProfileDocument"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.AgentProfileDocument"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[StateDocument: Id={0}, Etag={1}, Timestamp={2}, ContentType={3}, Content={4}, Agent={5}]",
+								 Id, Etag, Timestamp, ContentType, Encoding.UTF8.GetString(Content, 0, Content.Length), Agent);
+		}
     }
 }

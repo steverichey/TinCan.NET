@@ -14,17 +14,29 @@
     limitations under the License.
 */
 
+using System.Text;
+
 namespace TinCan.Documents
 {
-    /// <summary>
-    /// Activity profile document.
-    /// </summary>
-    public class ActivityProfileDocument : Document
+	/// <summary>
+	/// A document where information about an activity is kept.
+	/// </summary>
+	public class ActivityProfileDocument : Document
     {
         /// <summary>
         /// Gets or sets the activity.
         /// </summary>
         /// <value>The activity.</value>
         public Activity Activity { get; set; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.ActivityProfileDocument"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.ActivityProfileDocument"/>.</returns>
+		public override string ToString()
+		{
+			return string.Format("[StateDocument: Id={0}, Etag={1}, Timestamp={2}, ContentType={3}, Content={4}, Activity={5}]",
+								 Id, Etag, Timestamp, ContentType, Encoding.UTF8.GetString(Content, 0, Content.Length), Activity);
+		}
     }
 }

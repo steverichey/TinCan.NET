@@ -13,22 +13,60 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
-using System;
+
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
     /// <summary>
-    /// Agent resource object.
+    /// An Agent (an individual) is a persona or system.
     /// </summary>
     public class Agent : JsonModel, IStatementTarget
     {
         /// <summary>
-        /// The type of the object.
+        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
         /// </summary>
-        public static readonly string OBJECT_TYPE = "Agent";
+        public Agent() { }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+		/// </summary>
+		/// <param name="json">String of JSON describing the object.</param>
+		public Agent(StringOfJSON json) : this(json.ToJObject()) { }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
+		/// </summary>
+		/// <param name="jobj">JSON object describing the object.</param>
+		public Agent(JObject jobj)
+        {
+            if (jobj["name"] != null)
+            {
+                Name = jobj.Value<string>("name");
+            }
+
+            if (jobj["mbox"] != null)
+            {
+                Mbox = jobj.Value<string>("mbox");
+            }
+
+            if (jobj["mbox_sha1sum"] != null)
+            {
+                MboxSha1Sum = jobj.Value<string>("mbox_sha1sum");
+            }
+
+            if (jobj["openid"] != null)
+            {
+                OpenId = jobj.Value<string>("openid");
+            }
+
+            if (jobj["account"] != null)
+            {
+                Account = (AgentAccount)jobj.Value<JObject>("account");
+            }
+        }
+        
         /// <summary>
         /// Gets the type of the object.
         /// </summary>
@@ -37,7 +75,7 @@ namespace TinCan
         { 
             get 
             { 
-                return OBJECT_TYPE; 
+                return TypeName; 
             } 
         }
 
@@ -71,57 +109,10 @@ namespace TinCan
         /// <value>The account.</value>
         public AgentAccount Account { get; set; }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
-        /// </summary>
-        public Agent() { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
-        /// </summary>
-        /// <param name="json">Json.</param>
-        public Agent(StringOfJSON json) : this(json.ToJObject()) { }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="T:TinCan.Agent"/> class.
-        /// </summary>
-        /// <param name="jobj">Jobj.</param>
-        public Agent(JObject jobj)
-        {
-            if (jobj["name"] != null)
-            {
-                Name = jobj.Value<string>("name");
-            }
-
-            if (jobj["mbox"] != null)
-            {
-                Mbox = jobj.Value<string>("mbox");
-            }
-
-            if (jobj["mbox_sha1sum"] != null)
-            {
-                MboxSha1Sum = jobj.Value<string>("mbox_sha1sum");
-            }
-
-            if (jobj["openid"] != null)
-            {
-                OpenId = jobj.Value<string>("openid");
-            }
-
-            if (jobj["account"] != null)
-            {
-                Account = (AgentAccount)jobj.Value<JObject>("account");
-            }
-        }
-
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
-            JObject result = new JObject
+            var result = new JObject
             {
                 { "objectType", ObjectType }
             };
@@ -150,6 +141,21 @@ namespace TinCan
 
             return result;
         }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Agent"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Agent"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Agent: Name={0}, Mbox={1}, MboxSha1Sum={2}, OpenId={3}, Account={4}]", 
+                                 Name, Mbox, MboxSha1Sum, OpenId, Account);
+        }
+
+		/// <summary>
+		/// The name of this object type.
+		/// </summary>
+		public static string TypeName = nameof(Agent);
 
         /// <summary>
         /// Defines the operation to use when casting from a JObject to this type.

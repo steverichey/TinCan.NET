@@ -13,71 +13,18 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using Newtonsoft.Json.Linq;
 using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Context.
-    /// </summary>
-    public class Context : JsonModel
+	/// <summary>
+	/// An optional object that provides a place to add contextual information to a Statement.
+	/// </summary>
+	public class Context : JsonModel
     {
-        /// <summary>
-        /// Gets or sets the registration.
-        /// </summary>
-        /// <value>The registration.</value>
-        public Guid? Registration { get; set; }
-
-        /// <summary>
-        /// Gets or sets the instructor.
-        /// </summary>
-        /// <value>The instructor.</value>
-        public Agent Instructor { get; set; }
-
-        /// <summary>
-        /// Gets or sets the team.
-        /// </summary>
-        /// <value>The team.</value>
-        public Agent Team { get; set; }
-
-        /// <summary>
-        /// Gets or sets the context activities.
-        /// </summary>
-        /// <value>The context activities.</value>
-        public ContextActivities ContextActivities { get; set; }
-
-        /// <summary>
-        /// Gets or sets the revision.
-        /// </summary>
-        /// <value>The revision.</value>
-        public string Revision { get; set; }
-
-        /// <summary>
-        /// Gets or sets the platform.
-        /// </summary>
-        /// <value>The platform.</value>
-        public string Platform { get; set; }
-
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        /// <value>The language.</value>
-        public string Language { get; set; }
-
-        /// <summary>
-        /// Gets or sets the statement.
-        /// </summary>
-        /// <value>The statement.</value>
-        public StatementRef Statement { get; set; }
-
-        /// <summary>
-        /// Gets or sets the extensions.
-        /// </summary>
-        /// <value>The extensions.</value>
-        public Extensions Extensions { get; set; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="T:TinCan.Context"/> class.
         /// </summary>
@@ -102,14 +49,30 @@ namespace TinCan
 
             if (jobj["instructor"] != null)
             {
-                // TODO: can be Group?
-                Instructor = (Agent)jobj.Value<JObject>("instructor");
+                var actor = jobj.Value<JObject>("instructor");
+
+                if (actor.Value<string>("objectType") == Group.TypeName)
+                {
+                    Instructor = (Group)jobj.Value<JObject>("instructor");
+                }
+                else 
+                {
+                    Instructor = (Agent)jobj.Value<JObject>("instructor");
+                }
             }
 
             if (jobj["team"] != null)
             {
-                // TODO: can be Group?
-                Team = (Agent)jobj.Value<JObject>("team");
+				var actor = jobj.Value<JObject>("team");
+
+				if (actor.Value<string>("objectType") == Group.TypeName)
+				{
+					Instructor = (Group)jobj.Value<JObject>("team");
+				}
+				else
+				{
+					Instructor = (Agent)jobj.Value<JObject>("team");
+				}
             }
 
             if (jobj["contextActivities"] != null)
@@ -143,13 +106,68 @@ namespace TinCan
             }
         }
 
+		/// <summary>
+		/// Gets or sets the registration.
+		/// </summary>
+		/// <value>The registration.</value>
+		public Guid? Registration { get; set; }
+
+		/// <summary>
+		/// Gets or sets the instructor.
+		/// </summary>
+		/// <value>The instructor.</value>
+		public Agent Instructor { get; set; }
+
+		/// <summary>
+		/// Gets or sets the team.
+		/// </summary>
+		/// <value>The team.</value>
+		public Agent Team { get; set; }
+
+		/// <summary>
+		/// Gets or sets the context activities.
+		/// </summary>
+		/// <value>The context activities.</value>
+		public ContextActivities ContextActivities { get; set; }
+
+		/// <summary>
+		/// Gets or sets the revision.
+		/// </summary>
+		/// <value>The revision.</value>
+		public string Revision { get; set; }
+
+		/// <summary>
+		/// Gets or sets the platform.
+		/// </summary>
+		/// <value>The platform.</value>
+		public string Platform { get; set; }
+
+		/// <summary>
+		/// Gets or sets the language.
+		/// </summary>
+		/// <value>The language.</value>
+		public string Language { get; set; }
+
+		/// <summary>
+		/// Gets or sets the statement.
+		/// </summary>
+		/// <value>The statement.</value>
+		public StatementRef Statement { get; set; }
+
+		/// <summary>
+		/// Gets or sets the extensions.
+		/// </summary>
+		/// <value>The extensions.</value>
+		public Extensions Extensions { get; set; }
+
         /// <summary>
         /// Tos the JO bject.
         /// </summary>
         /// <returns>The JO bject.</returns>
         /// <param name="version">Version.</param>
-        public override JObject ToJObject(TCAPIVersion version) {
-            JObject result = new JObject();
+        public override JObject ToJObject(TCAPIVersion version) 
+        {
+            var result = new JObject();
 
             if (Registration != null)
             {

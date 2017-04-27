@@ -13,6 +13,7 @@
     See the License for the specific language governing permissions and
     limitations under the License.
 */
+
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
@@ -20,14 +21,11 @@ using TinCan.Json;
 
 namespace TinCan
 {
-    /// <summary>
-    /// Extensions.
-    /// </summary>
-    public class Extensions : JsonModel
+	/// <summary>
+	/// A map of any other domain-specific context relevant to a Statement. 
+	/// </summary>
+	public class Extensions : JsonModel
     {
-        /// <summary>
-        /// The map.
-        /// </summary>
         Dictionary<Uri, JToken> map;
 
         /// <summary>
@@ -62,11 +60,7 @@ namespace TinCan
             }
 		}
 
-        /// <summary>
-        /// Tos the JO bject.
-        /// </summary>
-        /// <returns>The JO bject.</returns>
-        /// <param name="version">Version.</param>
+        /// <inheritdoc />
         public override JObject ToJObject(TCAPIVersion version)
         {
             JObject result = new JObject();
@@ -80,11 +74,21 @@ namespace TinCan
         }
 
         /// <summary>
-        /// Ops the explicit.
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Extensions"/>.
         /// </summary>
-        /// <returns>The explicit.</returns>
-        /// <param name="jobj">Jobj.</param>
-        public static explicit operator Extensions(JObject jobj)
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Extensions"/>.</returns>
+        public override string ToString()
+        {
+            return string.Format("[Extensions: IsEmpty={0}, Map={1}]", 
+                                 IsEmpty, map);
+        }
+
+		/// <summary>
+		/// Defines the operation to use when casting from a JObject to this type.
+		/// </summary>
+		/// <returns>The JObject as this type.</returns>
+		/// <param name="jobj">The JObject to cast.</param>
+		public static explicit operator Extensions(JObject jobj)
         {
             return new Extensions(jobj);
         }

@@ -17,14 +17,24 @@
 namespace TinCan.LRSResponses
 {
     /// <summary>
-    /// Activity profile LRSR esponse.
+    /// A resource allowing for information to be saved that is related to an activity.
     /// </summary>
     public class ActivityProfileLRSResponse : LRSResponse
     {
         /// <summary>
-        /// Gets or sets the content.
+        /// Gets or sets the content related to the activity.
         /// </summary>
         /// <value>The content.</value>
         public Documents.ActivityProfileDocument Content { set; get; }
+
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.ActivityProfileLRSResponse"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.LRSResponses.ActivityProfileLRSResponse"/>.</returns>
+		public override string ToString()
+		{
+            return string.Format("[LRSResponse: Success={0}, HttpException={1}, ErrorMessage={2}, Content={3}]",
+								 Success, HttpException, ErrorMessage, Content);
+		}
     }
 }
