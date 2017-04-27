@@ -14,6 +14,7 @@
     limitations under the License.
 */
 
+using System;
 using NUnit.Framework;
 using TinCan;
 
@@ -23,9 +24,23 @@ namespace TinCanTests
     class RemoteLRSTest
     {
         [Test]
-        public void TestEmptyCtr()
+        public void TestBasicCtr()
         {
-            // todo: remove this, create a new test
+            var uri = new Uri("https://cloud.scorm.com/tc/U2S4SI5FY0/sandbox/");
+            var username = "Nja986GYE1_XrWMmFUE";
+            var password = "Bd9lDr1kjaWWY6RID_4";
+
+			var lrs = new RemoteLRS(
+				uri,
+				username,
+				password
+			);
+
+            Assert.That(lrs.Endpoint, Is.EqualTo(uri));
+            Assert.That(lrs.Auth, Is.Not.Null);
+            Assert.That(lrs.Auth, Is.Not.Empty);
+            Assert.That(lrs.Version, Is.EqualTo(TCAPIVersion.Latest));
+            Assert.That(lrs.Extended, Is.Empty);
         }
     }
 }
