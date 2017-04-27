@@ -42,6 +42,10 @@ namespace TinCan.Documents
         /// <value>The registration.</value>
         public Guid? Registration { get; set; }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.StateDocument"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.StateDocument"/>.</returns>
         public override string ToString()
         {
             return string.Format("[StateDocument: Id={0}, Etag={1}, Timestamp={2}, ContentType={3}, Content={4}, Activity={5}, Agent={6}, Registration={7}]", 

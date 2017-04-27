@@ -20,6 +20,9 @@ using System.Net.Http;
 
 namespace TinCan
 {
+    /// <summary>
+    /// LRSH ttp request.
+    /// </summary>
     public class LRSHttpRequest
     {
         /// <summary>

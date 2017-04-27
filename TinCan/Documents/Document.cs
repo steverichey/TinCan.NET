@@ -54,6 +54,10 @@ namespace TinCan.Documents
         /// <value>The content.</value>
         public byte[] Content { get; set; }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.Document"/>.
+        /// </summary>
+        /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:TinCan.Documents.Document"/>.</returns>
         public override string ToString()
         {
             return string.Format("[Document: Id={0}, Etag={1}, Timestamp={2}, ContentType={3}, Content={4}]", 
